@@ -69,10 +69,10 @@
         <details class="opts">
           <summary>Settings</summary>
           <div class="opts-grid">
-            <label>Allowed quality drop vs Ultra (points, applied to the 95% CI)
-              <input id="opt-tol" type="number" min="0" max="20" step="1" value="3"></label>
+            <label>Tolerance vs Ultra (points): a rung matches if the 95% CI of its difference stays above minus this
+              <input id="opt-tol" type="number" min="0" max="20" step="1" value="5"></label>
             <label>Spend cap for this run (US$)
-              <input id="opt-cap" type="number" min="0.01" max="0.50" step="0.01" value="0.10"></label>
+              <input id="opt-cap" type="number" min="0.01" max="0.50" step="0.01" value="0.25"></label>
             <label>Prompt-rewrite rounds per rung
               <input id="opt-rounds" type="number" min="0" max="4" step="1" value="2"></label>
           </div>
@@ -91,7 +91,7 @@
       <div class="panel-head">
         <h2 id="ladder-h"><span class="step">2</span> The ladder</h2>
         <div class="meter" aria-live="polite">
-          <span id="spend">US$0.0000</span> spent of <span id="cap">US$0.10</span>
+          <span id="spend">US$0.0000</span> spent of <span id="cap">US$0.25</span>
           <span class="meter-track" aria-hidden="true"><span id="spend-fill"></span></span>
         </div>
       </div>

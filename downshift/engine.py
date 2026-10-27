@@ -34,10 +34,10 @@ from .stats import beats, bootstrap_ci, matches, paired_diff_ci
 from .tasks import as_text, build_messages, ensure_labels, plain_system
 
 DEFAULTS = {
-    "tolerance": 0.03,       # a rung matches Ultra if the 95% CI of (rung - Ultra) stays above -3 points
+    "tolerance": 0.05,       # a rung matches Ultra if the 95% CI of (rung - Ultra) stays above -5 points
     "rounds": 2,             # prompt-rewrite rounds per rung
     "candidates": 2,         # candidates Ultra proposes per round
-    "spend_cap_usd": 0.10,   # hard per-run cap
+    "spend_cap_usd": 0.25,   # hard per-run cap
     "fewshot_max": 4,
     "concurrency": 16,
     "reference": "cached",   # "cached": presets/<slug>/reference.json; "live": re-measure Ultra in this run
@@ -413,9 +413,17 @@ def _verdict(run: Run, ref_info: dict, ref_key: str, rungs: dict, chosen_key: st
         savings = round(ref_cost / cost, 1) if cost and ref_cost else None
         kind = "downshift"
         how = "this prompt" if (shots or system != plain_system(t)) else "the plain prompt"
-        sentence = (f"Use {rung['label']} with {how}: {_pct(c['holdout_score'])} on {n} held-out rows "
-                    f"({_ci_text(c['ci'])}), which {compare_sentence(c['diff'], tol)}, at ${cost:.4f} per 1k calls "
-                    f"instead of ${ref_cost:.4f}" + (f" ({savings}x cheaper)." if savings and savings > 1 else "."))
+        if chosen_key == ULTRA_OFF["key"]:
+            sentence = (f"Turn thinking off: Ultra with thinking off scored {_pct(c['holdout_score'])} on {n} held-out "
+                        f"rows (3-run mean), which {compare_sentence(c['diff'], tol)} with thinking on, at "
+                        f"${cost:.4f} per 1k calls instead of ${ref_cost:.4f}"
+                        + (f" ({savings}x cheaper)." if savings and savings > 1 else ".")
+                        + " No smaller model was shown to match.")
+        else:
+            sentence = (f"Use {rung['label']} with {how}: {_pct(c['holdout_score'])} on {n} held-out rows "
+                        f"({_ci_text(c['ci'])}, one run), which {compare_sentence(c['diff'], tol)}, at ${cost:.4f} "
+                        f"per 1k calls instead of ${ref_cost:.4f}"
+                        + (f" ({savings}x cheaper)." if savings and savings > 1 else "."))
         score, p50 = c["holdout_score"], c["p50_ms"]
     else:
         rung = rung_by_key(ref_key)
@@ -449,7 +457,7 @@ def _verdict(run: Run, ref_info: dict, ref_key: str, rungs: dict, chosen_key: st
                                                        "prompt_label", "passed", "truncated")})
         table.append(row)
     return {
-        "kind": kind, "model": rung["model"], "rung": rung["key"], "tier_name": rung["name"],
+        "kind": kind, "thinking_off_only": chosen_key == ULTRA_OFF["key"], "model": rung["model"], "rung": rung["key"], "tier_name": rung["name"],
         "rung_label": rung["label"], "thinking": rung["thinking"], "system_prompt": system,
         "fewshots": [{"id": s["id"], "input": s["input"], "reference": s["reference"]} for s in shots],
         "holdout_score": score, "holdout_ci": rungs[chosen_key]["ci"] if chosen_key else ref["ci"],

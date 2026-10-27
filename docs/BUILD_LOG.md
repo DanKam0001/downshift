@@ -35,7 +35,7 @@ stops tuning before the cap and still gives a verdict.
   full held-out pass, a Lightning rewrite round, and the held-out confirmation). It stopped at the first rung, so Lightning-thinking, Nano and Super were never
   called.
 
-Showcase copies of these two runs now live in `demo_runs/superseded/` (they were measured on the old 30/40 split and are no longer served).
+Showcase copies of these two runs (and the three 3-point-rule runs that followed) now live in `demo_runs/superseded/` (they were measured on the old 30/40 split and are no longer served).
 
 ### Spend
 
@@ -76,3 +76,17 @@ tuning rows, and Ultra with thinking on did not fit the per-run cap so it was of
   Two lines of `runs/usage.jsonl` were garbled when the reference script and the server wrote to it at the same time
   (two processes, per-process lock); that loses at most two calls' worth of accounting, under US$0.01.
 
+
+## 2026-10-27 (later still): product decisions applied
+
+- Default tolerance 3 -> **5 points** (justified in README from the measured CI widths); default per-run cap
+  US$0.10 -> **US$0.25** (server caps unchanged).
+- Ultra with thinking off is a downshift rung against Ultra with thinking on; verdict "Turn thinking off: same
+  quality within 5 points, Nx cheaper".
+- `runs/usage.jsonl` appends now go through `models.append_line`: one write() under an OS file lock (msvcrt /
+  fcntl); a 4-process test checks that no line is garbled.
+- Reruns: `de04430645fb` support-triage **turn thinking off** (2.4x cheaper), $0.1746 / 182 s;
+  `45015b6df59e` receipt-extract **Nano, thinking off, rewritten prompt** (+1.7, CI -1.0 to +4.7; 35.8x cheaper),
+  $0.0605 / 139 s; `7ee9b72d56be` contract-clauses **keep Ultra**, $0.2124 / 169 s. Copied to `demo_runs/`; the
+  previous three moved to `demo_runs/superseded/`. RESULTS.md regenerated. Step spend $0.447; total for the
+  measurement work $4.04.

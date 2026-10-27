@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: downshift
+    runtime: docker
+    plan: starter
+    region: oregon
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NEBIUS_API_KEY
+        sync: false            # entered once in the Render dashboard, never committed
+      - key: NEBIUS_PROJECT_ID
+        value: aiproject-e00mrs9q3hk2561sxe
+      - key: DOWNSHIFT_SERVER_CAP_USD
+        value: "5"             # total live spend this server instance may make
+      - key: DOWNSHIFT_MAX_ACTIVE_RUNS
+        value: "2"

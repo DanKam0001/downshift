@@ -35,7 +35,7 @@ def test_downshift_to_lightning(task, grader):
     assert v["model"] == "nvidia/Nemotron-3_5-Lightning"
     assert "QUEUE RULES" in v["system_prompt"]
     assert v["diff_vs_reference"]["lo"] > -v["tolerance"]
-    assert "matches Ultra within 3 points (95% CI" in v["sentence"] and "better than" not in v["sentence"]
+    assert "matches Ultra within 5 points (95% CI" in v["sentence"] and "better than" not in v["sentence"]
     assert v["holdout_ci"]["lo"] <= v["holdout_score"] <= v["holdout_ci"]["hi"]
     assert set(v["overfit"]) == {"tuning_score", "validation_score", "holdout_score"}
     assert v["reference"]["source"] == "live" and v["reference"]["repeats"] == 1  # the fixture has no cache
@@ -244,6 +244,34 @@ def test_ultra_thinking_off_can_be_the_downshift(task, grader):
                                              "ultra-think": 1.0})
     v = _by_type(collect(run_downshift(task, options={"rounds": 0}, llm=llm, grader=grader)), "verdict")[0]["verdict"]
     assert v["kind"] == "downshift" and v["rung"] == "ultra" and v["reference"]["rung"] == "ultra-think"
+    assert v["thinking_off_only"] and v["sentence"].startswith("Turn thinking off:")
+    assert "THINKING = False" in v["snippet"]
+
+
+def test_default_tolerance_is_five_points():
+    from downshift.engine import DEFAULTS
+    from downshift.stats import matches
+    assert DEFAULTS["tolerance"] == 0.05 and DEFAULTS["spend_cap_usd"] == 0.25
+    assert matches({"lo": -0.047}, DEFAULTS["tolerance"]) and not matches({"lo": -0.056}, DEFAULTS["tolerance"])
+
+
+def _append_many(path, tag, n):
+    from downshift.models import append_line
+    for i in range(n):
+        append_line(path, '{"tag": "%s", "i": %d, "pad": "%s"}' % (tag, i, "x" * 300))
+
+
+def test_usage_log_appends_do_not_interleave_across_processes(tmp_path):
+    import multiprocessing as mp
+    path = tmp_path / "usage.jsonl"
+    procs = [mp.Process(target=_append_many, args=(path, f"p{k}", 150)) for k in range(4)]
+    for p in procs:
+        p.start()
+    for p in procs:
+        p.join(60)
+    lines = path.read_text(encoding="utf-8").splitlines()
+    assert len(lines) == 600
+    assert all(json.loads(line)["pad"] for line in lines)
 
 
 def test_wording_follows_the_ci():

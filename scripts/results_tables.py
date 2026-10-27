@@ -51,7 +51,10 @@ def run_table(path: str) -> str:
                        f"{pts(r['diff']['diff'])} ({pts(r['diff']['lo'])} to {pts(r['diff']['hi'])}) | "
                        f"{r['cost_per_1k_usd']:.4f} | {r['p50_ms'] / 1000:.2f} s | {status} |")
         else:
-            why = "skipped: spend cap" if r["tier_key"] in skipped else "not scored on held out (spend cap)"
+            if v["kind"] == "downshift" and v["rung"] != "ultra":
+                why = "not needed: a cheaper rung matched"
+            else:
+                why = "skipped: spend cap" if r["tier_key"] in skipped else "not scored on held out (spend cap)"
             out.append(f"| {r['name']} | {think} | – | – | – | – | – | – | {why} |")
     out += ["", f"Verdict: {v['sentence']}", "",
             f"Run: US${done['spend_usd']:.4f}, {done.get('seconds')} s, {done['calls']} model calls, graded by "

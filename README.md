@@ -9,8 +9,10 @@ held-out score with a 95% confidence interval next to Ultra's, the cost per 1,00
 Every number comes from measured calls: the cheaper models are measured in the run, and Ultra comes from a cached
 3-run reference with its date shown (or is re-measured live on request).
 
-**Results on three public datasets are in [RESULTS.md](RESULTS.md).** Headline: turning on Ultra's thinking cost
-2.4x to 6.6x more per call on all three tasks, and on none of them was the accuracy gain distinguishable from zero.
+**Results on three public datasets are in [RESULTS.md](RESULTS.md).** Headline: on receipt extraction, Nemotron 3
+Nano (thinking off) with a rewritten prompt matched Ultra within 5 points at 36x lower cost per call (one run of Nano
+against a 3-run Ultra mean). On all three tasks, turning Ultra's thinking on cost 2.4x to 6.6x more per call for an
+accuracy gain not distinguishable from zero.
 
 ## How it works
 
@@ -37,18 +39,27 @@ Every number comes from measured calls: the cheaper models are measured in the r
      examples and on the validation rows; the best **validation** score wins;
    - the winner is scored **once** on the held-out rows, and compared with Ultra on the same rows.
 6. **Statistics and verdict.** Held-out scores carry a 95% bootstrap CI over rows (fixed seed). The comparison with
-   Ultra is a paired bootstrap of the difference on the same rows. A rung **matches Ultra** only if the lower bound of
-   that CI is above −3 points (the tolerance, adjustable); the verdict says "better than Ultra" only if the lower
-   bound is above 0. The first rung that matches is the answer and the rungs above it are never called. The verdict
-   shows tuning, validation and held-out scores side by side, so any overfitting is visible.
+   Ultra is a paired bootstrap of the difference on the same rows.
+   **Matches = the 95% CI of the difference stays within 5 points of Ultra** (its lower bound is above −5 points).
+   The verdict says "better than Ultra" only if the whole CI is above 0. The tolerance is adjustable per run.
+   The first rung that matches is the answer and the rungs above it are never called. If no smaller model matches
+   and Ultra with thinking off matches Ultra with thinking on, the verdict is "turn thinking off: same quality,
+   Nx cheaper". The verdict shows tuning, validation and held-out scores side by side, so any overfitting is visible.
+
+   *Why 5 points:* at 150 held-out rows the measured paired 95% CI is about ±4 points for two near-identical models
+   (Ultra with thinking off vs on) and about ±6 points for a small model vs Ultra. With 3 points nothing can pass,
+   not even Ultra against itself with thinking toggled (lower bounds −4.7, −4.9 and −5.6 on the three tasks).
+   5 points is about the smallest tolerance a model that agrees with Ultra can pass at this sample size; it is still
+   strict (a small model averaging the same as Ultra but disagreeing on many rows fails). See RESULTS.md.
 7. **Fine-tune fallback.** When no rung matches, Downshift can build a chat dataset from the tuning rows' reference
    answers and launch a Token Factory fine-tune job (Qwen3-4B by default; Token Factory does not fine-tune
    Nemotron). It is off unless `DOWNSHIFT_ALLOW_FINETUNE=1`, and serving the result needs Token Factory's
    custom-weights access.
 
-A hard per-run spend cap (US$0.10 by default) stops the run cleanly. Before each step the engine estimates its cost,
-skips a rung that would not fit, and stops tuning early with a verdict rather than running out mid-step. With the
-cached reference a preset run costs US$0.07 to US$0.08 and takes 83 to 145 seconds (measured, see RESULTS.md).
+A hard per-run spend cap (US$0.25 by default; the server also clamps each run to `DOWNSHIFT_MAX_RUN_CAP_USD` and
+stops at `DOWNSHIFT_SERVER_CAP_USD` per process) stops the run cleanly. Before each step the engine estimates its
+cost, skips a rung that would not fit, and stops tuning early with a verdict rather than running out mid-step. With
+the cached reference a preset run cost US$0.06 to US$0.21 and took 139 to 182 seconds (measured, see RESULTS.md).
 
 ## Where each Nebius / NVIDIA piece is used
 
@@ -110,7 +121,7 @@ API:
 | GET | `/api/run/{id}/events` | server-sent events (replays a finished run) |
 | GET | `/api/run/{id}` | saved run with verdict |
 
-Options for `/api/run`: `spend_cap_usd`, `tolerance` (default 0.03), `rounds`, `candidates`, `thinking_rungs`,
+Options for `/api/run`: `spend_cap_usd`, `tolerance` (default 0.05), `rounds`, `candidates`, `thinking_rungs`,
 `reference` (`"cached"` or `"live"`) and `ultra_thinking` (live reference only).
 
 A custom task is `{"title", "instruction", "output_format", "label_set"?, "examples": [{"input", "reference"?}]}`

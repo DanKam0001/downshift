@@ -41,7 +41,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("slugs", nargs="*", default=["support-triage", "receipt-extract", "contract-clauses"])
     ap.add_argument("--base", default="http://127.0.0.1:8000")
-    ap.add_argument("--cap", type=float, default=0.10)
+    ap.add_argument("--cap", type=float, default=0.25)
     a = ap.parse_args()
     out = [run_one(a.base, s, {"spend_cap_usd": a.cap}) for s in a.slugs]
     print(json.dumps(out, indent=1))

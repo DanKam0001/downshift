@@ -62,6 +62,33 @@ FALLBACK_PRICING = {
 }
 
 _log_lock = threading.Lock()
+
+
+def append_line(path: Path, line: str) -> None:
+    """Append one line so that concurrent writers (threads or processes) never interleave.
+
+    The line goes out in a single write() under an OS file lock (msvcrt on Windows, fcntl elsewhere); several
+    processes (the server and scripts/measure_reference.py) share runs/usage.jsonl.
+    """
+    data = (line.rstrip("\n") + "\n").encode("utf-8")
+    with _log_lock, open(path, "ab", buffering=0) as f:
+        if os.name == "nt":
+            import msvcrt
+            f.seek(0)
+            msvcrt.locking(f.fileno(), msvcrt.LK_LOCK, 1)  # retries for ~10 s, then raises OSError
+            try:
+                f.seek(0, 2)
+                f.write(data)
+            finally:
+                f.seek(0)
+                msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, 1)
+        else:
+            import fcntl
+            fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+            try:
+                f.write(data)
+            finally:
+                fcntl.flock(f.fileno(), fcntl.LOCK_UN)
 _pricing_mem: dict | None = None
 
 
@@ -278,7 +305,6 @@ class LLM:
                "ok": res.ok, "attempts": attempt + 1, "error": res.error}
         try:
             RUNS_DIR.mkdir(parents=True, exist_ok=True)
-            with _log_lock, open(USAGE_LOG, "a", encoding="utf-8") as f:
-                f.write(json.dumps(rec) + "\n")
+            append_line(USAGE_LOG, json.dumps(rec))
         except OSError:
             pass

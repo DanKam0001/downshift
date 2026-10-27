@@ -292,10 +292,11 @@
     const v = S.verdict, p = $("#verdict-panel");
     p.hidden = false;
     const short = v.tier_name.replace(/^Nemotron\s*/, "") + (v.thinking ? " (thinking on)" : " (thinking off)");
-    $("#v-headline").textContent = v.kind === "downshift"
-      ? (v.savings_multiple && v.savings_multiple > 1 ? `Use ${short}: ${v.savings_multiple}x cheaper, matches Ultra within ${Math.round(v.tolerance * 100)} points (95% CI)` : `Use ${short}`)
-      : "Keep Ultra for now";
-    $("#v-sentence").textContent = v.sentence;
+    const tolPts = Math.round(v.tolerance * 100);
+    $("#v-headline").textContent = v.kind !== "downshift" ? "Keep Ultra for now"
+      : v.thinking_off_only ? `Turn thinking off: same quality within ${tolPts} points, ${v.savings_multiple}x cheaper`
+      : (v.savings_multiple && v.savings_multiple > 1 ? `Use ${short}: ${v.savings_multiple}x cheaper, matches Ultra within ${tolPts} points (95% CI)` : `Use ${short}`);
+    $("#v-sentence").textContent = v.sentence + ` (Rule: matches = the 95% CI of the difference from Ultra stays within ${tolPts} points of Ultra; better = the whole CI is above Ultra.)`;
     const stat = (dt, dd, vs) => `<div><dt>${dt}</dt><dd>${dd}${vs ? `<span class="vs">${vs}</span>` : ""}</dd></div>`;
     $("#v-stats").innerHTML =
       stat("Held-out score", pct(v.holdout_score), `95% CI ${ciTxt(v.holdout_ci)} · n=${v.holdout_n}`) +
