@@ -1,0 +1,7 @@
+.env
+.git
+.venv
+runs
+**/__pycache__
+presets/_cache
+presets/_baseline

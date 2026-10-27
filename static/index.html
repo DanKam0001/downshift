@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Downshift</title>
+  <meta name="description" content="Find the cheapest NVIDIA Nemotron model on Nebius Token Factory that does your task as well as Nemotron Ultra.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2376b900'/%3E%3Cpath d='M9 10h6l8 6-8 6H9l8-6z' fill='white'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/app.css">
+  <script>
+    try { const t = localStorage.getItem("ds-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="wrap top-inner">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><path d="M9 10h6l8 6-8 6H9l8-6z"/></svg>
+        <div>
+          <h1>Downshift</h1>
+          <p class="tagline">Finds the cheapest Nemotron model that does your task as well as Ultra.</p>
+        </div>
+      </div>
+      <div class="top-right">
+        <ul class="badges" aria-label="Platform">
+          <li class="badge"><span class="dot ok" aria-hidden="true"></span>NVIDIA Nemotron on Nebius Token Factory</li>
+          <li class="badge" id="grader-badge"><span class="dot" aria-hidden="true"></span><span>Graded in Nebius Sandboxes</span></li>
+        </ul>
+        <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="panel" aria-labelledby="pick-h">
+      <div class="panel-head">
+        <h2 id="pick-h"><span class="step">1</span> Pick a task</h2>
+        <div class="tabs" role="tablist" aria-label="Task source">
+          <button role="tab" id="tab-preset" aria-selected="true" aria-controls="pane-preset" type="button">Preset</button>
+          <button role="tab" id="tab-custom" aria-selected="false" aria-controls="pane-custom" type="button" tabindex="-1">Your own</button>
+        </div>
+      </div>
+
+      <div id="pane-preset" role="tabpanel" aria-labelledby="tab-preset">
+        <div class="presets" id="presets" role="radiogroup" aria-label="Preset tasks">
+          <p class="muted">Loading tasks…</p>
+        </div>
+      </div>
+
+      <div id="pane-custom" role="tabpanel" aria-labelledby="tab-custom" hidden>
+        <form id="custom-form" class="custom" novalidate>
+          <label>Title <input name="title" type="text" placeholder="Invoice field extraction"></label>
+          <label>Instruction <span class="req">required</span>
+            <textarea name="instruction" rows="3" required placeholder="Classify the customer message into one of the labels below."></textarea></label>
+          <div class="row2">
+            <label>Output format <input name="output_format" type="text" placeholder="One label, lowercase"></label>
+            <label>Allowed labels (comma separated, optional) <input name="label_set" type="text" placeholder="billing, shipping, refund"></label>
+          </div>
+          <label>Examples, one JSON object per line <span class="req">8 to 200 rows</span>
+            <textarea name="examples" rows="6" class="mono" required placeholder='{"input": "I was charged twice", "reference": "billing"}&#10;{"input": "Where is my parcel?"}'></textarea></label>
+          <p class="hint">Half the rows are used to tune prompts, the other half are held out for the final score. Rows without a <code>reference</code> get one from Ultra, and Ultra writes the checker, which is tested before use.</p>
+        </form>
+      </div>
+
+      <div class="run-bar">
+        <details class="opts">
+          <summary>Settings</summary>
+          <div class="opts-grid">
+            <label>Allowed quality drop vs Ultra (points)
+              <input id="opt-tol" type="number" min="0" max="20" step="1" value="2"></label>
+            <label>Spend cap for this run (US$)
+              <input id="opt-cap" type="number" min="0.01" max="0.50" step="0.01" value="0.10"></label>
+            <label>Prompt-rewrite rounds per rung
+              <input id="opt-rounds" type="number" min="0" max="4" step="1" value="3"></label>
+          </div>
+          <div class="checks">
+            <label class="check"><input id="opt-ultra-think" type="checkbox" checked> Also measure Ultra with thinking on, if it fits the cap (often needs a cap of US$0.25 or more)</label>
+            <label class="check"><input id="opt-think-rungs" type="checkbox" checked> Try Lightning with thinking on as its own rung</label>
+          </div>
+        </details>
+        <button id="run-btn" class="primary" type="button" disabled>Downshift it</button>
+      </div>
+      <p class="error" id="start-error" role="alert" hidden></p>
+    </section>
+
+    <section class="panel" id="ladder-panel" aria-labelledby="ladder-h" hidden>
+      <div class="panel-head">
+        <h2 id="ladder-h"><span class="step">2</span> The ladder</h2>
+        <div class="meter" aria-live="polite">
+          <span id="spend">US$0.0000</span> spent of <span id="cap">US$0.10</span>
+          <span class="meter-track" aria-hidden="true"><span id="spend-fill"></span></span>
+        </div>
+      </div>
+      <p class="story" id="task-story"></p>
+      <p class="bar-line" id="bar-line">Measuring every tier with the plain prompt…</p>
+      <div class="table-wrap">
+        <table class="ladder" id="ladder">
+          <caption class="sr-only">Score, cost and latency for each Nemotron model and thinking mode</caption>
+          <thead>
+            <tr>
+              <th scope="col">Rung<br><span class="sub">model and thinking mode</span></th>
+              <th scope="col" class="num">Price per 1M tokens<br><span class="sub">in / out</span></th>
+              <th scope="col">Plain prompt<br><span class="sub">tuning split</span></th>
+              <th scope="col">Best prompt<br><span class="sub">held-out split</span></th>
+              <th scope="col" class="num">US$ per 1k calls</th>
+              <th scope="col" class="num">p50 latency</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody id="ladder-body"></tbody>
+        </table>
+      </div>
+      <p class="fine" id="split-note"></p>
+    </section>
+
+    <section class="panel" id="rounds-panel" aria-labelledby="rounds-h" hidden>
+      <div class="panel-head">
+        <h2 id="rounds-h"><span class="step">3</span> Prompt rewrites</h2>
+      </div>
+      <p class="muted">Ultra rewrites the instructions and picks examples from the tuning split. Each candidate is scored on the tuning rows it did not use as examples. Only the best one is scored on the held-out split.</p>
+      <div id="rounds"></div>
+    </section>
+
+    <section class="panel verdict" id="verdict-panel" aria-labelledby="verdict-h" hidden tabindex="-1">
+      <div class="panel-head">
+        <h2 id="verdict-h"><span class="step">4</span> Verdict</h2>
+        <a class="share" id="share-link" href="#">Link to this run</a>
+      </div>
+      <p class="headline" id="v-headline"></p>
+      <p class="sentence" id="v-sentence"></p>
+      <dl class="stats" id="v-stats"></dl>
+      <div class="ft" id="v-finetune" hidden></div>
+      <details class="prompt-box">
+        <summary>Final prompt</summary>
+        <pre id="v-prompt" class="mono"></pre>
+      </details>
+      <div class="snippet">
+        <div class="snippet-head">
+          <h3>Paste this into your code</h3>
+          <button type="button" class="ghost" id="copy-btn">Copy</button>
+        </div>
+        <pre id="v-snippet" class="mono" tabindex="0"></pre>
+      </div>
+      <p class="fine" id="v-fine"></p>
+    </section>
+
+    <section class="panel" id="log-panel" aria-labelledby="log-h" hidden>
+      <details>
+        <summary><h2 id="log-h" class="inline">Run log</h2></summary>
+        <ol class="log" id="log" aria-live="polite"></ol>
+      </details>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <p>Models: NVIDIA Nemotron 3.5 Lightning, Nemotron 3 Nano, Super and Ultra, served by Nebius Token Factory.
+      Checker code runs in Nebius Sandboxes with networking off. Every number on this page comes from calls made in the run shown.</p>
+  </footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

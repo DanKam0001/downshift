@@ -1,0 +1,12 @@
+{
+  "slug": "ticket_triage",
+  "title": "Support ticket routing (dev fixture)",
+  "business_story": "A small online shop gets a few thousand support emails a day. Each one must go to the right queue. Today every ticket goes through the largest model; Downshift checks whether a cheaper one routes them just as well.",
+  "instruction": "Route the customer support message to exactly one queue.",
+  "output_format": "One lowercase label from the allowed list, nothing else.",
+  "label_set": ["billing", "shipping", "technical", "account", "refund"],
+  "source_url": "hand-written development fixture",
+  "license": "CC0-1.0",
+  "n_train": 12,
+  "n_holdout": 12
+}

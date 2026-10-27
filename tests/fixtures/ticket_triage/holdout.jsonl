@@ -1,0 +1,12 @@
+{"id": "h1", "input": "My credit card was billed but the order shows as cancelled.", "reference": "billing"}
+{"id": "h2", "input": "Courier left my box in the rain, can you send it express next time?", "reference": "shipping"}
+{"id": "h3", "input": "Checkout button does nothing on Safari.", "reference": "technical"}
+{"id": "h4", "input": "I want to merge my two accounts into one.", "reference": "account"}
+{"id": "h5", "input": "Returned the shoes two weeks ago, still waiting on my money.", "reference": "refund"}
+{"id": "h6", "input": "Your site keeps logging me out every 2 minutes.", "reference": "technical"}
+{"id": "h7", "input": "What's the delivery time to New Zealand?", "reference": "shipping"}
+{"id": "h8", "input": "Change my username please.", "reference": "account"}
+{"id": "h9", "input": "I was promised 20% off but the invoice shows full price.", "reference": "billing"}
+{"id": "h10", "input": "Wrong size sent. Just refund me, I don't want an exchange.", "reference": "refund"}
+{"id": "h11", "input": "Two-factor codes never arrive by SMS.", "reference": "technical"}
+{"id": "h12", "input": "Package was sent to my old address.", "reference": "shipping"}

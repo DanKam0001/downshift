@@ -1,0 +1,12 @@
+{"id": "t1", "input": "I was charged twice for order #4412 this month.", "reference": "billing"}
+{"id": "t2", "input": "My parcel says delivered but it is not at my door.", "reference": "shipping"}
+{"id": "t3", "input": "The app crashes every time I open the cart page.", "reference": "technical"}
+{"id": "t4", "input": "How do I change the email address on my profile?", "reference": "account"}
+{"id": "t5", "input": "The jacket doesn't fit, I want my money back.", "reference": "refund"}
+{"id": "t6", "input": "Why is there a $4.99 fee on my invoice I never agreed to?", "reference": "billing"}
+{"id": "t7", "input": "Tracking hasn't updated in 6 days, where is my package?", "reference": "shipping"}
+{"id": "t8", "input": "I can't log in, the reset password link gives a 404 error.", "reference": "technical"}
+{"id": "t9", "input": "Please delete my account and all my data.", "reference": "account"}
+{"id": "t10", "input": "Item arrived broken. I'd like a refund rather than a replacement.", "reference": "refund"}
+{"id": "t11", "input": "Can I update the card you bill each month?", "reference": "billing"}
+{"id": "t12", "input": "Can you ship to a PO box in Darwin?", "reference": "shipping"}

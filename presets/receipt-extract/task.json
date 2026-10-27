@@ -1,0 +1,98 @@
+{
+  "title": "Receipt OCR to structured JSON",
+  "business_story": "Expense-management and bookkeeping tools turn photographed receipts into ledger entries; after OCR the text is jumbled, and a model has to pull out the line items and totals for every receipt a customer uploads. It runs once per document at high volume, so the per-call price decides the margin.",
+  "instruction": "The text below is the OCR output of a shop or restaurant receipt from Indonesia (amounts in rupiah). Extract the following as a JSON object and reply with the JSON only:\n- \"items\": the purchased line items, each {\"name\": string as printed, \"quantity\": integer or null, \"price\": the line total as printed, integer}. Do not list sub-items or modifiers printed under an item.\n- \"subtotal\", \"discount\", \"service_charge\", \"tax\", \"total\", \"cash_paid\", \"change\": integers, or null if the receipt does not print that amount.\nWrite every amount as a plain integer with no currency or separators (\"Rp 25.000\" -> 25000). Discounts are positive numbers.",
+  "output_format": "json",
+  "json_schema": {
+    "type": "object",
+    "properties": {
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "quantity": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "price": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "name",
+            "quantity",
+            "price"
+          ]
+        }
+      },
+      "subtotal": {
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "discount": {
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "service_charge": {
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "tax": {
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "total": {
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "cash_paid": {
+        "type": [
+          "integer",
+          "null"
+        ]
+      },
+      "change": {
+        "type": [
+          "integer",
+          "null"
+        ]
+      }
+    },
+    "required": [
+      "items",
+      "subtotal",
+      "discount",
+      "service_charge",
+      "tax",
+      "total",
+      "cash_paid",
+      "change"
+    ]
+  },
+  "source_url": "https://huggingface.co/datasets/naver-clova-ix/cord-v2 (github.com/clovaai/cord)",
+  "license": "CC-BY-4.0",
+  "attribution": "Park et al., 'CORD: A Consolidated Receipt Dataset for Post-OCR Parsing', 2019. NAVER Clova.",
+  "split_note": "input is the dataset's own OCR words regrouped into lines by row_id; reference built from gt_parse. Receipts with ambiguous amounts, an item without a line total, or nested multi-value fields were dropped. Holdout from the test split, train from the validation split (the rows API does not serve the train split).",
+  "slug": "receipt-extract",
+  "n_train": 30,
+  "n_holdout": 40
+}

@@ -1,0 +1,30 @@
+{"id": "b77train-08149", "input": "Where do I find our how to get a physical card?", "reference": "order_physical_card"}
+{"id": "b77train-01564", "input": "We want to start a college fund for my daughter.", "reference": "age_limit"}
+{"id": "b77train-09688", "input": "I want to top up my account. Can I do it with Google Pay?", "reference": "apple_pay_or_google_pay"}
+{"id": "b77train-00161", "input": "I found my card. How can I put it into my app?", "reference": "card_linking"}
+{"id": "b77train-01857", "input": "Do I get charged if I get money?", "reference": "top_up_by_bank_transfer_charge"}
+{"id": "b77train-08684", "input": "Why isn't my balance reflecting a transfer I did?", "reference": "balance_not_updated_after_bank_transfer"}
+{"id": "b77train-08681", "input": "Please check to see if the band transfer I made a while ago from my UK account has safely arrived.", "reference": "balance_not_updated_after_bank_transfer"}
+{"id": "b77train-02303", "input": "Is there a top-up limit?", "reference": "top_up_limits"}
+{"id": "b77train-08474", "input": "I can't add any more money.", "reference": "top_up_failed"}
+{"id": "b77train-08578", "input": "Hi, I am experiencing problems while trying to top-up with my card. I have never experienced any problems doing this before. Could you please help me?", "reference": "top_up_failed"}
+{"id": "b77train-06349", "input": "I have duplicate charges for the same transaction", "reference": "transaction_charged_twice"}
+{"id": "b77train-08830", "input": "My app statement shows I took out cash from an ATM but I did not. What can I do?", "reference": "cash_withdrawal_not_recognised"}
+{"id": "b77train-01835", "input": "Am I charged for receiving money?", "reference": "top_up_by_bank_transfer_charge"}
+{"id": "b77train-04181", "input": "Will I get Visa or MasterCard?", "reference": "visa_or_mastercard"}
+{"id": "b77train-04815", "input": "I thought I knew my password but I guess I was wrong, what can I do now?", "reference": "passcode_forgotten"}
+{"id": "b77train-09695", "input": "how do i set up my apple pay watch to connect to my account", "reference": "apple_pay_or_google_pay"}
+{"id": "b77train-01593", "input": "I have young kids. Can they use this service?", "reference": "age_limit"}
+{"id": "b77train-04451", "input": "what is the amount of disposable cards I can have?", "reference": "disposable_card_limits"}
+{"id": "b77train-09956", "input": "Please tell me how to get a card if I reside in the US.", "reference": "country_support"}
+{"id": "b77train-00246", "input": "How do I link a new card to an existing one?", "reference": "card_linking"}
+{"id": "b77train-03981", "input": "The app isn't letting me log in, but my info is correct.", "reference": "unable_to_verify_identity"}
+{"id": "b77train-03785", "input": "which identity details are required", "reference": "why_verify_identity"}
+{"id": "b77train-07694", "input": "I am having trouble finding the top-up card verification code.", "reference": "verify_top_up"}
+{"id": "b77train-04772", "input": "I have an unauthorized charge.", "reference": "direct_debit_payment_not_recognised"}
+{"id": "b77train-04789", "input": "There is a direct debit set up that was not authorized by me.", "reference": "direct_debit_payment_not_recognised"}
+{"id": "b77train-08778", "input": "A few hours ago I made a bank transfer from my UK account but I don't see that it has arrived.   Can you check and see if all is ok please?", "reference": "balance_not_updated_after_bank_transfer"}
+{"id": "b77train-09400", "input": "What's up with the extra fee I got?", "reference": "cash_withdrawal_charge"}
+{"id": "b77train-08922", "input": "What is the strange cash withdrawal on my statement?", "reference": "cash_withdrawal_not_recognised"}
+{"id": "b77train-07932", "input": "Is it possible to give a second card from my account to my daughter?", "reference": "getting_spare_card"}
+{"id": "b77train-03321", "input": "I can't see my cash deposit in my account.", "reference": "balance_not_updated_after_cheque_or_cash_deposit"}

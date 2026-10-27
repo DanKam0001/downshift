@@ -1,0 +1,40 @@
+{"id": "b77test-00698", "input": "I'd like to cancel a transfer", "reference": "cancel_transfer"}
+{"id": "b77test-01264", "input": "Please help in finding my card PIN, thank you!", "reference": "get_physical_card"}
+{"id": "b77test-00355", "input": "What is the auto top up function and where can I find that at?", "reference": "automatic_top_up"}
+{"id": "b77test-02998", "input": "How do I use the top up app with my apple watch?", "reference": "apple_pay_or_google_pay"}
+{"id": "b77test-02718", "input": "My account balance has not gone up even though I just transferred money into it", "reference": "balance_not_updated_after_bank_transfer"}
+{"id": "b77test-01523", "input": "My passcode doesn't seem to be working", "reference": "passcode_forgotten"}
+{"id": "b77test-02034", "input": "Where do my funds come from?", "reference": "verify_source_of_funds"}
+{"id": "b77test-01957", "input": "I was at an ATM and it swallowed my card.", "reference": "card_swallowed"}
+{"id": "b77test-03006", "input": "How do you verify an identity?", "reference": "verify_my_identity"}
+{"id": "b77test-00163", "input": "Why is there an extra dollar charged to my account?", "reference": "extra_charge_on_statement"}
+{"id": "b77test-00006", "input": "Do you know if there is a tracking number for the new card you sent me?", "reference": "card_arrival"}
+{"id": "b77test-00397", "input": "Nothing goes through on my card.", "reference": "card_not_working"}
+{"id": "b77test-01335", "input": "How do I transfer money using a credit card?", "reference": "topping_up_by_card"}
+{"id": "b77test-01234", "input": "Why am I having trouble verifying my id?", "reference": "unable_to_verify_identity"}
+{"id": "b77test-02215", "input": "Why did I get charged for something I bought online? Even though it was international, I thought it would be covered.", "reference": "transfer_fee_charged"}
+{"id": "b77test-00502", "input": "What's the minimum age for opening an account?", "reference": "age_limit"}
+{"id": "b77test-00641", "input": "My card was topped this morning but I can't see the funds. Why didn't it complete?", "reference": "pending_top_up"}
+{"id": "b77test-00183", "input": "Why was I overcharged a pound!?", "reference": "extra_charge_on_statement"}
+{"id": "b77test-02706", "input": "I have completed a transfer but it is not showing up.", "reference": "balance_not_updated_after_bank_transfer"}
+{"id": "b77test-01129", "input": "I need to edit the personal details section of my account", "reference": "edit_personal_details"}
+{"id": "b77test-01230", "input": "How long will it take for my ID to verify?", "reference": "unable_to_verify_identity"}
+{"id": "b77test-00600", "input": "how much do you charge to accept transfers", "reference": "top_up_by_bank_transfer_charge"}
+{"id": "b77test-00837", "input": "I was charged a fee for a card payment. Why?", "reference": "card_payment_fee_charged"}
+{"id": "b77test-02867", "input": "What are the steps in order to activate my new card?", "reference": "activate_my_card"}
+{"id": "b77test-01301", "input": "Do you do Visa or Mastercard?", "reference": "visa_or_mastercard"}
+{"id": "b77test-02182", "input": "A transfer to an account was not allowed", "reference": "beneficiary_not_allowed"}
+{"id": "b77test-00489", "input": "Can my daughter open an account?", "reference": "age_limit"}
+{"id": "b77test-02974", "input": "Why can't I use my American Express with Apple Pay to top up my account?", "reference": "apple_pay_or_google_pay"}
+{"id": "b77test-02551", "input": "How come my disposable virtual card used to pay for a gym subscription got rejected?", "reference": "virtual_card_not_working"}
+{"id": "b77test-00865", "input": "My friend still hasn't gotten a transaction I made.", "reference": "transfer_not_received_by_recipient"}
+{"id": "b77test-00544", "input": "Are you able to unblock my pin?", "reference": "pin_blocked"}
+{"id": "b77test-00792", "input": "I didn't receive all the cash I asked for", "reference": "wrong_amount_of_cash_received"}
+{"id": "b77test-02708", "input": "How long until my transfer will be available to me", "reference": "balance_not_updated_after_bank_transfer"}
+{"id": "b77test-03002", "input": "I need to verify my identity, but how do I do that?", "reference": "verify_my_identity"}
+{"id": "b77test-01528", "input": "How do I reset a forgotten passcode, please?", "reference": "passcode_forgotten"}
+{"id": "b77test-00574", "input": "How do I check my security settings to allow contactless pay?", "reference": "contactless_not_working"}
+{"id": "b77test-00165", "input": "I would like a refund on the extra pound I was charged.", "reference": "extra_charge_on_statement"}
+{"id": "b77test-02358", "input": "I would like to transfer money from my other bank account into this one.", "reference": "transfer_into_account"}
+{"id": "b77test-00166", "input": "Can you explain what this random $1 charge is?", "reference": "extra_charge_on_statement"}
+{"id": "b77test-02667", "input": "I tried to top up. Why was it denied?", "reference": "top_up_failed"}
