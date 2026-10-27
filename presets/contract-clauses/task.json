@@ -40,8 +40,9 @@
   "source_url": "https://www.atticusprojectai.org/cuad (github.com/TheAtticusProject/cuad, zenodo.org/records/4595826)",
   "license": "CC-BY-4.0",
   "attribution": "Hendrycks et al., 'CUAD: An Expert-Annotated NLP Dataset for Legal Contract Review', NeurIPS 2021. The Atticus Project.",
-  "split_note": "inputs are expert-annotated clause spans from CUAD v1 that only one CUAD category covers; split by contract (no contract appears in both train and holdout); stratified across the 32 labels.",
+  "split_note": "inputs are expert-annotated clause spans from CUAD v1 that only one CUAD category covers; split by contract (half the contracts for holdout, a third of the rest for validation, the remainder for tuning; no contract appears in two splits); each split stratified across the 32 labels.",
   "slug": "contract-clauses",
-  "n_train": 30,
-  "n_holdout": 40
+  "n_train": 60,
+  "n_validation": 40,
+  "n_holdout": 150
 }

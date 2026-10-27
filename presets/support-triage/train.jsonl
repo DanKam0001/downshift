@@ -28,3 +28,33 @@
 {"id": "b77train-08922", "input": "What is the strange cash withdrawal on my statement?", "reference": "cash_withdrawal_not_recognised"}
 {"id": "b77train-07932", "input": "Is it possible to give a second card from my account to my daughter?", "reference": "getting_spare_card"}
 {"id": "b77train-03321", "input": "I can't see my cash deposit in my account.", "reference": "balance_not_updated_after_cheque_or_cash_deposit"}
+{"id": "b77train-08954", "input": "Is there any type of fee for currency exchange?", "reference": "exchange_charge"}
+{"id": "b77train-04638", "input": "There is a Direct Debit that looks suspicious.", "reference": "direct_debit_payment_not_recognised"}
+{"id": "b77train-01139", "input": "Can I auto top if I'm low on funds?", "reference": "automatic_top_up"}
+{"id": "b77train-00618", "input": "An extra pound was charged!", "reference": "extra_charge_on_statement"}
+{"id": "b77train-09372", "input": "I am not supposed to be charged a cash withdrawal fee, but I was.", "reference": "cash_withdrawal_charge"}
+{"id": "b77train-09242", "input": "My card is not able to be activated how do I get it to work?", "reference": "activate_my_card"}
+{"id": "b77train-00216", "input": "I have found my lost or stolen card, would I still have to activate the new card that was sent to me through the mail in order to access my account?", "reference": "card_linking"}
+{"id": "b77train-01604", "input": "Is my daughter eligible to open an account?", "reference": "age_limit"}
+{"id": "b77train-00025", "input": "It's been a week since you sent my card and I still don't have it.", "reference": "card_arrival"}
+{"id": "b77train-04906", "input": "I don't have my passcode to access the app.", "reference": "passcode_forgotten"}
+{"id": "b77train-01562", "input": "What are age requirements for opening an account?", "reference": "age_limit"}
+{"id": "b77train-08585", "input": "Top up keeps failing", "reference": "top_up_failed"}
+{"id": "b77train-06631", "input": "what is the average wait for transfers", "reference": "transfer_timing"}
+{"id": "b77train-09943", "input": "I reside in the US, but I want a card.", "reference": "country_support"}
+{"id": "b77train-09371", "input": "When I got cash I was charged an extra fee!  Explain!", "reference": "cash_withdrawal_charge"}
+{"id": "b77train-03666", "input": "How can I change my name because I just got married?", "reference": "edit_personal_details"}
+{"id": "b77train-04298", "input": "I don't see me 'top up' in my wallet", "reference": "topping_up_by_card"}
+{"id": "b77train-02138", "input": "I made a transaction to the wrong account!", "reference": "cancel_transfer"}
+{"id": "b77train-08101", "input": "What do I need to do to get a card?", "reference": "order_physical_card"}
+{"id": "b77train-02475", "input": "There was a limited amount of money available at the time of my transaction.", "reference": "wrong_amount_of_cash_received"}
+{"id": "b77train-03918", "input": "I'm unable to verify my identity", "reference": "unable_to_verify_identity"}
+{"id": "b77train-02314", "input": "I need someone to assist me with explaining how much I can top-up.", "reference": "top_up_limits"}
+{"id": "b77train-07683", "input": "Explain to me how to verify the top-up card.", "reference": "verify_top_up"}
+{"id": "b77train-03677", "input": "My billing address changed and I need to update my information.", "reference": "edit_personal_details"}
+{"id": "b77train-07653", "input": "Tell me how to top up my account using bank transfer.", "reference": "transfer_into_account"}
+{"id": "b77train-02523", "input": "I had to pay money for paying with my card.", "reference": "card_payment_fee_charged"}
+{"id": "b77train-07092", "input": "I need to move money to another beneficiary. Why is it not working?", "reference": "beneficiary_not_allowed"}
+{"id": "b77train-04105", "input": "may I have a Visa and a Mastercard from you.", "reference": "visa_or_mastercard"}
+{"id": "b77train-01313", "input": "What can I do to make my physical card work?", "reference": "card_not_working"}
+{"id": "b77train-04863", "input": "I think my passcode was changed", "reference": "passcode_forgotten"}

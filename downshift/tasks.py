@@ -32,7 +32,10 @@ def load_task_dir(d: Path) -> dict:
     task = json.loads((d / "task.json").read_text(encoding="utf-8"))
     task.setdefault("slug", d.name)
     task["train"] = _read_jsonl(d / "train.jsonl")
+    task["validation"] = _read_jsonl(d / "validation.jsonl")
     task["holdout"] = _read_jsonl(d / "holdout.jsonl")
+    ref = d / "reference.json"
+    task["cached_reference"] = json.loads(ref.read_text(encoding="utf-8")) if ref.exists() else None
     checker = d / "checker.py"
     task["checker_code"] = checker.read_text(encoding="utf-8") if checker.exists() else None
     task["source"] = "fixture" if FIXTURES_DIR in d.parents else "preset"
@@ -48,8 +51,9 @@ def list_presets() -> list[dict]:
             continue
         out.append({k: t.get(k) for k in ("slug", "title", "business_story", "instruction", "output_format",
                                           "label_set", "source_url", "license", "source")}
-                   | {"n_train": len(t["train"]), "n_holdout": len(t["holdout"]),
-                      "has_checker": bool(t["checker_code"])})
+                   | {"n_train": len(t["train"]), "n_validation": len(t["validation"]), "n_holdout": len(t["holdout"]),
+                      "has_checker": bool(t["checker_code"]),
+                      "reference_measured": (t["cached_reference"] or {}).get("measured_on")})
     return out
 
 
@@ -78,13 +82,16 @@ def custom_task(spec: dict, seed: int = 7) -> dict:
             raise ValueError(f"example {i} has no 'input'")
         rows.append({"id": str(ex.get("id", f"c{i}")), "input": ex["input"], "reference": ex.get("reference")})
     random.Random(seed).shuffle(rows)
-    n_train = max(4, len(rows) // 2)
+    # 40% tuning, 20% validation (prompt selection only), 40% held out.
+    n_train = max(4, (len(rows) * 2) // 5)
+    n_val = max(2, len(rows) // 5)
     return {
         "slug": "custom", "title": spec.get("title") or "Custom task",
         "business_story": spec.get("business_story") or "", "instruction": instruction,
         "output_format": spec.get("output_format") or "", "label_set": spec.get("label_set"),
-        "json_schema": spec.get("json_schema"), "train": rows[:n_train], "holdout": rows[n_train:],
-        "checker_code": None, "source": "custom",
+        "json_schema": spec.get("json_schema"), "train": rows[:n_train],
+        "validation": rows[n_train:n_train + n_val], "holdout": rows[n_train + n_val:],
+        "checker_code": None, "cached_reference": None, "source": "custom",
     }
 
 

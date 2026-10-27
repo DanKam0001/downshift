@@ -35,7 +35,7 @@ stops tuning before the cap and still gives a verdict.
   full held-out pass, a Lightning rewrite round, and the held-out confirmation). It stopped at the first rung, so Lightning-thinking, Nano and Super were never
   called.
 
-Showcase copies: `demo_runs/2c7db97ebcf6.json`, `demo_runs/0575921f478c.json` (open `/?run=<id>`).
+Showcase copies of these two runs now live in `demo_runs/superseded/` (they were measured on the old 30/40 split and are no longer served).
 
 ### Spend
 
@@ -49,3 +49,30 @@ four runs at temperature 0. That is up to 3 rows of run-to-run variation. A Ligh
 in one run and 80.0% in another. The default 2-point tolerance is below the 2.5-point row size. The verdict text
 refuses to call a gap under one row a win, but pass or fail against the bar can still flip between runs on
 support-triage. Options: a tolerance of at least 1 row, more held-out rows, or averaging Ultra over two passes.
+
+## 2026-10-27 (later): measurement rigour
+
+Problems fixed: Ultra's run-to-run noise was larger than the 2-point tolerance, prompt rewrites overfit the 26-30
+tuning rows, and Ultra with thinking on did not fit the per-run cap so it was often skipped as the reference.
+
+- **Splits rebuilt** (`scripts/build_presets.py`, same seed, licences and checkers): 60 tuning / 40 validation /
+  150 held out; receipt-extract 49 / 40 / 86 because CORD's test split has 86 usable receipts. Validation rows are
+  used only to pick among prompt candidates.
+- **Cached reference** (`scripts/measure_reference.py`, `presets/<slug>/reference.json`): Ultra thinking off and on,
+  3 repeats each on the full holdout. The first contract-clauses attempt stopped at its cost check (estimate
+  $2.25 > $1.60 limit); the script was changed to add thinking-on repeats one at a time while they fit, and the
+  rerun completed all 3 repeats for $1.21.
+- **Statistics** (`downshift/stats.py`): bootstrap 95% CIs, paired bootstrap of the difference from Ultra, verdict
+  rule "lower bound > -tolerance" (default 3 points), "better than" only if the lower bound is > 0.
+- **Anti-overfit selection**: candidates from tuning rows, chosen on validation, winner scored once on holdout;
+  tuning / validation / held-out scores shown together.
+- **Ladder order** changed to measured cost per call (Lightning, Nano, Super thinking off, then Lightning thinking
+  on), and a rung that does not fit the cap is skipped instead of ending the ladder.
+- **Runs** (US$0.10 cap, cached reference, Sandboxes grading): `73ad158d7950` support-triage $0.0761 / 83 s,
+  `7b83f078f3bd` receipt-extract $0.0685 / 145 s, `b35268c96e18` contract-clauses $0.0820 / 105 s. No cheaper rung
+  was shown to match Ultra within 3 points on any task; closest was Nano on receipts (-1.2 points, CI -3.8 to +1.6).
+  Copied to `demo_runs/`. Write-up: `RESULTS.md`.
+- **Spend for this step:** US$3.59 (references $3.24 incl. the stopped attempt, one dev run $0.03, three runs $0.23).
+  Two lines of `runs/usage.jsonl` were garbled when the reference script and the server wrote to it at the same time
+  (two processes, per-process lock); that loses at most two calls' worth of accounting, under US$0.01.
+

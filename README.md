@@ -5,8 +5,12 @@ Factory that does the task as well as Nemotron Ultra. It measures every step, re
 and recommends fine-tuning only when prompting runs out of room.
 
 The result is a verdict you can paste into code: the model, whether to turn thinking on, the final prompt, the
-held-out score next to Ultra's, the cost per 1,000 calls, and the median latency. Every number comes from calls made
-in that run.
+held-out score with a 95% confidence interval next to Ultra's, the cost per 1,000 calls, and the median latency.
+Every number comes from measured calls: the cheaper models are measured in the run, and Ultra comes from a cached
+3-run reference with its date shown (or is re-measured live on request).
+
+**Results on three public datasets are in [RESULTS.md](RESULTS.md).** Headline: turning on Ultra's thinking cost
+2.4x to 6.6x more per call on all three tasks, and on none of them was the accuracy gain distinguishable from zero.
 
 ## How it works
 
@@ -15,27 +19,36 @@ in that run.
    is tested: the reference answers must score about 1.0, and deliberately wrong answers must score low. If it fails,
    Ultra gets one retry with the failure; after that Downshift falls back to exact match. Checker code is model-written,
    so it runs in **Nebius Sandboxes** with networking off, not on the web server.
-3. **Bar.** Ultra runs the task with thinking off on both splits, and with thinking on (its default) on the held-out
-   split when that fits the spend cap. The reference is Ultra with thinking on, unless thinking off scores higher. The bar is
-   the reference's held-out score minus a tolerance (2 points by default).
-4. **Ladder.** Each rung is a model and a thinking mode, cheapest first:
-   Lightning (thinking off), Lightning (thinking on), Nano, Super. Rungs are measured only when the run reaches them.
-   On each rung:
-   - score the plain prompt on the tuning split;
-   - if it falls short of Ultra's tuning score, Ultra proposes rewritten prompts (new instructions plus few-shot
-     examples picked from the tuning split). Each candidate is scored on the tuning rows it did not use as examples;
-   - the best prompt is scored **once** on the held-out split. If it reaches the bar, that is the answer and the rungs
-     above it are never called.
-5. **Verdict.** "Use Lightning (thinking off) with this prompt", or "prompting tops out at X%; fine-tune". Scores
-   are on held-out rows the optimiser never saw. With 40 held-out rows one row is 2.5 points, so gaps smaller than
-   one row are reported as a match, not a win.
-6. **Fine-tune fallback.** When prompting tops out, Downshift can build a chat dataset from Ultra's answers on the
-   tuning split and launch a Token Factory fine-tune job (Qwen3-4B by default; Token Factory does not fine-tune
+3. **Three splits.** Tuning rows: the optimiser sees their failures and may use them as few-shot examples.
+   Validation rows: used only to choose between prompt candidates, never shown to the optimiser. Held-out rows:
+   scored once per rung, with the one prompt chosen on validation.
+4. **Reference.** `scripts/measure_reference.py` runs Ultra on the full held-out split with thinking off and on,
+   3 times each, and caches per-run scores, per-row scores and outputs, cost, latency, date and model ids in
+   `presets/<slug>/reference.json`. Runs use it by default; the UI shows "Ultra reference measured on <date>, 3 runs,
+   mean X ± spread". The reference is Ultra with thinking on unless thinking off scores higher. A setting re-measures
+   Ultra live instead (one pass), and the engine falls back to live automatically if the cached file no longer
+   matches the prompt or the held-out rows.
+5. **Ladder.** Each rung is a model and a thinking mode, in order of measured cost per call: Lightning, Nano and
+   Super with thinking off, then Lightning with thinking on (its reasoning tokens make it dearer per call than
+   Super). Rungs are measured only when the run reaches them. On each rung:
+   - score the plain prompt on the tuning and validation rows;
+   - unless it already reaches Ultra's validation score, Ultra proposes rewritten prompts (new instructions plus
+     few-shot examples picked from the tuning rows). Each candidate is scored on the tuning rows it did not use as
+     examples and on the validation rows; the best **validation** score wins;
+   - the winner is scored **once** on the held-out rows, and compared with Ultra on the same rows.
+6. **Statistics and verdict.** Held-out scores carry a 95% bootstrap CI over rows (fixed seed). The comparison with
+   Ultra is a paired bootstrap of the difference on the same rows. A rung **matches Ultra** only if the lower bound of
+   that CI is above −3 points (the tolerance, adjustable); the verdict says "better than Ultra" only if the lower
+   bound is above 0. The first rung that matches is the answer and the rungs above it are never called. The verdict
+   shows tuning, validation and held-out scores side by side, so any overfitting is visible.
+7. **Fine-tune fallback.** When no rung matches, Downshift can build a chat dataset from the tuning rows' reference
+   answers and launch a Token Factory fine-tune job (Qwen3-4B by default; Token Factory does not fine-tune
    Nemotron). It is off unless `DOWNSHIFT_ALLOW_FINETUNE=1`, and serving the result needs Token Factory's
    custom-weights access.
 
-A hard per-run spend cap (US$0.10 by default) stops the run cleanly. Before each step the engine estimates its cost
-and stops tuning early with a verdict rather than running out mid-step.
+A hard per-run spend cap (US$0.10 by default) stops the run cleanly. Before each step the engine estimates its cost,
+skips a rung that would not fit, and stops tuning early with a verdict rather than running out mid-step. With the
+cached reference a preset run costs US$0.07 to US$0.08 and takes 83 to 145 seconds (measured, see RESULTS.md).
 
 ## Where each Nebius / NVIDIA piece is used
 
@@ -54,7 +67,15 @@ and stops tuning early with a verdict rather than running out mid-step.
 | `receipt-extract` | Turn OCR'd receipt text into JSON line items and totals | CORD v2 (NAVER Clova), CC-BY-4.0 |
 | `contract-clauses` | Tag contract clauses with one of 32 types | CUAD (The Atticus Project), CC-BY-4.0 |
 
-Each has 30 tuning rows and 40 held-out rows. See `presets/BASELINE.md` for plain-prompt baselines.
+Each has 60 tuning, 40 validation and 150 held-out rows (receipt-extract: 49 / 40 / 86, the size of CORD's usable
+test split), plus a cached Ultra reference. See `presets/README.md` for how they were built.
+
+## Results
+
+See **[RESULTS.md](RESULTS.md)**: the ladder for each task with 95% CIs, the verdicts, the overfit gaps, Ultra's own
+run-to-run noise, the limits of the method, and what it all cost. Reproduce the tables with
+`python scripts/results_tables.py demo_runs/*.json`; re-measure a reference with
+`python scripts/measure_reference.py <slug>` (about US$0.9 to US$1.2 per preset).
 
 ## Setup
 
@@ -89,8 +110,12 @@ API:
 | GET | `/api/run/{id}/events` | server-sent events (replays a finished run) |
 | GET | `/api/run/{id}` | saved run with verdict |
 
+Options for `/api/run`: `spend_cap_usd`, `tolerance` (default 0.03), `rounds`, `candidates`, `thinking_rungs`,
+`reference` (`"cached"` or `"live"`) and `ultra_thinking` (live reference only).
+
 A custom task is `{"title", "instruction", "output_format", "label_set"?, "examples": [{"input", "reference"?}]}`
-with 8 to 200 examples; half are held out.
+with 8 to 200 examples; 40% tune, 20% validate and 40% are held out. Custom tasks have no cached reference, so Ultra
+is measured live.
 
 ## Tests
 
@@ -116,12 +141,14 @@ host's settings. Useful limits for a public demo: `DOWNSHIFT_MAX_ACTIVE_RUNS` (d
 app.py                  FastAPI server and SSE
 downshift/models.py     rungs, pricing, Token Factory client, per-call accounting (runs/usage.jsonl)
 downshift/engine.py     the pipeline, as an async generator of events
+downshift/stats.py      bootstrap CIs and the paired comparison
 downshift/grading.py    Sandboxes grader with labelled local fallback
 downshift/sandbox_grader.py  Nebius Sandboxes harness
 downshift/finetune.py   dataset builder and fine-tune job launcher
 downshift/tasks.py      presets, custom tasks, prompt assembly
 static/                 single-page UI, no build step
-presets/                three benchmark tasks with checkers
+presets/                three benchmark tasks: splits, checkers, cached Ultra references
+scripts/                build_presets, measure_reference, run_presets, results_tables
 ```
 
 ## Licence

@@ -85,8 +85,9 @@
   "source_url": "https://github.com/PolyAI-LDN/task-specific-datasets (Banking77; also huggingface.co/datasets/PolyAI/banking77)",
   "license": "CC-BY-4.0",
   "attribution": "Casanueva et al., 'Efficient Intent Detection with Dual Sentence Encoders', NLP4ConvAI 2020. PolyAI.",
-  "split_note": "holdout sampled from the official test split, train from the official train split",
+  "split_note": "holdout sampled from the official test split; tuning and validation rows sampled from the official train split",
   "slug": "support-triage",
-  "n_train": 30,
-  "n_holdout": 40
+  "n_train": 60,
+  "n_validation": 40,
+  "n_holdout": 150
 }

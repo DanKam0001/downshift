@@ -33,8 +33,9 @@ TIERS = [
 ULTRA = TIERS[-1]["model"]
 
 # A rung is a (model, thinking on/off) pair. All Nemotron tiers are reasoning models; thinking moves cost and
-# latency more than model size does, so it is its own step on the ladder. Cheapest first; the two Ultra rungs
-# are the quality reference.
+# latency more than model size does, so it is its own step on the ladder. Ordered by measured cost per call on the
+# presets (Lightning with thinking on costs more per call than Super with thinking off, because it writes
+# 1,000-4,000 reasoning tokens); the two Ultra rungs are the quality reference.
 def _rung(tier_key: str, thinking: bool) -> dict:
     t = next(x for x in TIERS if x["key"] == tier_key)
     return {"key": t["key"] + ("-think" if thinking else ""), "tier": t["key"], "name": t["name"],
@@ -42,7 +43,7 @@ def _rung(tier_key: str, thinking: bool) -> dict:
             "label": t["name"] + (" (thinking on)" if thinking else " (thinking off)")}
 
 
-RUNGS = [_rung("lightning", False), _rung("lightning", True), _rung("nano", False), _rung("super", False),
+RUNGS = [_rung("lightning", False), _rung("nano", False), _rung("super", False), _rung("lightning", True),
          _rung("ultra", False), _rung("ultra", True)]
 CHEAP_RUNGS = RUNGS[:4]
 ULTRA_OFF, ULTRA_ON = RUNGS[4], RUNGS[5]

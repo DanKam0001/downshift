@@ -1,0 +1,3231 @@
+{
+ "slug": "support-triage",
+ "measured_on": "2026-10-27",
+ "measured_at": 1793092805.5628393,
+ "repeats": 3,
+ "n_holdout": 150,
+ "holdout_ids": [
+  "b77test-00698",
+  "b77test-01264",
+  "b77test-00355",
+  "b77test-02998",
+  "b77test-02718",
+  "b77test-01523",
+  "b77test-02034",
+  "b77test-01957",
+  "b77test-03006",
+  "b77test-00163",
+  "b77test-00006",
+  "b77test-00397",
+  "b77test-01335",
+  "b77test-01234",
+  "b77test-02215",
+  "b77test-00502",
+  "b77test-00641",
+  "b77test-00183",
+  "b77test-02706",
+  "b77test-01129",
+  "b77test-01230",
+  "b77test-00600",
+  "b77test-00837",
+  "b77test-02867",
+  "b77test-01301",
+  "b77test-02182",
+  "b77test-00489",
+  "b77test-02974",
+  "b77test-02551",
+  "b77test-00865",
+  "b77test-00544",
+  "b77test-00792",
+  "b77test-02708",
+  "b77test-03002",
+  "b77test-01528",
+  "b77test-00574",
+  "b77test-00165",
+  "b77test-02358",
+  "b77test-00166",
+  "b77test-02667",
+  "b77test-00144",
+  "b77test-01136",
+  "b77test-01030",
+  "b77test-02516",
+  "b77test-00112",
+  "b77test-00192",
+  "b77test-02397",
+  "b77test-02338",
+  "b77test-02102",
+  "b77test-00440",
+  "b77test-00577",
+  "b77test-00904",
+  "b77test-02336",
+  "b77test-00902",
+  "b77test-01953",
+  "b77test-00124",
+  "b77test-00335",
+  "b77test-02080",
+  "b77test-01443",
+  "b77test-00712",
+  "b77test-02457",
+  "b77test-02712",
+  "b77test-01375",
+  "b77test-00340",
+  "b77test-02911",
+  "b77test-02013",
+  "b77test-00301",
+  "b77test-02246",
+  "b77test-00835",
+  "b77test-00109",
+  "b77test-01500",
+  "b77test-00175",
+  "b77test-00262",
+  "b77test-01657",
+  "b77test-01425",
+  "b77test-02658",
+  "b77test-02804",
+  "b77test-01736",
+  "b77test-01415",
+  "b77test-00404",
+  "b77test-02835",
+  "b77test-01071",
+  "b77test-00710",
+  "b77test-03073",
+  "b77test-01646",
+  "b77test-02432",
+  "b77test-02678",
+  "b77test-01753",
+  "b77test-01882",
+  "b77test-01956",
+  "b77test-00870",
+  "b77test-01208",
+  "b77test-00055",
+  "b77test-01707",
+  "b77test-00288",
+  "b77test-00778",
+  "b77test-01873",
+  "b77test-02879",
+  "b77test-02914",
+  "b77test-00394",
+  "b77test-00014",
+  "b77test-00665",
+  "b77test-02147",
+  "b77test-01712",
+  "b77test-01215",
+  "b77test-02829",
+  "b77test-01172",
+  "b77test-01630",
+  "b77test-02159",
+  "b77test-01784",
+  "b77test-02483",
+  "b77test-02476",
+  "b77test-02498",
+  "b77test-00775",
+  "b77test-01225",
+  "b77test-00912",
+  "b77test-02016",
+  "b77test-00813",
+  "b77test-02330",
+  "b77test-01282",
+  "b77test-00199",
+  "b77test-00521",
+  "b77test-01984",
+  "b77test-01148",
+  "b77test-01128",
+  "b77test-02741",
+  "b77test-02775",
+  "b77test-02780",
+  "b77test-01471",
+  "b77test-02454",
+  "b77test-00070",
+  "b77test-02950",
+  "b77test-01022",
+  "b77test-01284",
+  "b77test-00657",
+  "b77test-02249",
+  "b77test-00229",
+  "b77test-00491",
+  "b77test-01078",
+  "b77test-00618",
+  "b77test-01517",
+  "b77test-02361",
+  "b77test-02857",
+  "b77test-00718",
+  "b77test-02722",
+  "b77test-02122",
+  "b77test-02661",
+  "b77test-01334",
+  "b77test-00730",
+  "b77test-01197"
+ ],
+ "plain_prompt_sha": "eb5a225f0a6ad278",
+ "answer_max_tokens": 72,
+ "temperature": 0.0,
+ "pricing_source": "live /v1/models",
+ "modes": {
+  "ultra": {
+   "rung": "ultra",
+   "label": "Nemotron 3 Ultra 550B (thinking off)",
+   "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+   "thinking": false,
+   "max_tokens": 72,
+   "repeat_scores": [
+    0.72,
+    0.7133,
+    0.7133
+   ],
+   "mean": 0.7155,
+   "spread": 0.0067,
+   "sd": 0.0039,
+   "cost_usd": 0.249426,
+   "cost_per_1k_usd": 0.5543,
+   "p50_ms": 1161.4,
+   "mean_out_tokens": 5.7,
+   "truncated": 0,
+   "errors": 0,
+   "graded_by": [
+    "sandbox"
+   ],
+   "per_row": {
+    "b77test-00698": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01264": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00355": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02998": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02718": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01523": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02034": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01957": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-03006": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00163": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00006": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00397": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01335": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01234": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02215": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00502": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00641": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00183": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02706": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01129": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01230": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00600": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00837": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02867": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01301": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02182": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00489": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02974": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02551": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00865": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00544": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00792": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02708": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-03002": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01528": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00574": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00165": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02358": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00166": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02667": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00144": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01136": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01030": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02516": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00112": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00192": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02397": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02338": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02102": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00440": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00577": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00904": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02336": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00902": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01953": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00124": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00335": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02080": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01443": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00712": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02457": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02712": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01375": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00340": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02911": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02013": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00301": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02246": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00835": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00109": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01500": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00175": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00262": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01657": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01425": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02658": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02804": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01736": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01415": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00404": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02835": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01071": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00710": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-03073": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01646": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02432": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02678": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01753": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01882": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01956": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00870": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01208": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00055": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01707": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00288": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00778": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01873": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02879": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02914": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00394": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00014": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00665": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02147": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01712": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01215": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02829": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01172": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01630": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02159": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01784": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02483": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02476": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02498": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00775": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01225": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00912": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02016": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00813": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02330": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01282": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00199": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00521": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01984": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01148": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01128": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02741": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02775": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02780": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01471": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02454": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00070": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02950": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01022": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01284": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00657": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02249": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00229": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00491": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01078": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00618": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01517": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02361": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02857": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00718": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02722": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02122": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02661": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01334": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00730": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01197": [
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "per_row_outputs": {
+    "b77test-00698": [
+     "cancel_transfer",
+     "cancel_transfer",
+     "cancel_transfer"
+    ],
+    "b77test-01264": [
+     "passcode_forgotten",
+     "pin_blocked",
+     "passcode_forgotten"
+    ],
+    "b77test-00355": [
+     "automatic_top_up",
+     "automatic_top_up",
+     "automatic_top_up"
+    ],
+    "b77test-02998": [
+     "apple_pay_or_google_pay",
+     "apple_pay_or_google_pay",
+     "apple_pay_or_google_pay"
+    ],
+    "b77test-02718": [
+     "balance_not_updated_after_bank_transfer",
+     "balance_not_updated_after_bank_transfer",
+     "balance_not_updated_after_bank_transfer"
+    ],
+    "b77test-01523": [
+     "passcode_forgotten",
+     "passcode_forgotten",
+     "passcode_forgotten"
+    ],
+    "b77test-02034": [
+     "verify_source_of_funds",
+     "verify_source_of_funds",
+     "verify_source_of_funds"
+    ],
+    "b77test-01957": [
+     "card_swallowed",
+     "card_swallowed",
+     "card_swallowed"
+    ],
+    "b77test-03006": [
+     "why_verify_identity",
+     "why_verify_identity",
+     "why_verify_identity"
+    ],
+    "b77test-00163": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-00006": [
+     "card_arrival",
+     "card_arrival",
+     "card_arrival"
+    ],
+    "b77test-00397": [
+     "card_not_working",
+     "card_not_working",
+     "card_not_working"
+    ],
+    "b77test-01335": [
+     "topping_up_by_card",
+     "topping_up_by_card",
+     "topping_up_by_card"
+    ],
+    "b77test-01234": [
+     "unable_to_verify_identity",
+     "unable_to_verify_identity",
+     "unable_to_verify_identity"
+    ],
+    "b77test-02215": [
+     "card_payment_fee_charged",
+     "card_payment_fee_charged",
+     "card_payment_fee_charged"
+    ],
+    "b77test-00502": [
+     "age_limit",
+     "age_limit",
+     "age_limit"
+    ],
+    "b77test-00641": [
+     "pending_top_up",
+     "pending_top_up",
+     "pending_top_up"
+    ],
+    "b77test-00183": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-02706": [
+     "pending_transfer",
+     "pending_transfer",
+     "pending_transfer"
+    ],
+    "b77test-01129": [
+     "edit_personal_details",
+     "edit_personal_details",
+     "edit_personal_details"
+    ],
+    "b77test-01230": [
+     "verify_my_identity",
+     "verify_my_identity",
+     "verify_my_identity"
+    ],
+    "b77test-00600": [
+     "transfer_fee_charged",
+     "transfer_fee_charged",
+     "transfer_fee_charged"
+    ],
+    "b77test-00837": [
+     "card_payment_fee_charged",
+     "card_payment_fee_charged",
+     "card_payment_fee_charged"
+    ],
+    "b77test-02867": [
+     "activate_my_card",
+     "activate_my_card",
+     "activate_my_card"
+    ],
+    "b77test-01301": [
+     "visa_or_mastercard",
+     "visa_or_mastercard",
+     "visa_or_mastercard"
+    ],
+    "b77test-02182": [
+     "beneficiary_not_allowed",
+     "beneficiary_not_allowed",
+     "beneficiary_not_allowed"
+    ],
+    "b77test-00489": [
+     "age_limit",
+     "age_limit",
+     "age_limit"
+    ],
+    "b77test-02974": [
+     "topping_up_by_card",
+     "topping_up_by_card",
+     "topping_up_by_card"
+    ],
+    "b77test-02551": [
+     "disposable_card_limits",
+     "disposable_card_limits",
+     "disposable_card_limits"
+    ],
+    "b77test-00865": [
+     "transfer_not_received_by_recipient",
+     "transfer_not_received_by_recipient",
+     "transfer_not_received_by_recipient"
+    ],
+    "b77test-00544": [
+     "pin_blocked",
+     "pin_blocked",
+     "pin_blocked"
+    ],
+    "b77test-00792": [
+     "wrong_amount_of_cash_received",
+     "wrong_amount_of_cash_received",
+     "wrong_amount_of_cash_received"
+    ],
+    "b77test-02708": [
+     "transfer_timing",
+     "transfer_timing",
+     "transfer_timing"
+    ],
+    "b77test-03002": [
+     "verify_my_identity",
+     "verify_my_identity",
+     "verify_my_identity"
+    ],
+    "b77test-01528": [
+     "passcode_forgotten",
+     "passcode_forgotten",
+     "passcode_forgotten"
+    ],
+    "b77test-00574": [
+     "contactless_not_working",
+     "contactless_not_working",
+     "contactless_not_working"
+    ],
+    "b77test-00165": [
+     "request_refund",
+     "request_refund",
+     "request_refund"
+    ],
+    "b77test-02358": [
+     "transfer_into_account",
+     "transfer_into_account",
+     "transfer_into_account"
+    ],
+    "b77test-00166": [
+     "extra_charge_on_statement",
+     "card_payment_fee_charged",
+     "card_payment_fee_charged"
+    ],
+    "b77test-02667": [
+     "top_up_failed",
+     "top_up_failed",
+     "top_up_failed"
+    ],
+    "b77test-00144": [
+     "card_payment_wrong_exchange_rate",
+     "card_payment_wrong_exchange_rate",
+     "card_payment_wrong_exchange_rate"
+    ],
+    "b77test-01136": [
+     "edit_personal_details",
+     "edit_personal_details",
+     "edit_personal_details"
+    ],
+    "b77test-01030": [
+     "pending_top_up",
+     "pending_top_up",
+     "pending_top_up"
+    ],
+    "b77test-02516": [
+     "get_physical_card",
+     "get_physical_card",
+     "get_physical_card"
+    ],
+    "b77test-00112": [
+     "exchange_rate",
+     "exchange_rate",
+     "exchange_rate"
+    ],
+    "b77test-00192": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-02397": [
+     "verify_top_up",
+     "verify_top_up",
+     "verify_top_up"
+    ],
+    "b77test-02338": [
+     "topping_up_by_card",
+     "topping_up_by_card",
+     "topping_up_by_card"
+    ],
+    "b77test-02102": [
+     "card_not_working",
+     "card_not_working",
+     "card_not_working"
+    ],
+    "b77test-00440": [
+     "lost_or_stolen_card",
+     "lost_or_stolen_card",
+     "lost_or_stolen_card"
+    ],
+    "b77test-00577": [
+     "contactless_not_working",
+     "contactless_not_working",
+     "contactless_not_working"
+    ],
+    "b77test-00904": [
+     "supported_cards_and_currencies",
+     "supported_cards_and_currencies",
+     "supported_cards_and_currencies"
+    ],
+    "b77test-02336": [
+     "top_up_by_bank_transfer_charge",
+     "top_up_by_bank_transfer_charge",
+     "top_up_by_bank_transfer_charge"
+    ],
+    "b77test-00902": [
+     "card_acceptance",
+     "visa_or_mastercard",
+     "visa_or_mastercard"
+    ],
+    "b77test-01953": [
+     "card_swallowed",
+     "card_swallowed",
+     "card_swallowed"
+    ],
+    "b77test-00124": [
+     "card_payment_wrong_exchange_rate",
+     "card_payment_wrong_exchange_rate",
+     "card_payment_wrong_exchange_rate"
+    ],
+    "b77test-00335": [
+     "automatic_top_up",
+     "automatic_top_up",
+     "automatic_top_up"
+    ],
+    "b77test-02080": [
+     "declined_card_payment",
+     "declined_card_payment",
+     "declined_card_payment"
+    ],
+    "b77test-01443": [
+     "atm_support",
+     "atm_support",
+     "atm_support"
+    ],
+    "b77test-00712": [
+     "cancel_transfer",
+     "cancel_transfer",
+     "cancel_transfer"
+    ],
+    "b77test-02457": [
+     "top_up_by_cash_or_cheque",
+     "top_up_by_cash_or_cheque",
+     "top_up_by_cash_or_cheque"
+    ],
+    "b77test-02712": [
+     "pending_transfer",
+     "pending_transfer",
+     "pending_transfer"
+    ],
+    "b77test-01375": [
+     "disposable_card_limits",
+     "disposable_card_limits",
+     "disposable_card_limits"
+    ],
+    "b77test-00340": [
+     "automatic_top_up",
+     "automatic_top_up",
+     "automatic_top_up"
+    ],
+    "b77test-02911": [
+     "cash_withdrawal_charge",
+     "cash_withdrawal_charge",
+     "cash_withdrawal_charge"
+    ],
+    "b77test-02013": [
+     "verify_source_of_funds",
+     "verify_source_of_funds",
+     "verify_source_of_funds"
+    ],
+    "b77test-00301": [
+     "card_delivery_estimate",
+     "card_delivery_estimate",
+     "card_delivery_estimate"
+    ],
+    "b77test-02246": [
+     "fiat_currency_support",
+     "fiat_currency_support",
+     "fiat_currency_support"
+    ],
+    "b77test-00835": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-00109": [
+     "exchange_rate",
+     "exchange_rate",
+     "exchange_rate"
+    ],
+    "b77test-01500": [
+     "direct_debit_payment_not_recognised",
+     "direct_debit_payment_not_recognised",
+     "direct_debit_payment_not_recognised"
+    ],
+    "b77test-00175": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-00262": [
+     "exchange_via_app",
+     "exchange_via_app",
+     "exchange_via_app"
+    ],
+    "b77test-01657": [
+     "terminate_account",
+     "terminate_account",
+     "terminate_account"
+    ],
+    "b77test-01425": [
+     "terminate_account",
+     "terminate_account",
+     "terminate_account"
+    ],
+    "b77test-02658": [
+     "top_up_failed",
+     "top_up_failed",
+     "top_up_failed"
+    ],
+    "b77test-02804": [
+     "top_up_by_card_charge",
+     "top_up_by_card_charge",
+     "top_up_by_card_charge"
+    ],
+    "b77test-01736": [
+     "failed_transfer",
+     "failed_transfer",
+     "failed_transfer"
+    ],
+    "b77test-01415": [
+     "compromised_card",
+     "compromised_card",
+     "compromised_card"
+    ],
+    "b77test-00404": [
+     "exchange_via_app",
+     "exchange_via_app",
+     "exchange_via_app"
+    ],
+    "b77test-02835": [
+     "topping_up_by_card",
+     "topping_up_by_card",
+     "topping_up_by_card"
+    ],
+    "b77test-01071": [
+     "balance_not_updated_after_cheque_or_cash_deposit",
+     "balance_not_updated_after_cheque_or_cash_deposit",
+     "balance_not_updated_after_cheque_or_cash_deposit"
+    ],
+    "b77test-00710": [
+     "cancel_transfer",
+     "cancel_transfer",
+     "cancel_transfer"
+    ],
+    "b77test-03073": [
+     "country_support",
+     "country_support",
+     "country_support"
+    ],
+    "b77test-01646": [
+     "lost_or_stolen_phone",
+     "lost_or_stolen_phone",
+     "lost_or_stolen_phone"
+    ],
+    "b77test-02432": [
+     "get_physical_card",
+     "get_physical_card",
+     "get_physical_card"
+    ],
+    "b77test-02678": [
+     "top_up_failed",
+     "top_up_failed",
+     "top_up_failed"
+    ],
+    "b77test-01753": [
+     "declined_transfer",
+     "declined_transfer",
+     "declined_transfer"
+    ],
+    "b77test-01882": [
+     "terminate_account",
+     "terminate_account",
+     "terminate_account"
+    ],
+    "b77test-01956": [
+     "card_swallowed",
+     "card_swallowed",
+     "card_swallowed"
+    ],
+    "b77test-00870": [
+     "transfer_not_received_by_recipient",
+     "transfer_not_received_by_recipient",
+     "transfer_not_received_by_recipient"
+    ],
+    "b77test-01208": [
+     "unable_to_verify_identity",
+     "unable_to_verify_identity",
+     "unable_to_verify_identity"
+    ],
+    "b77test-00055": [
+     "lost_or_stolen_card",
+     "lost_or_stolen_card",
+     "lost_or_stolen_card"
+    ],
+    "b77test-01707": [
+     "request_refund",
+     "request_refund",
+     "request_refund"
+    ],
+    "b77test-00288": [
+     "card_delivery_estimate",
+     "card_delivery_estimate",
+     "card_delivery_estimate"
+    ],
+    "b77test-00778": [
+     "wrong_amount_of_cash_received",
+     "wrong_amount_of_cash_received",
+     "wrong_amount_of_cash_received"
+    ],
+    "b77test-01873": [
+     "pending_transfer",
+     "pending_transfer",
+     "pending_transfer"
+    ],
+    "b77test-02879": [
+     "activate_my_card",
+     "activate_my_card",
+     "activate_my_card"
+    ],
+    "b77test-02914": [
+     "cash_withdrawal_charge",
+     "cash_withdrawal_charge",
+     "cash_withdrawal_charge"
+    ],
+    "b77test-00394": [
+     "card_not_working",
+     "card_not_working",
+     "card_not_working"
+    ],
+    "b77test-00014": [
+     "card_delivery_estimate",
+     "card_delivery_estimate",
+     "card_delivery_estimate"
+    ],
+    "b77test-00665": [
+     "pending_top_up",
+     "pending_top_up",
+     "pending_top_up"
+    ],
+    "b77test-02147": [
+     "change_pin",
+     "change_pin",
+     "change_pin"
+    ],
+    "b77test-01712": [
+     "card_arrival",
+     "card_arrival",
+     "card_arrival"
+    ],
+    "b77test-01215": [
+     "passcode_forgotten",
+     "passcode_forgotten",
+     "passcode_forgotten"
+    ],
+    "b77test-02829": [
+     "topping_up_by_card",
+     "topping_up_by_card",
+     "topping_up_by_card"
+    ],
+    "b77test-01172": [
+     "why_verify_identity",
+     "why_verify_identity",
+     "why_verify_identity"
+    ],
+    "b77test-01630": [
+     "pending_card_payment",
+     "pending_card_payment",
+     "pending_card_payment"
+    ],
+    "b77test-02159": [
+     "change_pin",
+     "change_pin",
+     "change_pin"
+    ],
+    "b77test-01784": [
+     "Refund_not_showing_up",
+     "Refund_not_showing_up",
+     "Refund_not_showing_up"
+    ],
+    "b77test-02483": [
+     "get_physical_card",
+     "get_physical_card",
+     "get_physical_card"
+    ],
+    "b77test-02476": [
+     "top_up_by_cash_or_cheque",
+     "top_up_by_cash_or_cheque",
+     "top_up_by_cash_or_cheque"
+    ],
+    "b77test-02498": [
+     "get_physical_card",
+     "get_physical_card",
+     "get_physical_card"
+    ],
+    "b77test-00775": [
+     "declined_cash_withdrawal",
+     "declined_cash_withdrawal",
+     "declined_cash_withdrawal"
+    ],
+    "b77test-01225": [
+     "verify_my_identity",
+     "verify_my_identity",
+     "verify_my_identity"
+    ],
+    "b77test-00912": [
+     "fiat_currency_support",
+     "fiat_currency_support",
+     "fiat_currency_support"
+    ],
+    "b77test-02016": [
+     "verify_source_of_funds",
+     "verify_source_of_funds",
+     "verify_source_of_funds"
+    ],
+    "b77test-00813": [
+     "card_payment_fee_charged",
+     "card_payment_fee_charged",
+     "card_payment_fee_charged"
+    ],
+    "b77test-02330": [
+     "transfer_into_account",
+     "transfer_into_account",
+     "transfer_into_account"
+    ],
+    "b77test-01282": [
+     "visa_or_mastercard",
+     "visa_or_mastercard",
+     "visa_or_mastercard"
+    ],
+    "b77test-00199": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-00521": [
+     "pin_blocked",
+     "pin_blocked",
+     "pin_blocked"
+    ],
+    "b77test-01984": [
+     "transaction_charged_twice",
+     "transaction_charged_twice",
+     "transaction_charged_twice"
+    ],
+    "b77test-01148": [
+     "edit_personal_details",
+     "edit_personal_details",
+     "edit_personal_details"
+    ],
+    "b77test-01128": [
+     "edit_personal_details",
+     "edit_personal_details",
+     "edit_personal_details"
+    ],
+    "b77test-02741": [
+     "balance_not_updated_after_cheque_or_cash_deposit",
+     "wrong_amount_of_cash_received",
+     "wrong_amount_of_cash_received"
+    ],
+    "b77test-02775": [
+     "exchange_charge",
+     "exchange_charge",
+     "exchange_charge"
+    ],
+    "b77test-02780": [
+     "exchange_charge",
+     "exchange_charge",
+     "exchange_charge"
+    ],
+    "b77test-01471": [
+     "atm_support",
+     "atm_support",
+     "atm_support"
+    ],
+    "b77test-02454": [
+     "top_up_by_cash_or_cheque",
+     "top_up_by_cash_or_cheque",
+     "top_up_by_cash_or_cheque"
+    ],
+    "b77test-00070": [
+     "card_linking",
+     "card_linking",
+     "card_linking"
+    ],
+    "b77test-02950": [
+     "card_about_to_expire",
+     "card_about_to_expire",
+     "card_about_to_expire"
+    ],
+    "b77test-01022": [
+     "top_up_reverted",
+     "top_up_reverted",
+     "top_up_reverted"
+    ],
+    "b77test-01284": [
+     "visa_or_mastercard",
+     "visa_or_mastercard",
+     "visa_or_mastercard"
+    ],
+    "b77test-00657": [
+     "pending_top_up",
+     "pending_top_up",
+     "pending_top_up"
+    ],
+    "b77test-02249": [
+     "receiving_money",
+     "receiving_money",
+     "receiving_money"
+    ],
+    "b77test-00229": [
+     "pending_cash_withdrawal",
+     "pending_cash_withdrawal",
+     "pending_cash_withdrawal"
+    ],
+    "b77test-00491": [
+     "age_limit",
+     "age_limit",
+     "age_limit"
+    ],
+    "b77test-01078": [
+     "balance_not_updated_after_cheque_or_cash_deposit",
+     "balance_not_updated_after_cheque_or_cash_deposit",
+     "balance_not_updated_after_cheque_or_cash_deposit"
+    ],
+    "b77test-00618": [
+     "top_up_by_card_charge",
+     "top_up_by_card_charge",
+     "top_up_by_card_charge"
+    ],
+    "b77test-01517": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-02361": [
+     "verify_top_up",
+     "verify_top_up",
+     "verify_top_up"
+    ],
+    "b77test-02857": [
+     "activate_my_card",
+     "activate_my_card",
+     "activate_my_card"
+    ],
+    "b77test-00718": [
+     "pending_card_payment",
+     "pending_card_payment",
+     "pending_card_payment"
+    ],
+    "b77test-02722": [
+     "lost_or_stolen_card",
+     "lost_or_stolen_card",
+     "lost_or_stolen_card"
+    ],
+    "b77test-02122": [
+     "change_pin",
+     "change_pin",
+     "change_pin"
+    ],
+    "b77test-02661": [
+     "top_up_failed",
+     "top_up_failed",
+     "top_up_failed"
+    ],
+    "b77test-01334": [
+     "receiving_money",
+     "receiving_money",
+     "receiving_money"
+    ],
+    "b77test-00730": [
+     "top_up_limits",
+     "top_up_limits",
+     "top_up_limits"
+    ],
+    "b77test-01197": [
+     "why_verify_identity",
+     "why_verify_identity",
+     "why_verify_identity"
+    ]
+   },
+   "rows_unstable": 1
+  },
+  "ultra-think": {
+   "rung": "ultra-think",
+   "label": "Nemotron 3 Ultra 550B (thinking on)",
+   "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+   "thinking": true,
+   "max_tokens": 4168,
+   "repeat_scores": [
+    0.72,
+    0.7133,
+    0.7333
+   ],
+   "mean": 0.7222,
+   "spread": 0.02,
+   "sd": 0.0102,
+   "cost_usd": 0.593688,
+   "cost_per_1k_usd": 1.3193,
+   "p50_ms": 1783.0,
+   "mean_out_tokens": 260.7,
+   "truncated": 3,
+   "errors": 0,
+   "graded_by": [
+    "sandbox"
+   ],
+   "per_row": {
+    "b77test-00698": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01264": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00355": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02998": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02718": [
+     1.0,
+     1.0,
+     0.0
+    ],
+    "b77test-01523": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02034": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01957": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-03006": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00163": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00006": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00397": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01335": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01234": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02215": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00502": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00641": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00183": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02706": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01129": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01230": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00600": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00837": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02867": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01301": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02182": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00489": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02974": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02551": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00865": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00544": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00792": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02708": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-03002": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01528": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00574": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00165": [
+     0.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02358": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00166": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02667": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00144": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01136": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01030": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02516": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00112": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00192": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02397": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02338": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02102": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00440": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00577": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00904": [
+     0.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02336": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "b77test-00902": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "b77test-01953": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00124": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00335": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02080": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01443": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00712": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02457": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02712": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01375": [
+     1.0,
+     0.0,
+     1.0
+    ],
+    "b77test-00340": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02911": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02013": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00301": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02246": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00835": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00109": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01500": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00175": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00262": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01657": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01425": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02658": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02804": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01736": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01415": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00404": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02835": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01071": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00710": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-03073": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01646": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02432": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02678": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01753": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01882": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01956": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00870": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01208": [
+     1.0,
+     0.0,
+     1.0
+    ],
+    "b77test-00055": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01707": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00288": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00778": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01873": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02879": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02914": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00394": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00014": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00665": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02147": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01712": [
+     1.0,
+     1.0,
+     0.0
+    ],
+    "b77test-01215": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02829": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01172": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01630": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02159": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01784": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02483": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02476": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02498": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00775": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01225": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00912": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02016": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00813": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02330": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01282": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00199": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00521": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01984": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01148": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01128": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02741": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02775": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02780": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01471": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02454": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00070": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02950": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01022": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01284": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00657": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02249": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00229": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00491": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01078": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00618": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-01517": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02361": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02857": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-00718": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "b77test-02722": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-02122": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-02661": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01334": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "b77test-00730": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "b77test-01197": [
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "per_row_outputs": {
+    "b77test-00698": [
+     "cancel_transfer",
+     "cancel_transfer",
+     "cancel_transfer"
+    ],
+    "b77test-01264": [
+     "passcode_forgotten",
+     "passcode_forgotten",
+     "passcode_forgotten"
+    ],
+    "b77test-00355": [
+     "automatic_top_up",
+     "automatic_top_up",
+     "automatic_top_up"
+    ],
+    "b77test-02998": [
+     "apple_pay_or_google_pay",
+     "apple_pay_or_google_pay",
+     "apple_pay_or_google_pay"
+    ],
+    "b77test-02718": [
+     "balance_not_updated_after_bank_transfer",
+     "balance_not_updated_after_bank_transfer",
+     "pending_transfer"
+    ],
+    "b77test-01523": [
+     "passcode_forgotten",
+     "passcode_forgotten",
+     "passcode_forgotten"
+    ],
+    "b77test-02034": [
+     "verify_source_of_funds",
+     "verify_source_of_funds",
+     "verify_source_of_funds"
+    ],
+    "b77test-01957": [
+     "card_swallowed",
+     "card_swallowed",
+     "card_swallowed"
+    ],
+    "b77test-03006": [
+     "verify_my_identity",
+     "verify_my_identity",
+     "verify_my_identity"
+    ],
+    "b77test-00163": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-00006": [
+     "card_delivery_estimate",
+     "card_delivery_estimate",
+     "card_delivery_estimate"
+    ],
+    "b77test-00397": [
+     "card_not_working",
+     "card_not_working",
+     "card_not_working"
+    ],
+    "b77test-01335": [
+     "topping_up_by_card",
+     "topping_up_by_card",
+     "topping_up_by_card"
+    ],
+    "b77test-01234": [
+     "unable_to_verify_identity",
+     "unable_to_verify_identity",
+     "unable_to_verify_identity"
+    ],
+    "b77test-02215": [
+     "card_payment_fee_charged",
+     "card_payment_fee_charged",
+     "card_payment_fee_charged"
+    ],
+    "b77test-00502": [
+     "age_limit",
+     "age_limit",
+     "age_limit"
+    ],
+    "b77test-00641": [
+     "pending_top_up",
+     "pending_top_up",
+     "pending_top_up"
+    ],
+    "b77test-00183": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-02706": [
+     "pending_transfer",
+     "pending_transfer",
+     "pending_transfer"
+    ],
+    "b77test-01129": [
+     "edit_personal_details",
+     "edit_personal_details",
+     "edit_personal_details"
+    ],
+    "b77test-01230": [
+     "verify_my_identity",
+     "verify_my_identity",
+     "verify_my_identity"
+    ],
+    "b77test-00600": [
+     "transfer_fee_charged",
+     "transfer_fee_charged",
+     "transfer_fee_charged"
+    ],
+    "b77test-00837": [
+     "card_payment_fee_charged",
+     "card_payment_fee_charged",
+     "card_payment_fee_charged"
+    ],
+    "b77test-02867": [
+     "activate_my_card",
+     "activate_my_card",
+     "activate_my_card"
+    ],
+    "b77test-01301": [
+     "visa_or_mastercard",
+     "visa_or_mastercard",
+     "visa_or_mastercard"
+    ],
+    "b77test-02182": [
+     "declined_transfer",
+     "declined_transfer",
+     "declined_transfer"
+    ],
+    "b77test-00489": [
+     "age_limit",
+     "age_limit",
+     "age_limit"
+    ],
+    "b77test-02974": [
+     "supported_cards_and_currencies",
+     "supported_cards_and_currencies",
+     "supported_cards_and_currencies"
+    ],
+    "b77test-02551": [
+     "declined_card_payment",
+     "declined_card_payment",
+     "declined_card_payment"
+    ],
+    "b77test-00865": [
+     "transfer_not_received_by_recipient",
+     "transfer_not_received_by_recipient",
+     "transfer_not_received_by_recipient"
+    ],
+    "b77test-00544": [
+     "pin_blocked",
+     "pin_blocked",
+     "pin_blocked"
+    ],
+    "b77test-00792": [
+     "wrong_amount_of_cash_received",
+     "wrong_amount_of_cash_received",
+     "wrong_amount_of_cash_received"
+    ],
+    "b77test-02708": [
+     "transfer_timing",
+     "transfer_timing",
+     "transfer_timing"
+    ],
+    "b77test-03002": [
+     "verify_my_identity",
+     "verify_my_identity",
+     "verify_my_identity"
+    ],
+    "b77test-01528": [
+     "passcode_forgotten",
+     "passcode_forgotten",
+     "passcode_forgotten"
+    ],
+    "b77test-00574": [
+     "contactless_not_working",
+     "contactless_not_working",
+     "contactless_not_working"
+    ],
+    "b77test-00165": [
+     "request_refund",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-02358": [
+     "transfer_into_account",
+     "transfer_into_account",
+     "transfer_into_account"
+    ],
+    "b77test-00166": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-02667": [
+     "top_up_failed",
+     "top_up_failed",
+     "top_up_failed"
+    ],
+    "b77test-00144": [
+     "card_payment_wrong_exchange_rate",
+     "card_payment_wrong_exchange_rate",
+     "card_payment_wrong_exchange_rate"
+    ],
+    "b77test-01136": [
+     "edit_personal_details",
+     "edit_personal_details",
+     "edit_personal_details"
+    ],
+    "b77test-01030": [
+     "top_up_reverted",
+     "top_up_reverted",
+     "top_up_reverted"
+    ],
+    "b77test-02516": [
+     "get_physical_card",
+     "get_physical_card",
+     "get_physical_card"
+    ],
+    "b77test-00112": [
+     "exchange_rate",
+     "exchange_rate",
+     "exchange_rate"
+    ],
+    "b77test-00192": [
+     "pending_card_payment",
+     "pending_card_payment",
+     "pending_card_payment"
+    ],
+    "b77test-02397": [
+     "verify_top_up",
+     "verify_top_up",
+     "verify_top_up"
+    ],
+    "b77test-02338": [
+     "topping_up_by_card",
+     "topping_up_by_card",
+     "topping_up_by_card"
+    ],
+    "b77test-02102": [
+     "card_not_working",
+     "card_not_working",
+     "card_not_working"
+    ],
+    "b77test-00440": [
+     "lost_or_stolen_card",
+     "lost_or_stolen_card",
+     "lost_or_stolen_card"
+    ],
+    "b77test-00577": [
+     "contactless_not_working",
+     "contactless_not_working",
+     "contactless_not_working"
+    ],
+    "b77test-00904": [
+     "card_acceptance",
+     "supported_cards_and_currencies",
+     "supported_cards_and_currencies"
+    ],
+    "b77test-02336": [
+     "top_up_by_bank_transfer_charge",
+     "top_up_by_bank_transfer_charge",
+     "transfer_into_account"
+    ],
+    "b77test-00902": [
+     "card_acceptance",
+     "card_acceptance",
+     "supported_cards_and_currencies"
+    ],
+    "b77test-01953": [
+     "card_swallowed",
+     "card_swallowed",
+     "card_swallowed"
+    ],
+    "b77test-00124": [
+     "card_payment_wrong_exchange_rate",
+     "card_payment_wrong_exchange_rate",
+     "card_payment_wrong_exchange_rate"
+    ],
+    "b77test-00335": [
+     "automatic_top_up",
+     "automatic_top_up",
+     "automatic_top_up"
+    ],
+    "b77test-02080": [
+     "declined_card_payment",
+     "declined_card_payment",
+     "declined_card_payment"
+    ],
+    "b77test-01443": [
+     "atm_support",
+     "atm_support",
+     "atm_support"
+    ],
+    "b77test-00712": [
+     "cancel_transfer",
+     "cancel_transfer",
+     "cancel_transfer"
+    ],
+    "b77test-02457": [
+     "top_up_by_cash_or_cheque",
+     "top_up_by_cash_or_cheque",
+     "top_up_by_cash_or_cheque"
+    ],
+    "b77test-02712": [
+     "pending_transfer",
+     "pending_transfer",
+     "pending_transfer"
+    ],
+    "b77test-01375": [
+     "disposable_card_limits",
+     "",
+     "disposable_card_limits"
+    ],
+    "b77test-00340": [
+     "automatic_top_up",
+     "automatic_top_up",
+     "automatic_top_up"
+    ],
+    "b77test-02911": [
+     "cash_withdrawal_charge",
+     "cash_withdrawal_charge",
+     "cash_withdrawal_charge"
+    ],
+    "b77test-02013": [
+     "verify_source_of_funds",
+     "verify_source_of_funds",
+     "verify_source_of_funds"
+    ],
+    "b77test-00301": [
+     "card_delivery_estimate",
+     "card_delivery_estimate",
+     "card_delivery_estimate"
+    ],
+    "b77test-02246": [
+     "fiat_currency_support",
+     "fiat_currency_support",
+     "fiat_currency_support"
+    ],
+    "b77test-00835": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-00109": [
+     "exchange_rate",
+     "exchange_rate",
+     "exchange_rate"
+    ],
+    "b77test-01500": [
+     "direct_debit_payment_not_recognised",
+     "direct_debit_payment_not_recognised",
+     "direct_debit_payment_not_recognised"
+    ],
+    "b77test-00175": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-00262": [
+     "fiat_currency_support",
+     "fiat_currency_support",
+     "fiat_currency_support"
+    ],
+    "b77test-01657": [
+     "terminate_account",
+     "terminate_account",
+     "terminate_account"
+    ],
+    "b77test-01425": [
+     "terminate_account",
+     "terminate_account",
+     "terminate_account"
+    ],
+    "b77test-02658": [
+     "top_up_failed",
+     "top_up_failed",
+     "top_up_failed"
+    ],
+    "b77test-02804": [
+     "top_up_by_card_charge",
+     "top_up_by_card_charge",
+     "top_up_by_card_charge"
+    ],
+    "b77test-01736": [
+     "declined_transfer",
+     "failed_transfer",
+     "failed_transfer"
+    ],
+    "b77test-01415": [
+     "compromised_card",
+     "compromised_card",
+     "compromised_card"
+    ],
+    "b77test-00404": [
+     "exchange_via_app",
+     "exchange_via_app",
+     "exchange_via_app"
+    ],
+    "b77test-02835": [
+     "supported_cards_and_currencies",
+     "supported_cards_and_currencies",
+     "supported_cards_and_currencies"
+    ],
+    "b77test-01071": [
+     "balance_not_updated_after_cheque_or_cash_deposit",
+     "balance_not_updated_after_cheque_or_cash_deposit",
+     "balance_not_updated_after_cheque_or_cash_deposit"
+    ],
+    "b77test-00710": [
+     "cancel_transfer",
+     "cancel_transfer",
+     "cancel_transfer"
+    ],
+    "b77test-03073": [
+     "country_support",
+     "country_support",
+     "country_support"
+    ],
+    "b77test-01646": [
+     "lost_or_stolen_phone",
+     "lost_or_stolen_phone",
+     "lost_or_stolen_phone"
+    ],
+    "b77test-02432": [
+     "order_physical_card",
+     "order_physical_card",
+     "order_physical_card"
+    ],
+    "b77test-02678": [
+     "top_up_failed",
+     "top_up_failed",
+     "top_up_failed"
+    ],
+    "b77test-01753": [
+     "declined_transfer",
+     "declined_transfer",
+     "declined_transfer"
+    ],
+    "b77test-01882": [
+     "terminate_account",
+     "terminate_account",
+     "terminate_account"
+    ],
+    "b77test-01956": [
+     "card_swallowed",
+     "card_swallowed",
+     "card_swallowed"
+    ],
+    "b77test-00870": [
+     "transfer_not_received_by_recipient",
+     "transfer_not_received_by_recipient",
+     "transfer_not_received_by_recipient"
+    ],
+    "b77test-01208": [
+     "unable_to_verify_identity",
+     "verify_my_identity",
+     "unable_to_verify_identity"
+    ],
+    "b77test-00055": [
+     "lost_or_stolen_card",
+     "lost_or_stolen_card",
+     "lost_or_stolen_card"
+    ],
+    "b77test-01707": [
+     "request_refund",
+     "request_refund",
+     "request_refund"
+    ],
+    "b77test-00288": [
+     "card_delivery_estimate",
+     "card_delivery_estimate",
+     "card_delivery_estimate"
+    ],
+    "b77test-00778": [
+     "wrong_amount_of_cash_received",
+     "wrong_amount_of_cash_received",
+     "wrong_amount_of_cash_received"
+    ],
+    "b77test-01873": [
+     "pending_transfer",
+     "pending_transfer",
+     "pending_transfer"
+    ],
+    "b77test-02879": [
+     "activate_my_card",
+     "activate_my_card",
+     "activate_my_card"
+    ],
+    "b77test-02914": [
+     "cash_withdrawal_charge",
+     "cash_withdrawal_charge",
+     "cash_withdrawal_charge"
+    ],
+    "b77test-00394": [
+     "card_not_working",
+     "card_not_working",
+     "card_not_working"
+    ],
+    "b77test-00014": [
+     "card_delivery_estimate",
+     "card_delivery_estimate",
+     "card_delivery_estimate"
+    ],
+    "b77test-00665": [
+     "pending_top_up",
+     "pending_top_up",
+     "pending_top_up"
+    ],
+    "b77test-02147": [
+     "change_pin",
+     "change_pin",
+     "change_pin"
+    ],
+    "b77test-01712": [
+     "request_refund",
+     "request_refund",
+     "card_arrival"
+    ],
+    "b77test-01215": [
+     "passcode_forgotten",
+     "passcode_forgotten",
+     "passcode_forgotten"
+    ],
+    "b77test-02829": [
+     "topping_up_by_card",
+     "topping_up_by_card",
+     "topping_up_by_card"
+    ],
+    "b77test-01172": [
+     "why_verify_identity",
+     "why_verify_identity",
+     "why_verify_identity"
+    ],
+    "b77test-01630": [
+     "pending_card_payment",
+     "pending_card_payment",
+     "pending_card_payment"
+    ],
+    "b77test-02159": [
+     "change_pin",
+     "change_pin",
+     "change_pin"
+    ],
+    "b77test-01784": [
+     "Refund_not_showing_up",
+     "Refund_not_showing_up",
+     "Refund_not_showing_up"
+    ],
+    "b77test-02483": [
+     "get_physical_card",
+     "get_physical_card",
+     "get_physical_card"
+    ],
+    "b77test-02476": [
+     "top_up_by_cash_or_cheque",
+     "top_up_by_cash_or_cheque",
+     "top_up_by_cash_or_cheque"
+    ],
+    "b77test-02498": [
+     "get_physical_card",
+     "get_physical_card",
+     "get_physical_card"
+    ],
+    "b77test-00775": [
+     "declined_cash_withdrawal",
+     "declined_cash_withdrawal",
+     "declined_cash_withdrawal"
+    ],
+    "b77test-01225": [
+     "verify_my_identity",
+     "verify_my_identity",
+     "verify_my_identity"
+    ],
+    "b77test-00912": [
+     "fiat_currency_support",
+     "fiat_currency_support",
+     "fiat_currency_support"
+    ],
+    "b77test-02016": [
+     "verify_source_of_funds",
+     "verify_source_of_funds",
+     "verify_source_of_funds"
+    ],
+    "b77test-00813": [
+     "card_payment_fee_charged",
+     "card_payment_fee_charged",
+     "card_payment_fee_charged"
+    ],
+    "b77test-02330": [
+     "transfer_into_account",
+     "transfer_into_account",
+     "transfer_into_account"
+    ],
+    "b77test-01282": [
+     "visa_or_mastercard",
+     "visa_or_mastercard",
+     "visa_or_mastercard"
+    ],
+    "b77test-00199": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-00521": [
+     "",
+     "passcode_forgotten",
+     "passcode_forgotten"
+    ],
+    "b77test-01984": [
+     "transaction_charged_twice",
+     "transaction_charged_twice",
+     "transaction_charged_twice"
+    ],
+    "b77test-01148": [
+     "edit_personal_details",
+     "edit_personal_details",
+     "edit_personal_details"
+    ],
+    "b77test-01128": [
+     "edit_personal_details",
+     "edit_personal_details",
+     "edit_personal_details"
+    ],
+    "b77test-02741": [
+     "pending_cash_withdrawal",
+     "pending_cash_withdrawal",
+     "pending_cash_withdrawal"
+    ],
+    "b77test-02775": [
+     "exchange_charge",
+     "exchange_charge",
+     "exchange_charge"
+    ],
+    "b77test-02780": [
+     "exchange_charge",
+     "exchange_charge",
+     "exchange_charge"
+    ],
+    "b77test-01471": [
+     "atm_support",
+     "atm_support",
+     "atm_support"
+    ],
+    "b77test-02454": [
+     "top_up_by_cash_or_cheque",
+     "top_up_by_cash_or_cheque",
+     "top_up_by_cash_or_cheque"
+    ],
+    "b77test-00070": [
+     "card_linking",
+     "card_linking",
+     "card_linking"
+    ],
+    "b77test-02950": [
+     "card_about_to_expire",
+     "card_about_to_expire",
+     "card_about_to_expire"
+    ],
+    "b77test-01022": [
+     "top_up_reverted",
+     "top_up_reverted",
+     "top_up_reverted"
+    ],
+    "b77test-01284": [
+     "visa_or_mastercard",
+     "visa_or_mastercard",
+     "visa_or_mastercard"
+    ],
+    "b77test-00657": [
+     "pending_top_up",
+     "pending_top_up",
+     "pending_top_up"
+    ],
+    "b77test-02249": [
+     "receiving_money",
+     "receiving_money",
+     "receiving_money"
+    ],
+    "b77test-00229": [
+     "pending_cash_withdrawal",
+     "pending_cash_withdrawal",
+     "pending_cash_withdrawal"
+    ],
+    "b77test-00491": [
+     "age_limit",
+     "age_limit",
+     "age_limit"
+    ],
+    "b77test-01078": [
+     "balance_not_updated_after_cheque_or_cash_deposit",
+     "balance_not_updated_after_cheque_or_cash_deposit",
+     "balance_not_updated_after_cheque_or_cash_deposit"
+    ],
+    "b77test-00618": [
+     "top_up_by_card_charge",
+     "top_up_by_card_charge",
+     "top_up_by_card_charge"
+    ],
+    "b77test-01517": [
+     "extra_charge_on_statement",
+     "extra_charge_on_statement",
+     "extra_charge_on_statement"
+    ],
+    "b77test-02361": [
+     "verify_top_up",
+     "verify_top_up",
+     "verify_top_up"
+    ],
+    "b77test-02857": [
+     "activate_my_card",
+     "activate_my_card",
+     "activate_my_card"
+    ],
+    "b77test-00718": [
+     "request_refund",
+     "",
+     "cancel_transfer"
+    ],
+    "b77test-02722": [
+     "lost_or_stolen_card",
+     "lost_or_stolen_card",
+     "lost_or_stolen_card"
+    ],
+    "b77test-02122": [
+     "change_pin",
+     "change_pin",
+     "change_pin"
+    ],
+    "b77test-02661": [
+     "top_up_failed",
+     "top_up_failed",
+     "top_up_failed"
+    ],
+    "b77test-01334": [
+     "receiving_money",
+     "receiving_money",
+     "receiving_money"
+    ],
+    "b77test-00730": [
+     "top_up_limits",
+     "top_up_limits",
+     "top_up_limits"
+    ],
+    "b77test-01197": [
+     "why_verify_identity",
+     "why_verify_identity",
+     "why_verify_identity"
+    ]
+   },
+   "rows_unstable": 10
+  }
+ },
+ "validation": {
+  "rung": "ultra",
+  "n": 40,
+  "score": 0.725,
+  "cost_usd": 0.022111
+ },
+ "total_cost_usd": 0.865225,
+ "wall_s": 180.7
+}

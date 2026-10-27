@@ -66,16 +66,20 @@ class FakeLLM:
 
     def __init__(self, task, skill=None, rules_fix=("lightning", "nano", "super"), checkers=None, cap=10.0,
                  proposal_system="QUEUE RULES: billing=charges, shipping=delivery, technical=bugs, "
-                                 "account=profile, refund=money back."):
+                                 "account=profile, refund=money back.", proposals=None, fewshot_ids=("t5", "t6")):
         self.meter = Meter(cap_usd=cap)
         self.answers = {}
-        for r in task["train"] + task["holdout"]:
+        for r in task["train"] + task.get("validation", []) + task["holdout"]:
             self.answers[r["input"]] = r["reference"]
         self.skill = skill or {"lightning": 0.5, "nano": 0.6, "super": 0.9, "ultra": 1.0}
         self.rules_fix = set(rules_fix)
         self.checkers = list(checkers or [GOOD_CHECKER])
         self.proposal_system = proposal_system
+        self.proposals = proposals  # optional full list of candidate dicts
+        self.fewshot_ids = list(fewshot_ids)
+        self.memorised = set()
         self.calls = []
+        self.prompts = []  # every user prompt sent with purpose propose_prompts
 
     async def chat(self, model, messages, max_tokens=512, temperature=0.0, purpose="", thinking=False):
         self.meter.check()
@@ -87,8 +91,9 @@ class FakeLLM:
             code = self.checkers.pop(0) if len(self.checkers) > 1 else self.checkers[0]
             text = f"```python\n{code}\n```"
         elif purpose == "propose_prompts":
-            text = json.dumps({"candidates": [
-                {"system": self.proposal_system, "fewshot_ids": ["t1", "t2"], "note": "rules + examples"},
+            self.prompts.append(messages[-1]["content"])
+            text = json.dumps({"candidates": self.proposals or [
+                {"system": self.proposal_system, "fewshot_ids": self.fewshot_ids, "note": "rules + examples"},
                 {"system": "Route it. Be careful.", "fewshot_ids": [], "note": "shorter"},
             ]})
         else:
@@ -96,7 +101,11 @@ class FakeLLM:
             user = messages[-1]["content"]
             right = self.answers.get(user, "billing")
             ok = tier in self.rules_fix and "QUEUE RULES" in system
-            if not ok:
+            if "MEMORISED" in system:  # right only on the inputs it was written for
+                ok = user in self.memorised
+            elif "GENERAL" in system:
+                ok = user not in self.memorised or (sum(map(ord, user)) % 2 == 0)
+            elif not ok:
                 # deterministic: item is right if its hash bucket falls under the skill level
                 bucket = (sum(map(ord, user)) % 100) / 100
                 ok = bucket < self.skill.get(rung_key, self.skill[tier])

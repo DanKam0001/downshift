@@ -1,5 +1,10 @@
 # Plain-prompt baseline (2026-10-27)
 
+> **Superseded split.** These numbers were measured on the first version of the presets (30 tuning / 40 held-out
+> rows, single runs). The presets have since been rebuilt with 60 / 40 / 150 rows (see `README.md`), and Ultra's
+> reference is now measured 3 times per thinking mode on the full holdout (`*/reference.json`). Current numbers are
+> in `../RESULTS.md`. This file is kept for the per-call cost and latency observations, which still hold.
+
 Each preset's 40-row holdout, run once per model on Nebius Token Factory. Prompt = one user message,
 `task.instruction + "\n\nInput:\n" + input`; temperature 0; `max_tokens` 8000; scored with the preset's `checker.py`.
 Prices from `GET /v1/models?verbose=true`: Lightning $0.06 / $0.24 per 1M input/output tokens, Ultra $1 / $3.

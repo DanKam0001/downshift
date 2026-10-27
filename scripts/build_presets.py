@@ -7,8 +7,12 @@ Every preset is built from a permissively licensed public dataset (all CC-BY-4.0
   receipt-extract   CORD v2 (NAVER Clova)               messy receipt OCR text -> JSON fields
   contract-clauses  CUAD v1 (The Atticus Project)       contract clause -> one of 32 clause types
 
-Sampling is reproducible (fixed SEED); train and holdout never share an example (and, for CUAD, never share a
-contract). Inputs are capped at MAX_CHARS characters. Stdlib + requests only.
+Each preset has three splits that never share an example (and, for CUAD, never share a contract):
+  train.jsonl       tuning rows: the optimiser sees these (failures to fix, few-shot examples)
+  validation.jsonl  used only to choose between prompt candidates; never shown to the optimiser
+  holdout.jsonl     scored once, for the final number
+
+Sampling is reproducible (fixed SEED). Inputs are capped at MAX_CHARS characters. Stdlib + requests only.
 """
 from __future__ import annotations
 
@@ -26,8 +30,9 @@ ROOT = Path(__file__).resolve().parent.parent
 PRESETS = ROOT / "presets"
 CACHE = PRESETS / "_cache"
 SEED = 20261027
-N_TRAIN = 30
-N_HOLDOUT = 40
+N_TRAIN = 60       # tuning rows
+N_VALIDATION = 40  # prompt-selection rows
+N_HOLDOUT = 150    # final-score rows (CORD's test split has fewer usable receipts, so receipt-extract has fewer)
 MAX_CHARS = 1500
 
 
@@ -46,26 +51,29 @@ def write_jsonl(path: Path, rows: list[dict]) -> None:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
 
-def write_task(slug: str, task: dict, train: list[dict], holdout: list[dict], checker_src: str) -> None:
+def write_task(slug: str, task: dict, train: list[dict], validation: list[dict], holdout: list[dict],
+               checker_src: str) -> None:
     d = PRESETS / slug
     d.mkdir(parents=True, exist_ok=True)
-    ids_t = {r["id"] for r in train}
-    ids_h = {r["id"] for r in holdout}
-    assert not ids_t & ids_h, "train/holdout overlap"
-    assert not {r["input"] for r in train} & {r["input"] for r in holdout}, "duplicate input across splits"
-    assert all(len(r["input"]) <= MAX_CHARS for r in train + holdout)
-    task = {**task, "slug": slug, "n_train": len(train), "n_holdout": len(holdout)}
+    splits = {"train": train, "validation": validation, "holdout": holdout}
+    names = list(splits)
+    for i, a in enumerate(names):
+        for b in names[i + 1:]:
+            assert not {r["id"] for r in splits[a]} & {r["id"] for r in splits[b]}, f"{a}/{b} id overlap"
+            assert not {r["input"] for r in splits[a]} & {r["input"] for r in splits[b]}, f"{a}/{b} duplicate input"
+    assert all(len(r["input"]) <= MAX_CHARS for r in train + validation + holdout)
+    task = {**task, "slug": slug, "n_train": len(train), "n_validation": len(validation), "n_holdout": len(holdout)}
     (d / "task.json").write_text(json.dumps(task, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    write_jsonl(d / "train.jsonl", train)
-    write_jsonl(d / "holdout.jsonl", holdout)
+    for name, rows in splits.items():
+        write_jsonl(d / f"{name}.jsonl", rows)
     (d / "checker.py").write_text(checker_src, encoding="utf-8", newline="\n")
     # Self-test: every reference must score 1.0 against itself.
     ns: dict = {}
     exec(compile(checker_src, str(d / "checker.py"), "exec"), ns)
-    for r in train + holdout:
+    for r in train + validation + holdout:
         s, why = ns["check"](r["reference"], r["reference"], r["input"])
         assert s == 1.0, (slug, r["id"], why)
-    print(f"{slug}: {len(train)} train, {len(holdout)} holdout")
+    print(f"{slug}: {len(train)} tuning, {len(validation)} validation, {len(holdout)} holdout")
 
 
 # --------------------------------------------------------------------------------------------- label checker
@@ -158,7 +166,8 @@ def build_banking() -> None:
         return out
 
     holdout = sample(test_src, N_HOLDOUT, "b77test")
-    train = sample(train_src, N_TRAIN, "b77train")
+    pool = sample(train_src, N_TRAIN + N_VALIDATION, "b77train")
+    train, validation = pool[:N_TRAIN], pool[N_TRAIN:]
     task = {
         "title": "Support ticket triage (77 banking intents)",
         "business_story": (
@@ -176,9 +185,10 @@ def build_banking() -> None:
         "source_url": "https://github.com/PolyAI-LDN/task-specific-datasets (Banking77; also huggingface.co/datasets/PolyAI/banking77)",
         "license": "CC-BY-4.0",
         "attribution": "Casanueva et al., 'Efficient Intent Detection with Dual Sentence Encoders', NLP4ConvAI 2020. PolyAI.",
-        "split_note": "holdout sampled from the official test split, train from the official train split",
+        "split_note": ("holdout sampled from the official test split; tuning and validation rows sampled from the "
+                       "official train split"),
     }
-    write_task("support-triage", task, train, holdout, label_checker(labels))
+    write_task("support-triage", task, train, validation, holdout, label_checker(labels))
 
 
 # --------------------------------------------------------------------------------------------- 2. CORD receipts
@@ -380,10 +390,12 @@ def build_receipts() -> None:
     train_pool = prepare(load("validation", [0]), "cordval")
     rng.shuffle(holdout_pool)
     rng.shuffle(train_pool)
-    holdout = holdout_pool[:N_HOLDOUT]
-    # CORD's validation and test splits share a few identical receipts; never let one leak into train.
+    holdout = holdout_pool[:N_HOLDOUT]  # every usable receipt in CORD's test split (fewer than N_HOLDOUT)
+    # CORD's validation and test splits share a few identical receipts; never let one leak into tuning rows.
     seen = {r["input"] for r in holdout_pool}
-    train = [r for r in train_pool if r["input"] not in seen][:N_TRAIN]
+    pool = [r for r in train_pool if r["input"] not in seen]
+    validation = pool[:N_VALIDATION]
+    train = pool[N_VALIDATION:N_VALIDATION + N_TRAIN]
     schema = {
         "type": "object",
         "properties": {
@@ -418,11 +430,12 @@ def build_receipts() -> None:
         "attribution": "Park et al., 'CORD: A Consolidated Receipt Dataset for Post-OCR Parsing', 2019. NAVER Clova.",
         "split_note": (
             "input is the dataset's own OCR words regrouped into lines by row_id; reference built from gt_parse. "
-            "Receipts with ambiguous amounts, an item without a line total, or nested multi-value fields were dropped. Holdout from the test split, "
-            "train from the validation split (the rows API does not serve the train split)."
+            "Receipts with ambiguous amounts, an item without a line total, or nested multi-value fields were dropped. Holdout is "
+            "every usable receipt in the test split; tuning and validation rows come from the validation split (the rows API "
+            "does not serve the train split)."
         ),
     }
-    write_task("receipt-extract", task, train, holdout,
+    write_task("receipt-extract", task, train, validation, holdout,
                RECEIPT_CHECKER.replace("__FIELDS__", json.dumps(RECEIPT_FIELDS)))
 
 
@@ -492,7 +505,9 @@ def build_contracts() -> None:
     rng = random.Random(SEED)
     rng.shuffle(per_doc)
     half = len(per_doc) // 2
-    holdout_docs, train_docs = per_doc[:half], per_doc[half:]
+    holdout_docs, rest = per_doc[:half], per_doc[half:]
+    third = len(rest) // 3
+    validation_docs, train_docs = rest[:third], rest[third:]
 
     def stratified(docs: list, n: int, prefix: str) -> list[dict]:
         by_label: dict[str, list] = {}
@@ -503,7 +518,7 @@ def build_contracts() -> None:
         for lst in by_label.values():
             rng.shuffle(lst)
         out, labels = [], sorted(by_label)
-        while len(out) < n:
+        while len(out) < n and any(by_label.values()):
             for l in labels:
                 if by_label[l] and len(out) < n:
                     out.append(by_label[l].pop())
@@ -511,6 +526,7 @@ def build_contracts() -> None:
         return out
 
     holdout = stratified(holdout_docs, N_HOLDOUT, "cuadH")
+    validation = stratified(validation_docs, N_VALIDATION, "cuadV")
     train = stratified(train_docs, N_TRAIN, "cuadT")
     labels = list(CUAD_CATEGORIES.values())
     task = {
@@ -532,10 +548,11 @@ def build_contracts() -> None:
         "attribution": "Hendrycks et al., 'CUAD: An Expert-Annotated NLP Dataset for Legal Contract Review', NeurIPS 2021. The Atticus Project.",
         "split_note": (
             "inputs are expert-annotated clause spans from CUAD v1 that only one CUAD category covers; split by "
-            "contract (no contract appears in both train and holdout); stratified across the 32 labels."
+            "contract (half the contracts for holdout, a third of the rest for validation, the remainder for tuning; "
+            "no contract appears in two splits); each split stratified across the 32 labels."
         ),
     }
-    write_task("contract-clauses", task, train, holdout, label_checker(labels))
+    write_task("contract-clauses", task, train, validation, holdout, label_checker(labels))
 
 
 if __name__ == "__main__":

@@ -34,7 +34,11 @@ def test_downshift_to_lightning(task, grader):
     assert v["kind"] == "downshift"
     assert v["model"] == "nvidia/Nemotron-3_5-Lightning"
     assert "QUEUE RULES" in v["system_prompt"]
-    assert v["holdout_score"] >= v["bar"]
+    assert v["diff_vs_reference"]["lo"] > -v["tolerance"]
+    assert "matches Ultra within 3 points (95% CI" in v["sentence"] and "better than" not in v["sentence"]
+    assert v["holdout_ci"]["lo"] <= v["holdout_score"] <= v["holdout_ci"]["hi"]
+    assert set(v["overfit"]) == {"tuning_score", "validation_score", "holdout_score"}
+    assert v["reference"]["source"] == "live" and v["reference"]["repeats"] == 1  # the fixture has no cache
     assert v["savings_multiple"] and v["savings_multiple"] > 1
     assert "MODEL = 'nvidia/Nemotron-3_5-Lightning'" in v["snippet"]
     compile(v["snippet"], "snippet", "exec")
@@ -55,10 +59,49 @@ def test_downshift_to_lightning(task, grader):
 def test_fewshot_rows_not_scored_on_train(task, grader):
     llm = FakeLLM(task)
     events = collect(run_downshift(task, llm=llm, grader=grader))
+    n_train = _by_type(events, "started")[0]["n_train"]
     cand = [c for r in _by_type(events, "round") for c in r["candidates"] if c["fewshot_ids"]]
     assert cand
     for e in cand:
-        assert e["n"] == len(task["train"]) - len(e["fewshot_ids"])
+        assert e["n"] == n_train - len(e["fewshot_ids"])
+
+
+def _three_splits(task):
+    t = dict(task)
+    t["validation"], t["train"] = task["train"][:4], task["train"][4:]
+    return t
+
+
+def test_validation_rows_never_reach_the_optimiser(task, grader):
+    t = _three_splits(task)
+    val_ids = [r["id"] for r in t["validation"]]
+    llm = FakeLLM(t, fewshot_ids=(val_ids[0], "t7"), skill={"lightning": 0.0, "nano": 0.0, "super": 0.0, "ultra": 1.0})
+    events = collect(run_downshift(t, llm=llm, grader=grader))
+    assert llm.prompts
+    for prompt in llm.prompts:
+        assert not any(r["input"][:60] in prompt for r in t["validation"] + t["holdout"])
+    shots = {i for r in _by_type(events, "round") for c in r["candidates"] for i in c["fewshot_ids"]}
+    assert shots and not shots & set(val_ids)  # a validation id proposed as a few-shot example is dropped
+
+
+def test_winner_is_picked_on_validation_not_tuning(task, grader):
+    t = _three_splits(task)
+    llm = FakeLLM(t, rules_fix=(), skill={"lightning": 0.0, "nano": 0.0, "super": 0.0, "ultra": 1.0},
+                  proposals=[{"system": "MEMORISED answers", "fewshot_ids": [], "note": "overfits"},
+                             {"system": "GENERAL rules", "fewshot_ids": [], "note": "general"}])
+    llm.memorised = {r["input"] for r in t["train"]}
+    events = collect(run_downshift(t, options={"rounds": 1, "thinking_rungs": False}, llm=llm, grader=grader))
+    rnd = _by_type(events, "round")[0]
+    by_label = {c["label"]: c for c in rnd["candidates"]}
+    assert by_label["r1c1"]["score"] > by_label["r1c2"]["score"]  # MEMORISED wins on tuning rows...
+    assert by_label["r1c2"]["val"] > by_label["r1c1"]["val"]      # ...GENERAL wins on validation rows
+    assert rnd["best_label"] == "r1c2"
+    done = _by_type(events, "tier_done")[0]
+    assert done["prompt_label"] == "r1c2"
+    assert done["tuning_score"] is not None and done["validation_score"] is not None
+    # The held-out split is scored once per rung: one prompt only.
+    ho = [e for e in _by_type(events, "eval") if e["split"] == "holdout" and e["tier_key"] == "lightning"]
+    assert len(ho) == 1
 
 
 def test_prompting_tops_out_gives_finetune(task, grader):
@@ -68,9 +111,9 @@ def test_prompting_tops_out_gives_finetune(task, grader):
     v = _by_type(events, "verdict")[0]["verdict"]
     assert v["kind"] == "finetune" and v["finetune_offer"]
     assert v["model"] == "nvidia/Nemotron-3-Ultra-550b-a55b"
-    assert "tops out" in v["sentence"]
-    assert [e["tier_key"] for e in _by_type(events, "tier_done")] == ["lightning", "lightning-think", "nano", "super"]
-    assert v["ultra_train_outputs"]  # dataset material for the fine-tune fallback
+    assert "fine-tuning" in v["sentence"]
+    assert [e["tier_key"] for e in _by_type(events, "tier_done")] == ["lightning", "nano", "super", "lightning-think"]
+    assert "No cheaper rung could be shown to match Ultra" in v["sentence"]
 
 
 def test_plain_prompt_good_enough_skips_rewrites(task, grader):
@@ -116,7 +159,7 @@ def test_custom_task_regenerates_bad_checker(task, grader):
     assert _by_type(events, "verdict")
     # Ultra reference calls are reused for Ultra's own scoring, not repeated.
     ultra_task_calls = [p for m, p, th in llm.calls if "Ultra" in m and not th and p.startswith(("reference", "eval"))]
-    assert len(ultra_task_calls) == len(ct["train"]) + len(ct["holdout"])
+    assert len(ultra_task_calls) == len(ct["train"]) + len(ct["validation"]) + len(ct["holdout"])
 
 
 def test_checker_falls_back_to_exact_match(task, grader):
@@ -203,10 +246,109 @@ def test_ultra_thinking_off_can_be_the_downshift(task, grader):
     assert v["kind"] == "downshift" and v["rung"] == "ultra" and v["reference"]["rung"] == "ultra-think"
 
 
-def test_within_one_row_is_not_claimed_as_a_win():
-    from downshift.engine import _compare
-    assert "within one row" in _compare(0.90, 0.89, 40)
-    assert "against" in _compare(0.95, 0.89, 40)
+def test_wording_follows_the_ci():
+    from downshift.engine import compare_sentence
+    assert compare_sentence({"diff": 0.02, "lo": 0.005, "hi": 0.04}, 0.03).startswith("better than Ultra")
+    s = compare_sentence({"diff": 0.02, "lo": -0.01, "hi": 0.05}, 0.03)
+    assert s.startswith("matches Ultra within 3 points (95% CI") and "better" not in s
+    assert compare_sentence({"diff": 0.0, "lo": -0.05, "hi": 0.05}, 0.03).startswith("not shown to match")
+
+
+def test_bootstrap_is_seeded_and_paired():
+    from downshift.stats import bootstrap_ci, matches, paired_diff_ci
+    a = [1.0] * 70 + [0.0] * 30
+    assert bootstrap_ci(a) == bootstrap_ci(a)
+    ci = bootstrap_ci(a)
+    assert ci["lo"] < 0.7 < ci["hi"] and ci["hi"] - ci["lo"] < 0.2
+    # Identical scores: the paired difference is exactly zero, even though each side alone is uncertain.
+    d = paired_diff_ci(a, a)
+    assert d["diff"] == d["lo"] == d["hi"] == 0.0 and matches(d, 0.03)
+    # Right on 5 more rows out of 100 and never worse: every discordant row favours b, so the CI is above 0.
+    b = [1.0] * 75 + [0.0] * 25
+    d2 = paired_diff_ci(b, a)
+    assert abs(d2["diff"] - 0.05) < 1e-9 and d2["rows_better"] == 5 and d2["rows_worse"] == 0
+    assert d2["lo"] > 0
+    c = [1.0] * 65 + [0.0] * 5 + [1.0] * 10 + [0.0] * 20  # 5 rows worse, 10 rows better than a
+    d3 = paired_diff_ci(c, a)
+    assert d3["lo"] < 0 < d3["hi"]
+
+
+def _fake_reference(task, scores_off, scores_on):
+    from downshift.engine import prompt_sha
+    from downshift.tasks import plain_system
+    ids = [str(r["id"]) for r in task["holdout"]]
+
+    def mode(key, scores, cost):
+        return {"rung": key, "repeat_scores": [sum(s) / len(s) for s in zip(*[scores[i] for i in ids])],
+                "per_row": {i: scores[i] for i in ids}, "cost_per_1k_usd": cost, "p50_ms": 900.0,
+                "mean_out_tokens": 3.0, "truncated": 0}
+    return {"measured_on": "2026-10-27", "repeats": 3, "plain_prompt_sha": prompt_sha(plain_system(task)),
+            "modes": {"ultra": mode("ultra", scores_off, 0.5), "ultra-think": mode("ultra-think", scores_on, 1.5)},
+            "validation": {"score": 1.0}, "total_cost_usd": 0.1}
+
+
+def test_cached_reference_is_used_and_ultra_is_not_called_for_scoring(task, grader):
+    t = dict(task)
+    ids = [str(r["id"]) for r in t["holdout"]]
+    t["cached_reference"] = _fake_reference(t, {i: [1.0, 1.0, 0.0 if k == 0 else 1.0] for k, i in enumerate(ids)},
+                                            {i: [1.0, 1.0, 1.0] for i in ids})
+    llm = FakeLLM(t)
+    events = collect(run_downshift(t, llm=llm, grader=grader))
+    bar = _by_type(events, "bar")[0]
+    assert bar["reference_source"] == "cached" and bar["repeats"] == 3 and bar["measured_on"] == "2026-10-27"
+    assert bar["reference"] == "ultra-think"
+    assert not any("Ultra" in m and p.startswith("eval") for m, p, _t in llm.calls)
+    v = _by_type(events, "verdict")[0]["verdict"]
+    assert v["reference"]["source"] == "cached" and "3 runs" in v["reference"]["description"]
+    assert v["ultra_cost_per_1k_usd"] == 1.5
+    ultra_off_row = next(r for r in v["table"] if r["tier_key"] == "ultra")
+    assert ultra_off_row["repeat_scores"] and "diff" in ultra_off_row
+
+
+def test_stale_cached_reference_falls_back_to_live(task, grader):
+    t = dict(task)
+    ref = _fake_reference(t, {str(r["id"]): [1.0] * 3 for r in t["holdout"]},
+                          {str(r["id"]): [1.0] * 3 for r in t["holdout"]})
+    ref["plain_prompt_sha"] = "different"
+    t["cached_reference"] = ref
+    events = collect(run_downshift(t, llm=FakeLLM(t), grader=grader))
+    assert _by_type(events, "bar")[0]["reference_source"] == "live"
+    assert any("different prompt" in e.get("message", "") for e in _by_type(events, "stage"))
+
+
+def test_live_option_remeasures_even_with_a_cache(task, grader):
+    t = dict(task)
+    t["cached_reference"] = _fake_reference(t, {str(r["id"]): [1.0] * 3 for r in t["holdout"]},
+                                            {str(r["id"]): [1.0] * 3 for r in t["holdout"]})
+    llm = FakeLLM(t)
+    events = collect(run_downshift(t, options={"reference": "live"}, llm=llm, grader=grader))
+    assert _by_type(events, "bar")[0]["reference_source"] == "live"
+    assert any("Ultra" in m and p.startswith("eval:holdout") for m, p, _t in llm.calls)
+
+
+def test_custom_task_has_three_disjoint_splits():
+    spec = {"instruction": "x", "examples": [{"input": f"row {i}", "reference": "a"} for i in range(50)]}
+    t = custom_task(spec)
+    assert (len(t["train"]), len(t["validation"]), len(t["holdout"])) == (20, 10, 20)
+    ids = [r["id"] for s in ("train", "validation", "holdout") for r in t[s]]
+    assert len(ids) == len(set(ids)) == 50
+
+
+def test_presets_have_three_disjoint_splits():
+    from downshift.engine import prompt_sha
+    from downshift.tasks import list_presets, load_preset, plain_system
+    for p in list_presets():
+        if p["source"] != "preset":
+            continue
+        t = load_preset(p["slug"])
+        assert t["validation"], p["slug"]
+        sets = [{r["input"] for r in t[s]} for s in ("train", "validation", "holdout")]
+        assert not (sets[0] & sets[1] or sets[0] & sets[2] or sets[1] & sets[2])
+        ref = t["cached_reference"]
+        if ref:  # a cached reference must cover exactly this holdout, measured with the engine's prompt
+            assert ref["holdout_ids"] == [str(r["id"]) for r in t["holdout"]]
+            assert ref["plain_prompt_sha"] == prompt_sha(plain_system(t))
+            assert all(len(m["repeat_scores"]) == m.get("repeats", ref["repeats"]) >= 2 for m in ref["modes"].values())
 
 
 def test_truncated_thinking_counts_as_failure(task, grader):

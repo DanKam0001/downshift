@@ -1,0 +1,3237 @@
+{
+ "slug": "contract-clauses",
+ "measured_on": "2026-10-27",
+ "measured_at": 1793093213.8930259,
+ "repeats": 3,
+ "repeats_by_mode": {
+  "ultra": 3,
+  "ultra-think": 3
+ },
+ "n_holdout": 150,
+ "holdout_ids": [
+  "cuadH-CYBERIANOUTPOSTINC070919-1",
+  "cuadH-PAXMEDICAINC07022020EX10-2",
+  "cuadH-FIBROGENINC10012014EX101-19",
+  "cuadH-MIDDLEBROOKPHARMACEUTICA-13",
+  "cuadH-ZogenixInc2019050910QEX1-2",
+  "cuadH-DRAGONSYSTEMSINC01081999-1",
+  "cuadH-EdietsComInc2000103010QS-17",
+  "cuadH-CytodynInc2020010910QEX1-11",
+  "cuadH-NUVEENREMARKETINGAGREEME-0",
+  "cuadH-ENTERPRISEPRODUCTSPARTNE-7",
+  "cuadH-WestPharmaceuticalServic-2",
+  "cuadH-WatchitMediaInc200612018-1",
+  "cuadH-QuantumGroupIncFl2009012-5",
+  "cuadH-EuromediaHoldingsCorp200-3",
+  "cuadH-VERICELCORP08062019EX101-1",
+  "cuadH-CytodynInc2020010910QEX1-21",
+  "cuadH-ORBSATCORP08172007EX73ST-5",
+  "cuadH-INGEVITYCORP05162016EX10-13",
+  "cuadH-WOMENSGOLFUNLIMITEDINC03-13",
+  "cuadH-LOGANSROADHOUSEINC032719-0",
+  "cuadH-NEOMEDIATECHNOLOGIESINC1-11",
+  "cuadH-WestPharmaceuticalServic-6",
+  "cuadH-PhasebioPharmaceuticalsI-21",
+  "cuadH-BIOCEPTINC08192013EX10CO-8",
+  "cuadH-PelicanDeliversInc202002-1",
+  "cuadH-HERTZGLOBALHOLDINGSINC07-3",
+  "cuadH-ZogenixInc2019050910QEX1-1",
+  "cuadH-JINGWEIINTERNATIONALLTD1-1",
+  "cuadH-IntegrityMediaInc2001032-7",
+  "cuadH-WHITESMOKEINC11082011EX1-8",
+  "cuadH-HealthcareIntegratedTech-0",
+  "cuadH-NICELTD06262003EX45OUTSO-4",
+  "cuadH-KALLOINC11032011EX101STR-1",
+  "cuadH-INNOVIVAINC08072014EX101-20",
+  "cuadH-NICELTD06262003EX45OUTSO-11",
+  "cuadH-GarrettMotionInc20181001-3",
+  "cuadH-UpjohnInc202001211012GEX-47",
+  "cuadH-BIOCEPTINC08192013EX10CO-2",
+  "cuadH-TELKOMSALTD01302003EX10L-21",
+  "cuadH-CUROGROUPHOLDINGSCORP050-4",
+  "cuadH-SFGFINANCIALCORP05122009-1",
+  "cuadH-SimplicityEsportsGamingC-12",
+  "cuadH-TELKOMSALTD01302003EX10L-8",
+  "cuadH-ArconicRolledProductsCor-4",
+  "cuadH-NUVEENREMARKETINGAGREEME-7",
+  "cuadH-TomOnlineInc2006050120FE-17",
+  "cuadH-ASIANDRAGONGROUPINC08112-4",
+  "cuadH-IbioInc202003138KEX10112-3",
+  "cuadH-ASPIRITYHOLDINGSLLC05072-11",
+  "cuadH-LOYALTYPOINTINC11162004E-11",
+  "cuadH-NICELTD06262003EX45OUTSO-12",
+  "cuadH-FIDELITYNATIONALINFORMAT-1",
+  "cuadH-SENMIAOTECHNOLOGYLTD0219-11",
+  "cuadH-WOMENSGOLFUNLIMITEDINC03-0",
+  "cuadH-AFSALABANCORPINC08011996-1",
+  "cuadH-MagentaTherapeuticsIncMa-1",
+  "cuadH-FuelcellEnergyInc2019110-2",
+  "cuadH-FLOTEKINDUSTRIESINCCN050-5",
+  "cuadH-INGEVITYCORP05162016EX10-9",
+  "cuadH-CytodynInc2020010910QEX1-8",
+  "cuadH-CardlyticsInc20180112S1E-23",
+  "cuadH-EuromediaHoldingsCorp200-0",
+  "cuadH-PACIRAPHARMACEUTICALSINC-0",
+  "cuadH-WPPPLC04302020EX428SERVI-0",
+  "cuadH-BloomEnergyCorp20180321D-6",
+  "cuadH-ASPIRITYHOLDINGSLLC05072-15",
+  "cuadH-VARIABLESEPARATEACCOUNT0-0",
+  "cuadH-JOINTCORP09192014EX1015F-17",
+  "cuadH-PhoenixNewMediaLtd201104-0",
+  "cuadH-FOUNDATIONMEDICINEINC020-23",
+  "cuadH-LiquidmetalTechnologiesI-8",
+  "cuadH-MEDALISTDIVERSIFIEDREITI-11",
+  "cuadH-PareteumCorp200810018KEX-2",
+  "cuadH-PACIRAPHARMACEUTICALSINC-16",
+  "cuadH-TRIZETTOGROUPINC08181999-0",
+  "cuadH-TomOnlineInc2006050120FE-12",
+  "cuadH-ZogenixInc2019050910QEX1-14",
+  "cuadH-GarrettMotionInc20181001-9",
+  "cuadH-BloomEnergyCorp20180321D-18",
+  "cuadH-PlayboyEnterprisesInc200-2",
+  "cuadH-INNOVIVAINC08072014EX101-5",
+  "cuadH-CYBERIANOUTPOSTINC070919-7",
+  "cuadH-ADAPTIMMUNETHERAPEUTICSP-15",
+  "cuadH-NETGROCERINC07311998EX10-12",
+  "cuadH-NEONSYSTEMSINC03011999EX-8",
+  "cuadH-KALLOINC11032011EX101STR-4",
+  "cuadH-TomOnlineInc2006050120FE-14",
+  "cuadH-WHITESMOKEINC11082011EX1-9",
+  "cuadH-ZogenixInc2019050910QEX1-17",
+  "cuadH-KUBIENTINC07022020EX1014-2",
+  "cuadH-UpjohnInc202001211012GEX-25",
+  "cuadH-GpaqAcquisitionHoldingsI-19",
+  "cuadH-JOINTCORP09192014EX1015F-7",
+  "cuadH-CytodynInc2020010910QEX1-20",
+  "cuadH-REGANHOLDINGCORP03312008-3",
+  "cuadH-SENMIAOTECHNOLOGYLTD0219-2",
+  "cuadH-INGEVITYCORP05162016EX10-11",
+  "cuadH-PhasebioPharmaceuticalsI-33",
+  "cuadH-SFGFINANCIALCORP05122009-17",
+  "cuadH-PhoenixNewMediaLtd201104-1",
+  "cuadH-GOLDRESOURCECORP12112008-18",
+  "cuadH-2ThemartComInc1999082610-5",
+  "cuadH-GluMobileInc20070319S1AE-3",
+  "cuadH-DigitalCinemaDestination-13",
+  "cuadH-PareteumCorp200810018KEX-3",
+  "cuadH-PlayboyEnterprisesInc200-0",
+  "cuadH-VERICELCORP08062019EX101-3",
+  "cuadH-PelicanDeliversInc202002-9",
+  "cuadH-VIOLINMEMORYINC12122012E-4",
+  "cuadH-BONTONSTORESINC04202018E-6",
+  "cuadH-VARIABLESEPARATEACCOUNT0-1",
+  "cuadH-LeadersonlineInc20000427-2",
+  "cuadH-N2KINC10161997EX1016SPON-2",
+  "cuadH-ACCURAYINC09012010EX1031-12",
+  "cuadH-TomOnlineInc2006050120FE-1",
+  "cuadH-BLACKBOXSTOCKSINC0805201-1",
+  "cuadH-MEDALISTDIVERSIFIEDREITI-5",
+  "cuadH-FIDELITYNATIONALINFORMAT-9",
+  "cuadH-TomOnlineInc2006050120FE-15",
+  "cuadH-ArtaraTherapeuticsInc202-10",
+  "cuadH-BloomEnergyCorp20180321D-5",
+  "cuadH-VERICELCORP08062019EX101-11",
+  "cuadH-BLUEHILLSBANCORPINC05202-5",
+  "cuadH-ClickstreamCorp202003301-1",
+  "cuadH-DIVERSINETCORP03012012EX-20",
+  "cuadH-NakedBrandGroupInc201507-2",
+  "cuadH-ACCELERATEDTECHNOLOGIESH-1",
+  "cuadH-AFSALABANCORPINC08011996-0",
+  "cuadH-WOMENSGOLFUNLIMITEDINC03-8",
+  "cuadH-ARMSTRONGFLOORINGINC0107-8",
+  "cuadH-DIVERSINETCORP03012012EX-10",
+  "cuadH-ReinsuranceGroupofAmeric-5",
+  "cuadH-EuromediaHoldingsCorp200-1",
+  "cuadH-EhaveInc2019051520FEX444-7",
+  "cuadH-MTITECHNOLOGYCORP1116200-3",
+  "cuadH-HERTZGLOBALHOLDINGSINC07-1",
+  "cuadH-JOINTCORP09192014EX1015F-39",
+  "cuadH-KINGPHARMACEUTICALSINC08-7",
+  "cuadH-DigitalCinemaDestination-6",
+  "cuadH-KitovPharmaLtd2019032620-14",
+  "cuadH-ORBSATCORP08172007EX73ST-1",
+  "cuadH-KALLOINC11032011EX101STR-6",
+  "cuadH-HerImports201610188KAEX1-0",
+  "cuadH-INNOVIVAINC08072014EX101-12",
+  "cuadH-SUMMAFOURINC06191998EX10-16",
+  "cuadH-CardlyticsInc20180112S1E-36",
+  "cuadH-TELKOMSALTD01302003EX10L-19",
+  "cuadH-ATMOSENERGYCORP11222002E-3",
+  "cuadH-HealthcentralCom19991108-4",
+  "cuadH-LiquidmetalTechnologiesI-7"
+ ],
+ "plain_prompt_sha": "49152b0bdeab2c32",
+ "answer_max_tokens": 65,
+ "temperature": 0.0,
+ "pricing_source": "live /v1/models",
+ "modes": {
+  "ultra": {
+   "rung": "ultra",
+   "label": "Nemotron 3 Ultra 550B (thinking off)",
+   "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+   "thinking": false,
+   "max_tokens": 65,
+   "repeats": 3,
+   "repeat_scores": [
+    0.8067,
+    0.8133,
+    0.8133
+   ],
+   "mean": 0.8111,
+   "spread": 0.0066,
+   "sd": 0.0038,
+   "cost_usd": 0.156237,
+   "cost_per_1k_usd": 0.3472,
+   "p50_ms": 764.8,
+   "mean_out_tokens": 5.9,
+   "truncated": 0,
+   "errors": 0,
+   "graded_by": [
+    "sandbox"
+   ],
+   "per_row": {
+    "cuadH-CYBERIANOUTPOSTINC070919-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PAXMEDICAINC07022020EX10-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-FIBROGENINC10012014EX101-19": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-MIDDLEBROOKPHARMACEUTICA-13": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-DRAGONSYSTEMSINC01081999-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-EdietsComInc2000103010QS-17": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CytodynInc2020010910QEX1-11": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-NUVEENREMARKETINGAGREEME-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ENTERPRISEPRODUCTSPARTNE-7": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-WestPharmaceuticalServic-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WatchitMediaInc200612018-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-QuantumGroupIncFl2009012-5": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-EuromediaHoldingsCorp200-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-VERICELCORP08062019EX101-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CytodynInc2020010910QEX1-21": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ORBSATCORP08172007EX73ST-5": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-INGEVITYCORP05162016EX10-13": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WOMENSGOLFUNLIMITEDINC03-13": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-LOGANSROADHOUSEINC032719-0": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-NEOMEDIATECHNOLOGIESINC1-11": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-WestPharmaceuticalServic-6": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PhasebioPharmaceuticalsI-21": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BIOCEPTINC08192013EX10CO-8": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PelicanDeliversInc202002-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-HERTZGLOBALHOLDINGSINC07-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-JINGWEIINTERNATIONALLTD1-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-IntegrityMediaInc2001032-7": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WHITESMOKEINC11082011EX1-8": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-HealthcareIntegratedTech-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-NICELTD06262003EX45OUTSO-4": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-KALLOINC11032011EX101STR-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-INNOVIVAINC08072014EX101-20": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-NICELTD06262003EX45OUTSO-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-GarrettMotionInc20181001-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-UpjohnInc202001211012GEX-47": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BIOCEPTINC08192013EX10CO-2": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-TELKOMSALTD01302003EX10L-21": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CUROGROUPHOLDINGSCORP050-4": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-SFGFINANCIALCORP05122009-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-SimplicityEsportsGamingC-12": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-TELKOMSALTD01302003EX10L-8": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ArconicRolledProductsCor-4": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-NUVEENREMARKETINGAGREEME-7": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-TomOnlineInc2006050120FE-17": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-ASIANDRAGONGROUPINC08112-4": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-IbioInc202003138KEX10112-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ASPIRITYHOLDINGSLLC05072-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-LOYALTYPOINTINC11162004E-11": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-NICELTD06262003EX45OUTSO-12": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-FIDELITYNATIONALINFORMAT-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-SENMIAOTECHNOLOGYLTD0219-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WOMENSGOLFUNLIMITEDINC03-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-AFSALABANCORPINC08011996-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-MagentaTherapeuticsIncMa-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-FuelcellEnergyInc2019110-2": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-FLOTEKINDUSTRIESINCCN050-5": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-INGEVITYCORP05162016EX10-9": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CytodynInc2020010910QEX1-8": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CardlyticsInc20180112S1E-23": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-EuromediaHoldingsCorp200-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PACIRAPHARMACEUTICALSINC-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WPPPLC04302020EX428SERVI-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BloomEnergyCorp20180321D-6": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-ASPIRITYHOLDINGSLLC05072-15": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-VARIABLESEPARATEACCOUNT0-0": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-JOINTCORP09192014EX1015F-17": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-PhoenixNewMediaLtd201104-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-FOUNDATIONMEDICINEINC020-23": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-LiquidmetalTechnologiesI-8": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-MEDALISTDIVERSIFIEDREITI-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PareteumCorp200810018KEX-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PACIRAPHARMACEUTICALSINC-16": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-TRIZETTOGROUPINC08181999-0": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-TomOnlineInc2006050120FE-12": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-14": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-GarrettMotionInc20181001-9": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BloomEnergyCorp20180321D-18": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PlayboyEnterprisesInc200-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-INNOVIVAINC08072014EX101-5": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CYBERIANOUTPOSTINC070919-7": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-ADAPTIMMUNETHERAPEUTICSP-15": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-NETGROCERINC07311998EX10-12": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-NEONSYSTEMSINC03011999EX-8": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-KALLOINC11032011EX101STR-4": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-TomOnlineInc2006050120FE-14": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WHITESMOKEINC11082011EX1-9": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-17": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-KUBIENTINC07022020EX1014-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-UpjohnInc202001211012GEX-25": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-GpaqAcquisitionHoldingsI-19": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-JOINTCORP09192014EX1015F-7": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CytodynInc2020010910QEX1-20": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-REGANHOLDINGCORP03312008-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-SENMIAOTECHNOLOGYLTD0219-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-INGEVITYCORP05162016EX10-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PhasebioPharmaceuticalsI-33": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-SFGFINANCIALCORP05122009-17": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PhoenixNewMediaLtd201104-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-GOLDRESOURCECORP12112008-18": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "cuadH-2ThemartComInc1999082610-5": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-GluMobileInc20070319S1AE-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-DigitalCinemaDestination-13": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PareteumCorp200810018KEX-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PlayboyEnterprisesInc200-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-VERICELCORP08062019EX101-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PelicanDeliversInc202002-9": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-VIOLINMEMORYINC12122012E-4": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BONTONSTORESINC04202018E-6": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-VARIABLESEPARATEACCOUNT0-1": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-LeadersonlineInc20000427-2": [
+     0.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-N2KINC10161997EX1016SPON-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ACCURAYINC09012010EX1031-12": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-TomOnlineInc2006050120FE-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BLACKBOXSTOCKSINC0805201-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-MEDALISTDIVERSIFIEDREITI-5": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-FIDELITYNATIONALINFORMAT-9": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-TomOnlineInc2006050120FE-15": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ArtaraTherapeuticsInc202-10": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BloomEnergyCorp20180321D-5": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-VERICELCORP08062019EX101-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BLUEHILLSBANCORPINC05202-5": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-ClickstreamCorp202003301-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-DIVERSINETCORP03012012EX-20": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-NakedBrandGroupInc201507-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ACCELERATEDTECHNOLOGIESH-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-AFSALABANCORPINC08011996-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WOMENSGOLFUNLIMITEDINC03-8": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ARMSTRONGFLOORINGINC0107-8": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-DIVERSINETCORP03012012EX-10": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ReinsuranceGroupofAmeric-5": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-EuromediaHoldingsCorp200-1": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-EhaveInc2019051520FEX444-7": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-MTITECHNOLOGYCORP1116200-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-HERTZGLOBALHOLDINGSINC07-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-JOINTCORP09192014EX1015F-39": [
+     1.0,
+     1.0,
+     0.0
+    ],
+    "cuadH-KINGPHARMACEUTICALSINC08-7": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-DigitalCinemaDestination-6": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-KitovPharmaLtd2019032620-14": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ORBSATCORP08172007EX73ST-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-KALLOINC11032011EX101STR-6": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-HerImports201610188KAEX1-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-INNOVIVAINC08072014EX101-12": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-SUMMAFOURINC06191998EX10-16": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CardlyticsInc20180112S1E-36": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-TELKOMSALTD01302003EX10L-19": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ATMOSENERGYCORP11222002E-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-HealthcentralCom19991108-4": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-LiquidmetalTechnologiesI-7": [
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "per_row_outputs": {
+    "cuadH-CYBERIANOUTPOSTINC070919-1": [
+     "competitive_restriction_exception",
+     "competitive_restriction_exception",
+     "competitive_restriction_exception"
+    ],
+    "cuadH-PAXMEDICAINC07022020EX10-2": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-FIBROGENINC10012014EX101-19": [
+     "audit_rights",
+     "audit_rights",
+     "audit_rights"
+    ],
+    "cuadH-MIDDLEBROOKPHARMACEUTICA-13": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-2": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-DRAGONSYSTEMSINC01081999-1": [
+     "warranty_duration",
+     "warranty_duration",
+     "warranty_duration"
+    ],
+    "cuadH-EdietsComInc2000103010QS-17": [
+     "uncapped_liability",
+     "uncapped_liability",
+     "uncapped_liability"
+    ],
+    "cuadH-CytodynInc2020010910QEX1-11": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-NUVEENREMARKETINGAGREEME-0": [
+     "governing_law",
+     "governing_law",
+     "governing_law"
+    ],
+    "cuadH-ENTERPRISEPRODUCTSPARTNE-7": [
+     "volume_restriction",
+     "volume_restriction",
+     "volume_restriction"
+    ],
+    "cuadH-WestPharmaceuticalServic-2": [
+     "change_of_control",
+     "change_of_control",
+     "change_of_control"
+    ],
+    "cuadH-WatchitMediaInc200612018-1": [
+     "liquidated_damages",
+     "liquidated_damages",
+     "liquidated_damages"
+    ],
+    "cuadH-QuantumGroupIncFl2009012-5": [
+     "cap_on_liability",
+     "cap_on_liability",
+     "cap_on_liability"
+    ],
+    "cuadH-EuromediaHoldingsCorp200-3": [
+     "most_favored_nation",
+     "most_favored_nation",
+     "most_favored_nation"
+    ],
+    "cuadH-VERICELCORP08062019EX101-1": [
+     "most_favored_nation",
+     "most_favored_nation",
+     "most_favored_nation"
+    ],
+    "cuadH-CytodynInc2020010910QEX1-21": [
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license"
+    ],
+    "cuadH-ORBSATCORP08172007EX73ST-5": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-INGEVITYCORP05162016EX10-13": [
+     "covenant_not_to_sue",
+     "covenant_not_to_sue",
+     "covenant_not_to_sue"
+    ],
+    "cuadH-WOMENSGOLFUNLIMITEDINC03-13": [
+     "minimum_commitment",
+     "minimum_commitment",
+     "minimum_commitment"
+    ],
+    "cuadH-LOGANSROADHOUSEINC032719-0": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-NEOMEDIATECHNOLOGIESINC1-11": [
+     "audit_rights",
+     "audit_rights",
+     "audit_rights"
+    ],
+    "cuadH-WestPharmaceuticalServic-6": [
+     "change_of_control",
+     "change_of_control",
+     "change_of_control"
+    ],
+    "cuadH-PhasebioPharmaceuticalsI-21": [
+     "ip_ownership_assignment",
+     "ip_ownership_assignment",
+     "ip_ownership_assignment"
+    ],
+    "cuadH-BIOCEPTINC08192013EX10CO-8": [
+     "license_grant",
+     "license_grant",
+     "license_grant"
+    ],
+    "cuadH-PelicanDeliversInc202002-1": [
+     "non_disparagement",
+     "non_disparagement",
+     "non_disparagement"
+    ],
+    "cuadH-HERTZGLOBALHOLDINGSINC07-3": [
+     "ip_ownership_assignment",
+     "ip_ownership_assignment",
+     "ip_ownership_assignment"
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-1": [
+     "non_compete",
+     "non_compete",
+     "non_compete"
+    ],
+    "cuadH-JINGWEIINTERNATIONALLTD1-1": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-IntegrityMediaInc2001032-7": [
+     "revenue_profit_sharing",
+     "revenue_profit_sharing",
+     "revenue_profit_sharing"
+    ],
+    "cuadH-WHITESMOKEINC11082011EX1-8": [
+     "uncapped_liability",
+     "uncapped_liability",
+     "uncapped_liability"
+    ],
+    "cuadH-HealthcareIntegratedTech-0": [
+     "renewal_term",
+     "renewal_term",
+     "renewal_term"
+    ],
+    "cuadH-NICELTD06262003EX45OUTSO-4": [
+     "non_transferable_license",
+     "non_transferable_license",
+     "non_transferable_license"
+    ],
+    "cuadH-KALLOINC11032011EX101STR-1": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-INNOVIVAINC08072014EX101-20": [
+     "insurance",
+     "insurance",
+     "insurance"
+    ],
+    "cuadH-NICELTD06262003EX45OUTSO-11": [
+     "liquidated_damages",
+     "liquidated_damages",
+     "liquidated_damages"
+    ],
+    "cuadH-GarrettMotionInc20181001-3": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-UpjohnInc202001211012GEX-47": [
+     "insurance",
+     "insurance",
+     "insurance"
+    ],
+    "cuadH-BIOCEPTINC08192013EX10CO-2": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-TELKOMSALTD01302003EX10L-21": [
+     "source_code_escrow",
+     "source_code_escrow",
+     "source_code_escrow"
+    ],
+    "cuadH-CUROGROUPHOLDINGSCORP050-4": [
+     "third_party_beneficiary",
+     "third_party_beneficiary",
+     "third_party_beneficiary"
+    ],
+    "cuadH-SFGFINANCIALCORP05122009-1": [
+     "no_solicit_of_employees",
+     "no_solicit_of_employees",
+     "no_solicit_of_employees"
+    ],
+    "cuadH-SimplicityEsportsGamingC-12": [
+     "covenant_not_to_sue",
+     "covenant_not_to_sue",
+     "covenant_not_to_sue"
+    ],
+    "cuadH-TELKOMSALTD01302003EX10L-8": [
+     "revenue_profit_sharing",
+     "revenue_profit_sharing",
+     "revenue_profit_sharing"
+    ],
+    "cuadH-ArconicRolledProductsCor-4": [
+     "affiliate_license_licensee",
+     "affiliate_license_licensee",
+     "affiliate_license_licensee"
+    ],
+    "cuadH-NUVEENREMARKETINGAGREEME-7": [
+     "covenant_not_to_sue",
+     "covenant_not_to_sue",
+     "covenant_not_to_sue"
+    ],
+    "cuadH-TomOnlineInc2006050120FE-17": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-ASIANDRAGONGROUPINC08112-4": [
+     "ip_ownership_assignment",
+     "ip_ownership_assignment",
+     "ip_ownership_assignment"
+    ],
+    "cuadH-IbioInc202003138KEX10112-3": [
+     "joint_ip_ownership",
+     "joint_ip_ownership",
+     "joint_ip_ownership"
+    ],
+    "cuadH-ASPIRITYHOLDINGSLLC05072-11": [
+     "post_termination_services",
+     "post_termination_services",
+     "post_termination_services"
+    ],
+    "cuadH-LOYALTYPOINTINC11162004E-11": [
+     "cap_on_liability",
+     "cap_on_liability",
+     "cap_on_liability"
+    ],
+    "cuadH-NICELTD06262003EX45OUTSO-12": [
+     "liquidated_damages",
+     "liquidated_damages",
+     "liquidated_damages"
+    ],
+    "cuadH-FIDELITYNATIONALINFORMAT-1": [
+     "change_of_control",
+     "change_of_control",
+     "change_of_control"
+    ],
+    "cuadH-SENMIAOTECHNOLOGYLTD0219-11": [
+     "liquidated_damages",
+     "liquidated_damages",
+     "liquidated_damages"
+    ],
+    "cuadH-WOMENSGOLFUNLIMITEDINC03-0": [
+     "renewal_term",
+     "renewal_term",
+     "renewal_term"
+    ],
+    "cuadH-AFSALABANCORPINC08011996-1": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-MagentaTherapeuticsIncMa-1": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-FuelcellEnergyInc2019110-2": [
+     "license_grant",
+     "license_grant",
+     "license_grant"
+    ],
+    "cuadH-FLOTEKINDUSTRIESINCCN050-5": [
+     "insurance",
+     "insurance",
+     "insurance"
+    ],
+    "cuadH-INGEVITYCORP05162016EX10-9": [
+     "non_transferable_license",
+     "non_transferable_license",
+     "non_transferable_license"
+    ],
+    "cuadH-CytodynInc2020010910QEX1-8": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-CardlyticsInc20180112S1E-23": [
+     "source_code_escrow",
+     "source_code_escrow",
+     "source_code_escrow"
+    ],
+    "cuadH-EuromediaHoldingsCorp200-0": [
+     "renewal_term",
+     "renewal_term",
+     "renewal_term"
+    ],
+    "cuadH-PACIRAPHARMACEUTICALSINC-0": [
+     "notice_period_to_terminate_renewal",
+     "notice_period_to_terminate_renewal",
+     "notice_period_to_terminate_renewal"
+    ],
+    "cuadH-WPPPLC04302020EX428SERVI-0": [
+     "non_compete",
+     "non_compete",
+     "non_compete"
+    ],
+    "cuadH-BloomEnergyCorp20180321D-6": [
+     "warranty_duration",
+     "warranty_duration",
+     "warranty_duration"
+    ],
+    "cuadH-ASPIRITYHOLDINGSLLC05072-15": [
+     "third_party_beneficiary",
+     "third_party_beneficiary",
+     "third_party_beneficiary"
+    ],
+    "cuadH-VARIABLESEPARATEACCOUNT0-0": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-JOINTCORP09192014EX1015F-17": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-PhoenixNewMediaLtd201104-0": [
+     "governing_law",
+     "governing_law",
+     "governing_law"
+    ],
+    "cuadH-FOUNDATIONMEDICINEINC020-23": [
+     "audit_rights",
+     "audit_rights",
+     "audit_rights"
+    ],
+    "cuadH-LiquidmetalTechnologiesI-8": [
+     "volume_restriction",
+     "volume_restriction",
+     "volume_restriction"
+    ],
+    "cuadH-MEDALISTDIVERSIFIEDREITI-11": [
+     "ip_ownership_assignment",
+     "ip_ownership_assignment",
+     "ip_ownership_assignment"
+    ],
+    "cuadH-PareteumCorp200810018KEX-2": [
+     "governing_law",
+     "governing_law",
+     "governing_law"
+    ],
+    "cuadH-PACIRAPHARMACEUTICALSINC-16": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-TRIZETTOGROUPINC08181999-0": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-TomOnlineInc2006050120FE-12": [
+     "ip_ownership_assignment",
+     "ip_ownership_assignment",
+     "ip_ownership_assignment"
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-14": [
+     "joint_ip_ownership",
+     "joint_ip_ownership",
+     "joint_ip_ownership"
+    ],
+    "cuadH-GarrettMotionInc20181001-9": [
+     "covenant_not_to_sue",
+     "covenant_not_to_sue",
+     "covenant_not_to_sue"
+    ],
+    "cuadH-BloomEnergyCorp20180321D-18": [
+     "insurance",
+     "insurance",
+     "insurance"
+    ],
+    "cuadH-PlayboyEnterprisesInc200-2": [
+     "most_favored_nation",
+     "most_favored_nation",
+     "most_favored_nation"
+    ],
+    "cuadH-INNOVIVAINC08072014EX101-5": [
+     "revenue_profit_sharing",
+     "revenue_profit_sharing",
+     "revenue_profit_sharing"
+    ],
+    "cuadH-CYBERIANOUTPOSTINC070919-7": [
+     "uncapped_liability",
+     "uncapped_liability",
+     "uncapped_liability"
+    ],
+    "cuadH-ADAPTIMMUNETHERAPEUTICSP-15": [
+     "post_termination_services",
+     "post_termination_services",
+     "post_termination_services"
+    ],
+    "cuadH-NETGROCERINC07311998EX10-12": [
+     "audit_rights",
+     "audit_rights",
+     "audit_rights"
+    ],
+    "cuadH-NEONSYSTEMSINC03011999EX-8": [
+     "right_of_first_refusal",
+     "right_of_first_refusal",
+     "right_of_first_refusal"
+    ],
+    "cuadH-KALLOINC11032011EX101STR-4": [
+     "non_disparagement",
+     "non_disparagement",
+     "non_disparagement"
+    ],
+    "cuadH-TomOnlineInc2006050120FE-14": [
+     "joint_ip_ownership",
+     "joint_ip_ownership",
+     "joint_ip_ownership"
+    ],
+    "cuadH-WHITESMOKEINC11082011EX1-9": [
+     "uncapped_liability",
+     "uncapped_liability",
+     "uncapped_liability"
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-17": [
+     "license_grant",
+     "license_grant",
+     "license_grant"
+    ],
+    "cuadH-KUBIENTINC07022020EX1014-2": [
+     "no_solicit_of_employees",
+     "no_solicit_of_employees",
+     "no_solicit_of_employees"
+    ],
+    "cuadH-UpjohnInc202001211012GEX-25": [
+     "audit_rights",
+     "audit_rights",
+     "audit_rights"
+    ],
+    "cuadH-GpaqAcquisitionHoldingsI-19": [
+     "affiliate_license_licensee",
+     "affiliate_license_licensee",
+     "affiliate_license_licensee"
+    ],
+    "cuadH-JOINTCORP09192014EX1015F-7": [
+     "non_disparagement",
+     "non_disparagement",
+     "non_disparagement"
+    ],
+    "cuadH-CytodynInc2020010910QEX1-20": [
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license"
+    ],
+    "cuadH-REGANHOLDINGCORP03312008-3": [
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license"
+    ],
+    "cuadH-SENMIAOTECHNOLOGYLTD0219-2": [
+     "most_favored_nation",
+     "most_favored_nation",
+     "most_favored_nation"
+    ],
+    "cuadH-INGEVITYCORP05162016EX10-11": [
+     "non_transferable_license",
+     "non_transferable_license",
+     "non_transferable_license"
+    ],
+    "cuadH-PhasebioPharmaceuticalsI-33": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-SFGFINANCIALCORP05122009-17": [
+     "cap_on_liability",
+     "cap_on_liability",
+     "cap_on_liability"
+    ],
+    "cuadH-PhoenixNewMediaLtd201104-1": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-GOLDRESOURCECORP12112008-18": [
+     "change_of_control",
+     "change_of_control",
+     "right_of_first_refusal"
+    ],
+    "cuadH-2ThemartComInc1999082610-5": [
+     "license_grant",
+     "license_grant",
+     "license_grant"
+    ],
+    "cuadH-GluMobileInc20070319S1AE-3": [
+     "revenue_profit_sharing",
+     "revenue_profit_sharing",
+     "revenue_profit_sharing"
+    ],
+    "cuadH-DigitalCinemaDestination-13": [
+     "volume_restriction",
+     "volume_restriction",
+     "volume_restriction"
+    ],
+    "cuadH-PareteumCorp200810018KEX-3": [
+     "no_solicit_of_employees",
+     "no_solicit_of_employees",
+     "no_solicit_of_employees"
+    ],
+    "cuadH-PlayboyEnterprisesInc200-0": [
+     "renewal_term",
+     "renewal_term",
+     "renewal_term"
+    ],
+    "cuadH-VERICELCORP08062019EX101-3": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-PelicanDeliversInc202002-9": [
+     "license_grant",
+     "license_grant",
+     "license_grant"
+    ],
+    "cuadH-VIOLINMEMORYINC12122012E-4": [
+     "competitive_restriction_exception",
+     "competitive_restriction_exception",
+     "competitive_restriction_exception"
+    ],
+    "cuadH-BONTONSTORESINC04202018E-6": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-VARIABLESEPARATEACCOUNT0-1": [
+     "change_of_control",
+     "change_of_control",
+     "change_of_control"
+    ],
+    "cuadH-LeadersonlineInc20000427-2": [
+     "exclusivity",
+     "non_compete",
+     "non_compete"
+    ],
+    "cuadH-N2KINC10161997EX1016SPON-2": [
+     "right_of_first_refusal",
+     "right_of_first_refusal",
+     "right_of_first_refusal"
+    ],
+    "cuadH-ACCURAYINC09012010EX1031-12": [
+     "warranty_duration",
+     "warranty_duration",
+     "warranty_duration"
+    ],
+    "cuadH-TomOnlineInc2006050120FE-1": [
+     "most_favored_nation",
+     "most_favored_nation",
+     "most_favored_nation"
+    ],
+    "cuadH-BLACKBOXSTOCKSINC0805201-1": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-MEDALISTDIVERSIFIEDREITI-5": [
+     "non_disparagement",
+     "non_disparagement",
+     "non_disparagement"
+    ],
+    "cuadH-FIDELITYNATIONALINFORMAT-9": [
+     "affiliate_license_licensee",
+     "affiliate_license_licensee",
+     "affiliate_license_licensee"
+    ],
+    "cuadH-TomOnlineInc2006050120FE-15": [
+     "non_transferable_license",
+     "non_transferable_license",
+     "non_transferable_license"
+    ],
+    "cuadH-ArtaraTherapeuticsInc202-10": [
+     "insurance",
+     "insurance",
+     "insurance"
+    ],
+    "cuadH-BloomEnergyCorp20180321D-5": [
+     "warranty_duration",
+     "warranty_duration",
+     "warranty_duration"
+    ],
+    "cuadH-VERICELCORP08062019EX101-11": [
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license"
+    ],
+    "cuadH-BLUEHILLSBANCORPINC05202-5": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-ClickstreamCorp202003301-1": [
+     "no_solicit_of_employees",
+     "no_solicit_of_employees",
+     "no_solicit_of_employees"
+    ],
+    "cuadH-DIVERSINETCORP03012012EX-20": [
+     "cap_on_liability",
+     "cap_on_liability",
+     "cap_on_liability"
+    ],
+    "cuadH-NakedBrandGroupInc201507-2": [
+     "governing_law",
+     "governing_law",
+     "governing_law"
+    ],
+    "cuadH-ACCELERATEDTECHNOLOGIESH-1": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-AFSALABANCORPINC08011996-0": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-WOMENSGOLFUNLIMITEDINC03-8": [
+     "non_disparagement",
+     "non_disparagement",
+     "non_disparagement"
+    ],
+    "cuadH-ARMSTRONGFLOORINGINC0107-8": [
+     "affiliate_license_licensee",
+     "affiliate_license_licensee",
+     "affiliate_license_licensee"
+    ],
+    "cuadH-DIVERSINETCORP03012012EX-10": [
+     "non_transferable_license",
+     "non_transferable_license",
+     "non_transferable_license"
+    ],
+    "cuadH-ReinsuranceGroupofAmeric-5": [
+     "third_party_beneficiary",
+     "third_party_beneficiary",
+     "third_party_beneficiary"
+    ],
+    "cuadH-EuromediaHoldingsCorp200-1": [
+     "renewal_term",
+     "renewal_term",
+     "renewal_term"
+    ],
+    "cuadH-EhaveInc2019051520FEX444-7": [
+     "source_code_escrow",
+     "source_code_escrow",
+     "source_code_escrow"
+    ],
+    "cuadH-MTITECHNOLOGYCORP1116200-3": [
+     "cap_on_liability",
+     "cap_on_liability",
+     "cap_on_liability"
+    ],
+    "cuadH-HERTZGLOBALHOLDINGSINC07-1": [
+     "non_compete",
+     "non_compete",
+     "non_compete"
+    ],
+    "cuadH-JOINTCORP09192014EX1015F-39": [
+     "post_termination_services",
+     "post_termination_services",
+     "termination_for_convenience"
+    ],
+    "cuadH-KINGPHARMACEUTICALSINC08-7": [
+     "right_of_first_refusal",
+     "right_of_first_refusal",
+     "right_of_first_refusal"
+    ],
+    "cuadH-DigitalCinemaDestination-6": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-KitovPharmaLtd2019032620-14": [
+     "cap_on_liability",
+     "cap_on_liability",
+     "cap_on_liability"
+    ],
+    "cuadH-ORBSATCORP08172007EX73ST-1": [
+     "no_solicit_of_employees",
+     "no_solicit_of_employees",
+     "no_solicit_of_employees"
+    ],
+    "cuadH-KALLOINC11032011EX101STR-6": [
+     "ip_ownership_assignment",
+     "ip_ownership_assignment",
+     "ip_ownership_assignment"
+    ],
+    "cuadH-HerImports201610188KAEX1-0": [
+     "governing_law",
+     "governing_law",
+     "governing_law"
+    ],
+    "cuadH-INNOVIVAINC08072014EX101-12": [
+     "joint_ip_ownership",
+     "joint_ip_ownership",
+     "joint_ip_ownership"
+    ],
+    "cuadH-SUMMAFOURINC06191998EX10-16": [
+     "warranty_duration",
+     "warranty_duration",
+     "warranty_duration"
+    ],
+    "cuadH-CardlyticsInc20180112S1E-36": [
+     "audit_rights",
+     "audit_rights",
+     "audit_rights"
+    ],
+    "cuadH-TELKOMSALTD01302003EX10L-19": [
+     "source_code_escrow",
+     "source_code_escrow",
+     "source_code_escrow"
+    ],
+    "cuadH-ATMOSENERGYCORP11222002E-3": [
+     "volume_restriction",
+     "volume_restriction",
+     "volume_restriction"
+    ],
+    "cuadH-HealthcentralCom19991108-4": [
+     "change_of_control",
+     "change_of_control",
+     "change_of_control"
+    ],
+    "cuadH-LiquidmetalTechnologiesI-7": [
+     "joint_ip_ownership",
+     "joint_ip_ownership",
+     "joint_ip_ownership"
+    ]
+   },
+   "rows_unstable": 3
+  },
+  "ultra-think": {
+   "rung": "ultra-think",
+   "label": "Nemotron 3 Ultra 550B (thinking on)",
+   "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+   "thinking": true,
+   "max_tokens": 4161,
+   "repeats": 3,
+   "repeat_scores": [
+    0.82,
+    0.8333,
+    0.8133
+   ],
+   "mean": 0.8222,
+   "spread": 0.02,
+   "sd": 0.0102,
+   "cost_usd": 1.035507,
+   "cost_per_1k_usd": 2.3011,
+   "p50_ms": 2012.9,
+   "mean_out_tokens": 657.2,
+   "truncated": 7,
+   "errors": 0,
+   "graded_by": [
+    "sandbox"
+   ],
+   "per_row": {
+    "cuadH-CYBERIANOUTPOSTINC070919-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PAXMEDICAINC07022020EX10-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-FIBROGENINC10012014EX101-19": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-MIDDLEBROOKPHARMACEUTICA-13": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-DRAGONSYSTEMSINC01081999-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-EdietsComInc2000103010QS-17": [
+     1.0,
+     0.0,
+     1.0
+    ],
+    "cuadH-CytodynInc2020010910QEX1-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-NUVEENREMARKETINGAGREEME-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ENTERPRISEPRODUCTSPARTNE-7": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WestPharmaceuticalServic-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WatchitMediaInc200612018-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-QuantumGroupIncFl2009012-5": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-EuromediaHoldingsCorp200-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-VERICELCORP08062019EX101-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CytodynInc2020010910QEX1-21": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ORBSATCORP08172007EX73ST-5": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-INGEVITYCORP05162016EX10-13": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WOMENSGOLFUNLIMITEDINC03-13": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "cuadH-LOGANSROADHOUSEINC032719-0": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-NEOMEDIATECHNOLOGIESINC1-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WestPharmaceuticalServic-6": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PhasebioPharmaceuticalsI-21": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BIOCEPTINC08192013EX10CO-8": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PelicanDeliversInc202002-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-HERTZGLOBALHOLDINGSINC07-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-JINGWEIINTERNATIONALLTD1-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-IntegrityMediaInc2001032-7": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WHITESMOKEINC11082011EX1-8": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-HealthcareIntegratedTech-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-NICELTD06262003EX45OUTSO-4": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-KALLOINC11032011EX101STR-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-INNOVIVAINC08072014EX101-20": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-NICELTD06262003EX45OUTSO-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-GarrettMotionInc20181001-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-UpjohnInc202001211012GEX-47": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BIOCEPTINC08192013EX10CO-2": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-TELKOMSALTD01302003EX10L-21": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-CUROGROUPHOLDINGSCORP050-4": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-SFGFINANCIALCORP05122009-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-SimplicityEsportsGamingC-12": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-TELKOMSALTD01302003EX10L-8": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ArconicRolledProductsCor-4": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-NUVEENREMARKETINGAGREEME-7": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-TomOnlineInc2006050120FE-17": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "cuadH-ASIANDRAGONGROUPINC08112-4": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-IbioInc202003138KEX10112-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ASPIRITYHOLDINGSLLC05072-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-LOYALTYPOINTINC11162004E-11": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-NICELTD06262003EX45OUTSO-12": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-FIDELITYNATIONALINFORMAT-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-SENMIAOTECHNOLOGYLTD0219-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WOMENSGOLFUNLIMITEDINC03-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-AFSALABANCORPINC08011996-1": [
+     1.0,
+     1.0,
+     0.0
+    ],
+    "cuadH-MagentaTherapeuticsIncMa-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-FuelcellEnergyInc2019110-2": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-FLOTEKINDUSTRIESINCCN050-5": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-INGEVITYCORP05162016EX10-9": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CytodynInc2020010910QEX1-8": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CardlyticsInc20180112S1E-23": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-EuromediaHoldingsCorp200-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PACIRAPHARMACEUTICALSINC-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WPPPLC04302020EX428SERVI-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BloomEnergyCorp20180321D-6": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-ASPIRITYHOLDINGSLLC05072-15": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-VARIABLESEPARATEACCOUNT0-0": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-JOINTCORP09192014EX1015F-17": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "cuadH-PhoenixNewMediaLtd201104-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-FOUNDATIONMEDICINEINC020-23": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-LiquidmetalTechnologiesI-8": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-MEDALISTDIVERSIFIEDREITI-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PareteumCorp200810018KEX-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PACIRAPHARMACEUTICALSINC-16": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-TRIZETTOGROUPINC08181999-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-TomOnlineInc2006050120FE-12": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-14": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-GarrettMotionInc20181001-9": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BloomEnergyCorp20180321D-18": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PlayboyEnterprisesInc200-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-INNOVIVAINC08072014EX101-5": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CYBERIANOUTPOSTINC070919-7": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-ADAPTIMMUNETHERAPEUTICSP-15": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-NETGROCERINC07311998EX10-12": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-NEONSYSTEMSINC03011999EX-8": [
+     1.0,
+     1.0,
+     0.0
+    ],
+    "cuadH-KALLOINC11032011EX101STR-4": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-TomOnlineInc2006050120FE-14": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WHITESMOKEINC11082011EX1-9": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-17": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-KUBIENTINC07022020EX1014-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-UpjohnInc202001211012GEX-25": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-GpaqAcquisitionHoldingsI-19": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-JOINTCORP09192014EX1015F-7": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CytodynInc2020010910QEX1-20": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-REGANHOLDINGCORP03312008-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-SENMIAOTECHNOLOGYLTD0219-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-INGEVITYCORP05162016EX10-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PhasebioPharmaceuticalsI-33": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-SFGFINANCIALCORP05122009-17": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PhoenixNewMediaLtd201104-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-GOLDRESOURCECORP12112008-18": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-2ThemartComInc1999082610-5": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-GluMobileInc20070319S1AE-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-DigitalCinemaDestination-13": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-PareteumCorp200810018KEX-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PlayboyEnterprisesInc200-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-VERICELCORP08062019EX101-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-PelicanDeliversInc202002-9": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-VIOLINMEMORYINC12122012E-4": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BONTONSTORESINC04202018E-6": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-VARIABLESEPARATEACCOUNT0-1": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-LeadersonlineInc20000427-2": [
+     1.0,
+     1.0,
+     0.0
+    ],
+    "cuadH-N2KINC10161997EX1016SPON-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ACCURAYINC09012010EX1031-12": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-TomOnlineInc2006050120FE-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BLACKBOXSTOCKSINC0805201-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-MEDALISTDIVERSIFIEDREITI-5": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-FIDELITYNATIONALINFORMAT-9": [
+     0.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-TomOnlineInc2006050120FE-15": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ArtaraTherapeuticsInc202-10": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BloomEnergyCorp20180321D-5": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-VERICELCORP08062019EX101-11": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-BLUEHILLSBANCORPINC05202-5": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ClickstreamCorp202003301-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-DIVERSINETCORP03012012EX-20": [
+     0.0,
+     1.0,
+     0.0
+    ],
+    "cuadH-NakedBrandGroupInc201507-2": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ACCELERATEDTECHNOLOGIESH-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-AFSALABANCORPINC08011996-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-WOMENSGOLFUNLIMITEDINC03-8": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ARMSTRONGFLOORINGINC0107-8": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-DIVERSINETCORP03012012EX-10": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-ReinsuranceGroupofAmeric-5": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-EuromediaHoldingsCorp200-1": [
+     1.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-EhaveInc2019051520FEX444-7": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-MTITECHNOLOGYCORP1116200-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-HERTZGLOBALHOLDINGSINC07-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-JOINTCORP09192014EX1015F-39": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-KINGPHARMACEUTICALSINC08-7": [
+     0.0,
+     0.0,
+     1.0
+    ],
+    "cuadH-DigitalCinemaDestination-6": [
+     0.0,
+     0.0,
+     0.0
+    ],
+    "cuadH-KitovPharmaLtd2019032620-14": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ORBSATCORP08172007EX73ST-1": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-KALLOINC11032011EX101STR-6": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-HerImports201610188KAEX1-0": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-INNOVIVAINC08072014EX101-12": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-SUMMAFOURINC06191998EX10-16": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-CardlyticsInc20180112S1E-36": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-TELKOMSALTD01302003EX10L-19": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-ATMOSENERGYCORP11222002E-3": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-HealthcentralCom19991108-4": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cuadH-LiquidmetalTechnologiesI-7": [
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "per_row_outputs": {
+    "cuadH-CYBERIANOUTPOSTINC070919-1": [
+     "competitive_restriction_exception",
+     "competitive_restriction_exception",
+     "competitive_restriction_exception"
+    ],
+    "cuadH-PAXMEDICAINC07022020EX10-2": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-FIBROGENINC10012014EX101-19": [
+     "audit_rights",
+     "audit_rights",
+     "audit_rights"
+    ],
+    "cuadH-MIDDLEBROOKPHARMACEUTICA-13": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-2": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-DRAGONSYSTEMSINC01081999-1": [
+     "warranty_duration",
+     "warranty_duration",
+     "warranty_duration"
+    ],
+    "cuadH-EdietsComInc2000103010QS-17": [
+     "uncapped_liability",
+     "cap_on_liability",
+     "uncapped_liability"
+    ],
+    "cuadH-CytodynInc2020010910QEX1-11": [
+     "minimum_commitment",
+     "minimum_commitment",
+     "minimum_commitment"
+    ],
+    "cuadH-NUVEENREMARKETINGAGREEME-0": [
+     "governing_law",
+     "governing_law",
+     "governing_law"
+    ],
+    "cuadH-ENTERPRISEPRODUCTSPARTNE-7": [
+     "minimum_commitment",
+     "minimum_commitment",
+     "minimum_commitment"
+    ],
+    "cuadH-WestPharmaceuticalServic-2": [
+     "change_of_control",
+     "change_of_control",
+     "change_of_control"
+    ],
+    "cuadH-WatchitMediaInc200612018-1": [
+     "liquidated_damages",
+     "liquidated_damages",
+     "liquidated_damages"
+    ],
+    "cuadH-QuantumGroupIncFl2009012-5": [
+     "cap_on_liability",
+     "cap_on_liability",
+     "cap_on_liability"
+    ],
+    "cuadH-EuromediaHoldingsCorp200-3": [
+     "most_favored_nation",
+     "most_favored_nation",
+     "most_favored_nation"
+    ],
+    "cuadH-VERICELCORP08062019EX101-1": [
+     "most_favored_nation",
+     "most_favored_nation",
+     "most_favored_nation"
+    ],
+    "cuadH-CytodynInc2020010910QEX1-21": [
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license"
+    ],
+    "cuadH-ORBSATCORP08172007EX73ST-5": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-INGEVITYCORP05162016EX10-13": [
+     "covenant_not_to_sue",
+     "covenant_not_to_sue",
+     "covenant_not_to_sue"
+    ],
+    "cuadH-WOMENSGOLFUNLIMITEDINC03-13": [
+     "minimum_commitment",
+     "volume_restriction",
+     ""
+    ],
+    "cuadH-LOGANSROADHOUSEINC032719-0": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-NEOMEDIATECHNOLOGIESINC1-11": [
+     "warranty_duration",
+     "warranty_duration",
+     "warranty_duration"
+    ],
+    "cuadH-WestPharmaceuticalServic-6": [
+     "change_of_control",
+     "change_of_control",
+     "change_of_control"
+    ],
+    "cuadH-PhasebioPharmaceuticalsI-21": [
+     "ip_ownership_assignment",
+     "ip_ownership_assignment",
+     "ip_ownership_assignment"
+    ],
+    "cuadH-BIOCEPTINC08192013EX10CO-8": [
+     "license_grant",
+     "license_grant",
+     "license_grant"
+    ],
+    "cuadH-PelicanDeliversInc202002-1": [
+     "non_disparagement",
+     "non_disparagement",
+     "non_disparagement"
+    ],
+    "cuadH-HERTZGLOBALHOLDINGSINC07-3": [
+     "ip_ownership_assignment",
+     "ip_ownership_assignment",
+     "ip_ownership_assignment"
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-1": [
+     "non_compete",
+     "non_compete",
+     "non_compete"
+    ],
+    "cuadH-JINGWEIINTERNATIONALLTD1-1": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-IntegrityMediaInc2001032-7": [
+     "revenue_profit_sharing",
+     "revenue_profit_sharing",
+     "revenue_profit_sharing"
+    ],
+    "cuadH-WHITESMOKEINC11082011EX1-8": [
+     "uncapped_liability",
+     "uncapped_liability",
+     "uncapped_liability"
+    ],
+    "cuadH-HealthcareIntegratedTech-0": [
+     "renewal_term",
+     "renewal_term",
+     "renewal_term"
+    ],
+    "cuadH-NICELTD06262003EX45OUTSO-4": [
+     "license_grant",
+     "license_grant",
+     "license_grant"
+    ],
+    "cuadH-KALLOINC11032011EX101STR-1": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-INNOVIVAINC08072014EX101-20": [
+     "insurance",
+     "insurance",
+     "insurance"
+    ],
+    "cuadH-NICELTD06262003EX45OUTSO-11": [
+     "liquidated_damages",
+     "liquidated_damages",
+     "liquidated_damages"
+    ],
+    "cuadH-GarrettMotionInc20181001-3": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-UpjohnInc202001211012GEX-47": [
+     "insurance",
+     "insurance",
+     "insurance"
+    ],
+    "cuadH-BIOCEPTINC08192013EX10CO-2": [
+     "exclusivity",
+     "exclusivity",
+     "license_grant"
+    ],
+    "cuadH-TELKOMSALTD01302003EX10L-21": [
+     "",
+     "",
+     "competitive_restriction_exception"
+    ],
+    "cuadH-CUROGROUPHOLDINGSCORP050-4": [
+     "third_party_beneficiary",
+     "third_party_beneficiary",
+     "third_party_beneficiary"
+    ],
+    "cuadH-SFGFINANCIALCORP05122009-1": [
+     "no_solicit_of_employees",
+     "no_solicit_of_employees",
+     "no_solicit_of_employees"
+    ],
+    "cuadH-SimplicityEsportsGamingC-12": [
+     "covenant_not_to_sue",
+     "covenant_not_to_sue",
+     "covenant_not_to_sue"
+    ],
+    "cuadH-TELKOMSALTD01302003EX10L-8": [
+     "revenue_profit_sharing",
+     "revenue_profit_sharing",
+     "revenue_profit_sharing"
+    ],
+    "cuadH-ArconicRolledProductsCor-4": [
+     "affiliate_license_licensee",
+     "affiliate_license_licensee",
+     "affiliate_license_licensee"
+    ],
+    "cuadH-NUVEENREMARKETINGAGREEME-7": [
+     "covenant_not_to_sue",
+     "covenant_not_to_sue",
+     "covenant_not_to_sue"
+    ],
+    "cuadH-TomOnlineInc2006050120FE-17": [
+     "anti_assignment",
+     "anti_assignment",
+     "affiliate_license_licensee"
+    ],
+    "cuadH-ASIANDRAGONGROUPINC08112-4": [
+     "ip_ownership_assignment",
+     "ip_ownership_assignment",
+     "ip_ownership_assignment"
+    ],
+    "cuadH-IbioInc202003138KEX10112-3": [
+     "joint_ip_ownership",
+     "joint_ip_ownership",
+     "joint_ip_ownership"
+    ],
+    "cuadH-ASPIRITYHOLDINGSLLC05072-11": [
+     "post_termination_services",
+     "post_termination_services",
+     "post_termination_services"
+    ],
+    "cuadH-LOYALTYPOINTINC11162004E-11": [
+     "cap_on_liability",
+     "cap_on_liability",
+     "cap_on_liability"
+    ],
+    "cuadH-NICELTD06262003EX45OUTSO-12": [
+     "liquidated_damages",
+     "liquidated_damages",
+     "liquidated_damages"
+    ],
+    "cuadH-FIDELITYNATIONALINFORMAT-1": [
+     "change_of_control",
+     "change_of_control",
+     "change_of_control"
+    ],
+    "cuadH-SENMIAOTECHNOLOGYLTD0219-11": [
+     "liquidated_damages",
+     "liquidated_damages",
+     "liquidated_damages"
+    ],
+    "cuadH-WOMENSGOLFUNLIMITEDINC03-0": [
+     "renewal_term",
+     "renewal_term",
+     "renewal_term"
+    ],
+    "cuadH-AFSALABANCORPINC08011996-1": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     ""
+    ],
+    "cuadH-MagentaTherapeuticsIncMa-1": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-FuelcellEnergyInc2019110-2": [
+     "license_grant",
+     "license_grant",
+     "license_grant"
+    ],
+    "cuadH-FLOTEKINDUSTRIESINCCN050-5": [
+     "insurance",
+     "insurance",
+     "insurance"
+    ],
+    "cuadH-INGEVITYCORP05162016EX10-9": [
+     "non_transferable_license",
+     "non_transferable_license",
+     "non_transferable_license"
+    ],
+    "cuadH-CytodynInc2020010910QEX1-8": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-CardlyticsInc20180112S1E-23": [
+     "source_code_escrow",
+     "source_code_escrow",
+     "source_code_escrow"
+    ],
+    "cuadH-EuromediaHoldingsCorp200-0": [
+     "renewal_term",
+     "renewal_term",
+     "renewal_term"
+    ],
+    "cuadH-PACIRAPHARMACEUTICALSINC-0": [
+     "notice_period_to_terminate_renewal",
+     "notice_period_to_terminate_renewal",
+     "notice_period_to_terminate_renewal"
+    ],
+    "cuadH-WPPPLC04302020EX428SERVI-0": [
+     "non_compete",
+     "non_compete",
+     "non_compete"
+    ],
+    "cuadH-BloomEnergyCorp20180321D-6": [
+     "warranty_duration",
+     "warranty_duration",
+     "warranty_duration"
+    ],
+    "cuadH-ASPIRITYHOLDINGSLLC05072-15": [
+     "change_of_control",
+     "change_of_control",
+     "change_of_control"
+    ],
+    "cuadH-VARIABLESEPARATEACCOUNT0-0": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-JOINTCORP09192014EX1015F-17": [
+     "anti_assignment",
+     "change_of_control",
+     "anti_assignment"
+    ],
+    "cuadH-PhoenixNewMediaLtd201104-0": [
+     "governing_law",
+     "governing_law",
+     "governing_law"
+    ],
+    "cuadH-FOUNDATIONMEDICINEINC020-23": [
+     "audit_rights",
+     "audit_rights",
+     "audit_rights"
+    ],
+    "cuadH-LiquidmetalTechnologiesI-8": [
+     "",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-MEDALISTDIVERSIFIEDREITI-11": [
+     "ip_ownership_assignment",
+     "ip_ownership_assignment",
+     "ip_ownership_assignment"
+    ],
+    "cuadH-PareteumCorp200810018KEX-2": [
+     "governing_law",
+     "governing_law",
+     "governing_law"
+    ],
+    "cuadH-PACIRAPHARMACEUTICALSINC-16": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-TRIZETTOGROUPINC08181999-0": [
+     "notice_period_to_terminate_renewal",
+     "notice_period_to_terminate_renewal",
+     "notice_period_to_terminate_renewal"
+    ],
+    "cuadH-TomOnlineInc2006050120FE-12": [
+     "ip_ownership_assignment",
+     "ip_ownership_assignment",
+     "ip_ownership_assignment"
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-14": [
+     "joint_ip_ownership",
+     "joint_ip_ownership",
+     "joint_ip_ownership"
+    ],
+    "cuadH-GarrettMotionInc20181001-9": [
+     "covenant_not_to_sue",
+     "covenant_not_to_sue",
+     "covenant_not_to_sue"
+    ],
+    "cuadH-BloomEnergyCorp20180321D-18": [
+     "insurance",
+     "insurance",
+     "insurance"
+    ],
+    "cuadH-PlayboyEnterprisesInc200-2": [
+     "most_favored_nation",
+     "most_favored_nation",
+     "most_favored_nation"
+    ],
+    "cuadH-INNOVIVAINC08072014EX101-5": [
+     "revenue_profit_sharing",
+     "revenue_profit_sharing",
+     "revenue_profit_sharing"
+    ],
+    "cuadH-CYBERIANOUTPOSTINC070919-7": [
+     "uncapped_liability",
+     "uncapped_liability",
+     ""
+    ],
+    "cuadH-ADAPTIMMUNETHERAPEUTICSP-15": [
+     "post_termination_services",
+     "post_termination_services",
+     "post_termination_services"
+    ],
+    "cuadH-NETGROCERINC07311998EX10-12": [
+     "audit_rights",
+     "audit_rights",
+     "audit_rights"
+    ],
+    "cuadH-NEONSYSTEMSINC03011999EX-8": [
+     "right_of_first_refusal",
+     "right_of_first_refusal",
+     ""
+    ],
+    "cuadH-KALLOINC11032011EX101STR-4": [
+     "non_disparagement",
+     "non_disparagement",
+     "non_disparagement"
+    ],
+    "cuadH-TomOnlineInc2006050120FE-14": [
+     "joint_ip_ownership",
+     "joint_ip_ownership",
+     "joint_ip_ownership"
+    ],
+    "cuadH-WHITESMOKEINC11082011EX1-9": [
+     "uncapped_liability",
+     "uncapped_liability",
+     "uncapped_liability"
+    ],
+    "cuadH-ZogenixInc2019050910QEX1-17": [
+     "license_grant",
+     "license_grant",
+     "license_grant"
+    ],
+    "cuadH-KUBIENTINC07022020EX1014-2": [
+     "no_solicit_of_employees",
+     "no_solicit_of_employees",
+     "no_solicit_of_employees"
+    ],
+    "cuadH-UpjohnInc202001211012GEX-25": [
+     "audit_rights",
+     "audit_rights",
+     "audit_rights"
+    ],
+    "cuadH-GpaqAcquisitionHoldingsI-19": [
+     "affiliate_license_licensee",
+     "affiliate_license_licensee",
+     "affiliate_license_licensee"
+    ],
+    "cuadH-JOINTCORP09192014EX1015F-7": [
+     "non_disparagement",
+     "non_disparagement",
+     "non_disparagement"
+    ],
+    "cuadH-CytodynInc2020010910QEX1-20": [
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license"
+    ],
+    "cuadH-REGANHOLDINGCORP03312008-3": [
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license"
+    ],
+    "cuadH-SENMIAOTECHNOLOGYLTD0219-2": [
+     "most_favored_nation",
+     "most_favored_nation",
+     "most_favored_nation"
+    ],
+    "cuadH-INGEVITYCORP05162016EX10-11": [
+     "non_transferable_license",
+     "non_transferable_license",
+     "non_transferable_license"
+    ],
+    "cuadH-PhasebioPharmaceuticalsI-33": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-SFGFINANCIALCORP05122009-17": [
+     "cap_on_liability",
+     "cap_on_liability",
+     "cap_on_liability"
+    ],
+    "cuadH-PhoenixNewMediaLtd201104-1": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-GOLDRESOURCECORP12112008-18": [
+     "right_of_first_refusal",
+     "right_of_first_refusal",
+     "right_of_first_refusal"
+    ],
+    "cuadH-2ThemartComInc1999082610-5": [
+     "license_grant",
+     "license_grant",
+     "license_grant"
+    ],
+    "cuadH-GluMobileInc20070319S1AE-3": [
+     "revenue_profit_sharing",
+     "revenue_profit_sharing",
+     "revenue_profit_sharing"
+    ],
+    "cuadH-DigitalCinemaDestination-13": [
+     "minimum_commitment",
+     "minimum_commitment",
+     "minimum_commitment"
+    ],
+    "cuadH-PareteumCorp200810018KEX-3": [
+     "no_solicit_of_employees",
+     "no_solicit_of_employees",
+     "no_solicit_of_employees"
+    ],
+    "cuadH-PlayboyEnterprisesInc200-0": [
+     "renewal_term",
+     "renewal_term",
+     "renewal_term"
+    ],
+    "cuadH-VERICELCORP08062019EX101-3": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-PelicanDeliversInc202002-9": [
+     "license_grant",
+     "license_grant",
+     "license_grant"
+    ],
+    "cuadH-VIOLINMEMORYINC12122012E-4": [
+     "competitive_restriction_exception",
+     "competitive_restriction_exception",
+     "competitive_restriction_exception"
+    ],
+    "cuadH-BONTONSTORESINC04202018E-6": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-VARIABLESEPARATEACCOUNT0-1": [
+     "change_of_control",
+     "change_of_control",
+     "change_of_control"
+    ],
+    "cuadH-LeadersonlineInc20000427-2": [
+     "non_compete",
+     "non_compete",
+     "exclusivity"
+    ],
+    "cuadH-N2KINC10161997EX1016SPON-2": [
+     "right_of_first_refusal",
+     "right_of_first_refusal",
+     "right_of_first_refusal"
+    ],
+    "cuadH-ACCURAYINC09012010EX1031-12": [
+     "warranty_duration",
+     "warranty_duration",
+     "warranty_duration"
+    ],
+    "cuadH-TomOnlineInc2006050120FE-1": [
+     "most_favored_nation",
+     "most_favored_nation",
+     "most_favored_nation"
+    ],
+    "cuadH-BLACKBOXSTOCKSINC0805201-1": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-MEDALISTDIVERSIFIEDREITI-5": [
+     "non_disparagement",
+     "non_disparagement",
+     "non_disparagement"
+    ],
+    "cuadH-FIDELITYNATIONALINFORMAT-9": [
+     "license_grant",
+     "affiliate_license_licensee",
+     "affiliate_license_licensee"
+    ],
+    "cuadH-TomOnlineInc2006050120FE-15": [
+     "non_transferable_license",
+     "non_transferable_license",
+     "non_transferable_license"
+    ],
+    "cuadH-ArtaraTherapeuticsInc202-10": [
+     "insurance",
+     "insurance",
+     "insurance"
+    ],
+    "cuadH-BloomEnergyCorp20180321D-5": [
+     "warranty_duration",
+     "warranty_duration",
+     "warranty_duration"
+    ],
+    "cuadH-VERICELCORP08062019EX101-11": [
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license",
+     "irrevocable_or_perpetual_license"
+    ],
+    "cuadH-BLUEHILLSBANCORPINC05202-5": [
+     "minimum_commitment",
+     "minimum_commitment",
+     "minimum_commitment"
+    ],
+    "cuadH-ClickstreamCorp202003301-1": [
+     "no_solicit_of_employees",
+     "no_solicit_of_employees",
+     "no_solicit_of_employees"
+    ],
+    "cuadH-DIVERSINETCORP03012012EX-20": [
+     "cap_on_liability",
+     "uncapped_liability",
+     "cap_on_liability"
+    ],
+    "cuadH-NakedBrandGroupInc201507-2": [
+     "governing_law",
+     "governing_law",
+     "governing_law"
+    ],
+    "cuadH-ACCELERATEDTECHNOLOGIESH-1": [
+     "anti_assignment",
+     "anti_assignment",
+     "anti_assignment"
+    ],
+    "cuadH-AFSALABANCORPINC08011996-0": [
+     "termination_for_convenience",
+     "termination_for_convenience",
+     "termination_for_convenience"
+    ],
+    "cuadH-WOMENSGOLFUNLIMITEDINC03-8": [
+     "non_disparagement",
+     "non_disparagement",
+     "non_disparagement"
+    ],
+    "cuadH-ARMSTRONGFLOORINGINC0107-8": [
+     "affiliate_license_licensee",
+     "affiliate_license_licensee",
+     "affiliate_license_licensee"
+    ],
+    "cuadH-DIVERSINETCORP03012012EX-10": [
+     "license_grant",
+     "license_grant",
+     "license_grant"
+    ],
+    "cuadH-ReinsuranceGroupofAmeric-5": [
+     "third_party_beneficiary",
+     "third_party_beneficiary",
+     "third_party_beneficiary"
+    ],
+    "cuadH-EuromediaHoldingsCorp200-1": [
+     "notice_period_to_terminate_renewal",
+     "renewal_term",
+     "termination_for_convenience"
+    ],
+    "cuadH-EhaveInc2019051520FEX444-7": [
+     "source_code_escrow",
+     "source_code_escrow",
+     "source_code_escrow"
+    ],
+    "cuadH-MTITECHNOLOGYCORP1116200-3": [
+     "cap_on_liability",
+     "cap_on_liability",
+     "cap_on_liability"
+    ],
+    "cuadH-HERTZGLOBALHOLDINGSINC07-1": [
+     "non_compete",
+     "non_compete",
+     "non_compete"
+    ],
+    "cuadH-JOINTCORP09192014EX1015F-39": [
+     "post_termination_services",
+     "post_termination_services",
+     "post_termination_services"
+    ],
+    "cuadH-KINGPHARMACEUTICALSINC08-7": [
+     "most_favored_nation",
+     "most_favored_nation",
+     "right_of_first_refusal"
+    ],
+    "cuadH-DigitalCinemaDestination-6": [
+     "exclusivity",
+     "exclusivity",
+     "exclusivity"
+    ],
+    "cuadH-KitovPharmaLtd2019032620-14": [
+     "cap_on_liability",
+     "cap_on_liability",
+     "cap_on_liability"
+    ],
+    "cuadH-ORBSATCORP08172007EX73ST-1": [
+     "no_solicit_of_employees",
+     "no_solicit_of_employees",
+     "no_solicit_of_employees"
+    ],
+    "cuadH-KALLOINC11032011EX101STR-6": [
+     "ip_ownership_assignment",
+     "ip_ownership_assignment",
+     "ip_ownership_assignment"
+    ],
+    "cuadH-HerImports201610188KAEX1-0": [
+     "governing_law",
+     "governing_law",
+     "governing_law"
+    ],
+    "cuadH-INNOVIVAINC08072014EX101-12": [
+     "joint_ip_ownership",
+     "joint_ip_ownership",
+     "joint_ip_ownership"
+    ],
+    "cuadH-SUMMAFOURINC06191998EX10-16": [
+     "warranty_duration",
+     "warranty_duration",
+     "warranty_duration"
+    ],
+    "cuadH-CardlyticsInc20180112S1E-36": [
+     "audit_rights",
+     "audit_rights",
+     "audit_rights"
+    ],
+    "cuadH-TELKOMSALTD01302003EX10L-19": [
+     "source_code_escrow",
+     "source_code_escrow",
+     "source_code_escrow"
+    ],
+    "cuadH-ATMOSENERGYCORP11222002E-3": [
+     "volume_restriction",
+     "volume_restriction",
+     "volume_restriction"
+    ],
+    "cuadH-HealthcentralCom19991108-4": [
+     "change_of_control",
+     "change_of_control",
+     "change_of_control"
+    ],
+    "cuadH-LiquidmetalTechnologiesI-7": [
+     "joint_ip_ownership",
+     "joint_ip_ownership",
+     "joint_ip_ownership"
+    ]
+   },
+   "rows_unstable": 11
+  }
+ },
+ "validation": {
+  "rung": "ultra",
+  "n": 40,
+  "score": 0.9,
+  "cost_usd": 0.0135
+ },
+ "total_cost_usd": 1.205244,
+ "wall_s": 162.2
+}

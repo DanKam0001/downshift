@@ -91,8 +91,9 @@
   "source_url": "https://huggingface.co/datasets/naver-clova-ix/cord-v2 (github.com/clovaai/cord)",
   "license": "CC-BY-4.0",
   "attribution": "Park et al., 'CORD: A Consolidated Receipt Dataset for Post-OCR Parsing', 2019. NAVER Clova.",
-  "split_note": "input is the dataset's own OCR words regrouped into lines by row_id; reference built from gt_parse. Receipts with ambiguous amounts, an item without a line total, or nested multi-value fields were dropped. Holdout from the test split, train from the validation split (the rows API does not serve the train split).",
+  "split_note": "input is the dataset's own OCR words regrouped into lines by row_id; reference built from gt_parse. Receipts with ambiguous amounts, an item without a line total, or nested multi-value fields were dropped. Holdout is every usable receipt in the test split; tuning and validation rows come from the validation split (the rows API does not serve the train split).",
   "slug": "receipt-extract",
-  "n_train": 30,
-  "n_holdout": 40
+  "n_train": 49,
+  "n_validation": 40,
+  "n_holdout": 86
 }

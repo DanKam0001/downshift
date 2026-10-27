@@ -4,13 +4,15 @@
   const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const pct = (x) => (x == null ? "–" : (Math.round(x * 1000) / 10).toString().replace(/\.0$/, "") + "%");
   const usd = (x, d = 4) => (x == null ? "–" : "US$" + Number(x).toFixed(d));
+  const pts = (x) => (x == null ? "–" : (x >= 0 ? "+" : "−") + Math.abs(x * 100).toFixed(1));
+  const ciTxt = (ci) => (ci ? `${pct(ci.lo)}–${pct(ci.hi)}` : "");
   const ms = (x) => (x == null ? "–" : x < 1000 ? Math.round(x) + " ms" : (x / 1000).toFixed(2) + " s");
 
   let presets = [], selected = null, tiers = [], es = null, health = null;
   let S = null; // per-run view state
 
   function freshState() {
-    return { rows: {}, bar: null, trainBar: null, rounds: {}, verdict: null, cap: 0.1, spend: 0, graders: new Set(), currentTier: null, runId: null, ref: null, rowPts: null };
+    return { rows: {}, rounds: {}, verdict: null, cap: 0.1, spend: 0, graders: new Set(), currentTier: null, runId: null, ref: null, refInfo: null, tol: 0.03, rowPts: null };
   }
 
   /* ---------- theme ---------- */
@@ -90,7 +92,8 @@
   $("#run-btn").addEventListener("click", async () => {
     const err = $("#start-error"); err.hidden = true;
     const options = { tolerance: Number($("#opt-tol").value) / 100, spend_cap_usd: Number($("#opt-cap").value), rounds: Number($("#opt-rounds").value),
-                      ultra_thinking: $("#opt-ultra-think").checked, thinking_rungs: $("#opt-think-rungs").checked };
+                      ultra_thinking: $("#opt-ultra-think").checked, thinking_rungs: $("#opt-think-rungs").checked,
+                      reference: $("#opt-live-ref").checked ? "live" : "cached" };
     let body;
     try { body = customMode() ? { custom: customSpec(), options } : { preset: selected, options }; }
     catch (e) { err.textContent = e.message; err.hidden = false; return; }
@@ -126,7 +129,7 @@
     const li = document.createElement("li"); li.textContent = text; $("#log").appendChild(li);
   }
 
-  function row(k) { return (S.rows[k] ||= { plain: null, holdout: null, status: "waiting" }); }
+  function row(k) { return (S.rows[k] ||= { plain: null, val: null, holdout: null, done: null, ref: null, status: "waiting" }); }
 
   function handle(e) {
     if (e.spend_usd != null) { S.spend = e.spend_usd; renderSpend(); }
@@ -134,7 +137,7 @@
       case "started":
         tiers = e.tiers; S.cap = e.options.spend_cap_usd; S.rowPts = e.row_points;
         $("#task-story").textContent = (e.task.title ? e.task.title + ". " : "") + (e.task.business_story || "");
-        $("#split-note").textContent = `${e.n_train} rows are used for tuning prompts and ${e.n_holdout} are held out. Held-out rows are never shown to the prompt optimiser. Prices: ${e.pricing_source}.`;
+        $("#split-note").textContent = `${e.n_train} tuning rows (the prompt optimiser sees these), ${e.n_validation} validation rows (used only to choose between prompt candidates) and ${e.n_holdout} held-out rows (each rung's chosen prompt is scored on them once). Confidence intervals are 95% bootstrap intervals over rows; the comparison with Ultra is paired on the same rows. Prices: ${e.pricing_source}.`;
         log(`Run ${e.run_id} started`);
         break;
       case "stage":
@@ -161,23 +164,31 @@
         if (e.split === "train" && e.label === "plain") { r.plain = e; if (!e.tier_key.startsWith("ultra")) r.status = "tuning"; }
         if (e.split === "holdout") { r.holdout = e; }
         if (e.tier_key.startsWith("ultra") && e.split === "holdout") r.status = "measured";
-        log(`${tierName(e.tier_key)} · ${e.split === "holdout" ? "held out" : "tuning"} · ${e.label}: ${pct(e.score)} on ${e.n}, ${usd(e.cost_per_1k_usd)} per 1k calls, p50 ${ms(e.p50_ms)}${e.truncated ? ` · ${e.truncated} ran out of tokens` : ""}${e.grade_batch && e.grade_batch.operation_id ? " · sandbox op " + e.grade_batch.operation_id.slice(0, 8) : ""}`);
+        log(`${tierName(e.tier_key)} · ${{ holdout: "held out", validation: "validation", train: "tuning" }[e.split] || e.split} · ${e.label}: ${pct(e.score)} on ${e.n}, ${usd(e.cost_per_1k_usd)} per 1k calls, p50 ${ms(e.p50_ms)}${e.truncated ? ` · ${e.truncated} ran out of tokens` : ""}${e.grade_batch && e.grade_batch.operation_id ? " · sandbox op " + e.grade_batch.operation_id.slice(0, 8) : ""}`);
         break;
       }
-      case "bar":
-        S.bar = e.bar; S.trainBar = e.train_bar; S.ref = e.reference; S.rowPts = e.row_points;
-        row(e.reference).status = "reference";
-        S.barText = `Bar: ${pct(e.bar)} on held-out rows (${tierName(e.reference)} scored ${pct(e.ultra_holdout)}, minus ${Math.round(e.tolerance * 100)} points). Resolution: ±1 row = ${e.row_points} points.`;
+      case "bar": {
+        S.ref = e.reference; S.refInfo = e; S.tol = e.tolerance; S.rowPts = e.row_points;
+        Object.entries(e.modes || {}).forEach(([k, m]) => { const r = row(k); r.ref = m; r.status = k === e.reference ? "reference" : "measured"; });
+        const runs = e.repeat_scores || [];
+        const how = e.reference_source === "cached"
+          ? `${tierName(e.reference)} reference measured on ${e.measured_on}, ${e.repeats} runs, mean ${pct(e.ultra_holdout)} ± ${(Math.abs(e.spread) * 50).toFixed(1)} points (runs: ${runs.map(pct).join(", ")})`
+          : `${tierName(e.reference)} measured live in this run (one pass): ${pct(e.ultra_holdout)}`;
+        S.barText = `${how}; 95% CI over rows ${ciTxt(e.ultra_ci)}. A cheaper rung matches Ultra only if the 95% CI of its paired difference from Ultra stays above −${Math.round(e.tolerance * 100)} points.`;
+        $("#bar-line").textContent = S.barText;
+        log(S.barText);
         break;
+      }
       case "round":
         (S.rounds[e.tier_key] ||= []).push(e);
         $("#rounds-panel").hidden = false;
         renderRounds();
-        log(`${tierName(e.tier_key)} round ${e.round}: best on tuning rows ${pct(e.best_score)}`);
+        log(`${tierName(e.tier_key)} round ${e.round}: best so far ${pct(e.best_val)} on validation (${pct(e.best_score)} on tuning)`);
         break;
       case "tier_done":
-        row(e.tier_key).status = e.passed ? "passed" : "failed";
-        log(`${tierName(e.tier_key)}: ${pct(e.holdout_score)} held out vs bar ${pct(e.bar)} -> ${e.passed ? "meets the bar" : "below the bar"}`);
+        row(e.tier_key).done = e;
+        row(e.tier_key).status = e.passed ? (e.beats ? "beats" : "passed") : "failed";
+        log(e.message || `${tierName(e.tier_key)}: ${e.passed ? "matches" : "not shown to match"}`);
         break;
       case "verdict":
         S.verdict = e.verdict;
@@ -194,7 +205,7 @@
         $("#bar-line").textContent = "The run failed: " + e.message;
         break;
       case "done":
-        log(`Finished. ${e.calls ?? "?"} model calls, ${usd(e.spend_usd)} spent.`);
+        log(`Finished. ${e.calls ?? "?"} model calls, ${usd(e.spend_usd)} spent${e.seconds != null ? `, ${Math.round(e.seconds)} s` : ""}.`);
         tiers.forEach((t) => { const r = row(t.key); if (r.status === "running" || r.status === "tuning") r.status = "stopped"; });
         break;
     }
@@ -215,17 +226,38 @@
     $("#spend-fill").style.width = Math.min(100, (100 * S.spend) / (S.cap || 1)) + "%";
   }
 
-  function scoreCell(e, bar, label) {
-    if (!e) return '<span class="muted">–</span>';
-    const pass = bar != null ? e.score >= bar - 1e-9 : null;
-    const mark = bar != null ? `<span class="mark" style="left:${Math.min(100, bar * 100)}%" title="bar"></span>` : "";
-    return `<div class="score"><span class="v">${pct(e.score)} <span class="lbl">n=${e.n}${label ? " · " + esc(label) : ""}</span></span>
-      <span class="track" aria-hidden="true"><span class="fill ${pass == null ? "" : pass ? "pass" : "fail"}" style="width:${e.score * 100}%"></span>${mark}</span>${e.truncated ? `<span class="trunc">${e.truncated} of ${e.n} ran out of tokens</span>` : ""}</div>`;
+  function bar(score, ci, cls) {
+    const band = ci ? `<span class="band" style="left:${ci.lo * 100}%;width:${Math.max(0.5, (ci.hi - ci.lo) * 100)}%"></span>` : "";
+    return `<span class="track" aria-hidden="true">${band}<span class="fill ${cls || ""}" style="width:${score * 100}%"></span></span>`;
+  }
+
+  function tvCell(r) {
+    const d = r.done;
+    if (d && d.tuning_score != null) {
+      return `<div class="score"><span class="v">${pct(d.tuning_score)} / ${pct(d.validation_score)} <span class="lbl">${esc(d.prompt_label === "plain" ? "plain" : d.prompt_label === "carried" ? "carried" : "rewritten")}</span></span></div>`;
+    }
+    if (r.plain) return `<div class="score"><span class="v">${pct(r.plain.score)} <span class="lbl">plain, tuning n=${r.plain.n}</span></span></div>`;
+    return '<span class="muted">–</span>';
+  }
+
+  function holdoutCell(r) {
+    if (r.ref) {
+      const m = r.ref, runs = m.repeat_scores || [];
+      const sub = runs.length > 1 ? `${runs.length} runs: ${runs.map(pct).join(" / ")}` : "one pass";
+      return `<div class="score"><span class="v">${pct(m.mean)} <span class="lbl">CI ${ciTxt(m.ci)} · ${esc(sub)}</span></span>${bar(m.mean, m.ci, "ref")}</div>`;
+    }
+    const d = r.done;
+    if (d) {
+      const cls = d.passed ? "pass" : "fail";
+      const vs = d.diff ? `vs Ultra ${pts(d.diff.diff)} pts (CI ${pts(d.diff.lo)} to ${pts(d.diff.hi)})` : "";
+      return `<div class="score"><span class="v">${pct(d.holdout_score)} <span class="lbl">CI ${ciTxt(d.ci)}</span></span>${bar(d.holdout_score, d.ci, cls)}<span class="lbl">${vs}</span>${r.holdout && r.holdout.truncated ? `<span class="trunc">${r.holdout.truncated} of ${r.holdout.n} ran out of tokens</span>` : ""}</div>`;
+    }
+    return '<span class="muted">–</span>';
   }
 
   const STATUS = {
     waiting: ["", "Waiting"], running: ["run", "Measuring"], measured: ["", "Measured"], tuning: ["run", "Rewriting prompt"],
-    passed: ["pass", "Meets the bar"], failed: ["fail", "Below the bar"], reference: ["ref", "Sets the bar"], skipped: ["", "Not needed"], stopped: ["", "Stopped"],
+    passed: ["pass", "Matches Ultra"], beats: ["pass", "Better than Ultra"], failed: ["fail", "Not shown to match"], reference: ["ref", "Reference"], skipped: ["", "Not needed"], stopped: ["", "Stopped"],
     capped: ["", "Skipped (spend cap)"],
   };
 
@@ -234,14 +266,13 @@
     const chosen = S.verdict && S.verdict.kind === "downshift" ? S.verdict.rung : null;
     $("#ladder-body").innerHTML = (tiers.length ? tiers : []).map((t) => {
       const r = row(t.key);
-      const best = r.holdout || r.plain;
+      const best = r.ref || r.holdout || r.plain;
       const [cls, txt] = STATUS[r.status] || ["", r.status];
-      const hoLabel = r.holdout ? (r.holdout.label === "plain" ? "plain" : r.holdout.label === "carried" ? "carried" : "rewritten") : "";
       return `<tr class="${chosen === t.key ? "chosen" : ""}">
         <th scope="row"><div class="tier-name">${esc(t.name)}<span class="think ${t.thinking ? "on" : ""}">thinking ${t.thinking ? "on" : "off"}</span></div><div class="tier-model">${esc(t.model)}</div></th>
         <td class="num">$${t.price_in_per_m} / $${t.price_out_per_m}</td>
-        <td>${scoreCell(r.plain, S.trainBar)}</td>
-        <td>${scoreCell(r.holdout, S.bar, hoLabel)}</td>
+        <td>${tvCell(r)}</td>
+        <td>${holdoutCell(r)}</td>
         <td class="num">${best ? usd(best.cost_per_1k_usd) : "–"}</td>
         <td class="num">${best ? ms(best.p50_ms) : "–"}</td>
         <td><span class="chip ${cls}">${txt}</span></td></tr>`;
@@ -251,9 +282,9 @@
   function renderRounds() {
     $("#rounds").innerHTML = Object.entries(S.rounds).map(([k, rounds]) => `
       <div class="tier-rounds"><h3>${esc(tierName(k))}</h3>
-      ${rounds.map((r) => `<div class="round"><div class="round-head"><span>Round ${r.round}</span><span>best so far ${pct(r.best_score)}${r.train_bar != null ? " · target " + pct(r.train_bar) : ""}</span></div>
-        ${r.candidates.length ? `<ul class="cands">${r.candidates.map((c) => `<li class="cand"><span class="s ${c.score >= r.best_score - 1e-9 && c.label === r.best_label ? "best" : ""}">${pct(c.score)}</span>
-          <details><summary>${esc(c.note || c.label)} · ${c.fewshot_ids.length} example${c.fewshot_ids.length === 1 ? "" : "s"} · scored on ${c.n} rows</summary><pre class="mono">${esc(c.system_preview)}${c.system_preview.length >= 240 ? "…" : ""}</pre></details></li>`).join("")}</ul>`
+      ${rounds.map((r) => `<div class="round"><div class="round-head"><span>Round ${r.round}</span><span>best so far ${pct(r.best_val)} validation${r.validation_target != null ? " · stop at " + pct(r.validation_target) : ""}</span></div>
+        ${r.candidates.length ? `<ul class="cands">${r.candidates.map((c) => `<li class="cand"><span class="s ${c.label === r.best_label ? "best" : ""}" title="validation score">${pct(c.val)}</span>
+          <details><summary>${esc(c.note || c.label)} · ${c.fewshot_ids.length} example${c.fewshot_ids.length === 1 ? "" : "s"} · tuning ${pct(c.score)} on ${c.n} rows, validation ${pct(c.val)} on ${c.n_val}</summary><pre class="mono">${esc(c.system_preview)}${c.system_preview.length >= 240 ? "…" : ""}</pre></details></li>`).join("")}</ul>`
           : `<p class="muted">${esc(r.message || "No candidates")}</p>`}</div>`).join("")}</div>`).join("");
   }
 
@@ -262,20 +293,23 @@
     p.hidden = false;
     const short = v.tier_name.replace(/^Nemotron\s*/, "") + (v.thinking ? " (thinking on)" : " (thinking off)");
     $("#v-headline").textContent = v.kind === "downshift"
-      ? (v.savings_multiple && v.savings_multiple > 1 ? `Use ${short}: ${v.savings_multiple}x cheaper than Ultra` : `Use ${short}`)
+      ? (v.savings_multiple && v.savings_multiple > 1 ? `Use ${short}: ${v.savings_multiple}x cheaper, matches Ultra within ${Math.round(v.tolerance * 100)} points (95% CI)` : `Use ${short}`)
       : "Keep Ultra for now";
     $("#v-sentence").textContent = v.sentence;
     const stat = (dt, dd, vs) => `<div><dt>${dt}</dt><dd>${dd}${vs ? `<span class="vs">${vs}</span>` : ""}</dd></div>`;
     $("#v-stats").innerHTML =
-      stat("Held-out score", pct(v.holdout_score), `Ultra ${pct(v.ultra_holdout_score)} · bar ${pct(v.bar)} · n=${v.holdout_n}, ±1 row = ${v.row_points} pts`) +
+      stat("Held-out score", pct(v.holdout_score), `95% CI ${ciTxt(v.holdout_ci)} · n=${v.holdout_n}`) +
+      stat("Ultra reference", pct(v.reference.mean), v.reference.description) +
+      (v.diff_vs_reference ? stat("Difference vs Ultra", pts(v.diff_vs_reference.diff) + " pts", `95% CI ${pts(v.diff_vs_reference.lo)} to ${pts(v.diff_vs_reference.hi)}, paired on the same rows`) : "") +
+      (v.overfit && v.overfit.tuning_score != null ? stat("Tuning → validation → held out", `${pct(v.overfit.tuning_score)} → ${pct(v.overfit.validation_score)} → ${pct(v.overfit.holdout_score)}`, "the drop is how much the prompt overfit the rows it was tuned on") : "") +
       stat("Cost per 1k calls", usd(v.cost_per_1k_usd), `Ultra ${usd(v.ultra_cost_per_1k_usd)}, thinking ${v.reference.thinking ? "on" : "off"}`) +
       stat("p50 latency", ms(v.p50_latency_ms), `Ultra ${ms(v.ultra_p50_latency_ms)}`) +
       stat("Thinking", v.thinking ? "On" : "Off", "set by enable_thinking in the snippet") +
-      stat("This run cost", usd(v.run_spend_usd), `graded by ${v.graded_by.map((g) => (g === "sandbox" ? "Nebius Sandboxes" : "local subprocess")).join(" + ")}`);
+      stat("This run cost", usd(v.run_spend_usd), `${v.run_seconds != null ? Math.round(v.run_seconds) + " s · " : ""}graded by ${v.graded_by.map((g) => (g === "sandbox" ? "Nebius Sandboxes" : "local subprocess")).join(" + ")}`);
     $("#v-prompt").textContent = v.system_prompt + (v.fewshots.length ? `\n\n+ ${v.fewshots.length} example pair(s): ${v.fewshots.map((f) => f.id).join(", ")}` : "");
     $("#v-snippet").textContent = v.snippet;
     $("#share-link").href = `/?run=${S.runId}`;
-    $("#v-fine").textContent = `Model: ${v.model}, thinking ${v.thinking ? "on" : "off"}. Compared with ${v.reference.label}. Scores are on held-out rows the optimiser never saw; cost is the mean and latency the median of the calls made in this run.`;
+    $("#v-fine").textContent = `Model: ${v.model}, thinking ${v.thinking ? "on" : "off"}. Compared with ${v.reference.label} (${v.reference.source === "cached" ? "cached reference" : "measured live"}). Held-out rows were never seen by the optimiser and never used to choose a prompt; cost is the mean and latency the median of the measured calls.`;
     const ft = $("#v-finetune");
     if (v.finetune_offer) {
       ft.hidden = false;

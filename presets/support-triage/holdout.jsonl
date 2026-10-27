@@ -38,3 +38,113 @@
 {"id": "b77test-02358", "input": "I would like to transfer money from my other bank account into this one.", "reference": "transfer_into_account"}
 {"id": "b77test-00166", "input": "Can you explain what this random $1 charge is?", "reference": "extra_charge_on_statement"}
 {"id": "b77test-02667", "input": "I tried to top up. Why was it denied?", "reference": "top_up_failed"}
+{"id": "b77test-00144", "input": "Hi, I have been overcharged for my payment last Saturday. I guess exchange rate was wrong.", "reference": "card_payment_wrong_exchange_rate"}
+{"id": "b77test-01136", "input": "I need to update my personal details", "reference": "edit_personal_details"}
+{"id": "b77test-01030", "input": "Do you know if my top-up has been cancelled?", "reference": "top_up_reverted"}
+{"id": "b77test-02516", "input": "I need a physical card.", "reference": "order_physical_card"}
+{"id": "b77test-00112", "input": "I'm trying to figure out the current exchange rate.", "reference": "exchange_rate"}
+{"id": "b77test-00192", "input": "Can you help me with a weird charge?  It's a pound charge that never goes away from the statement view on the app I'm using.  It's not described as anything but \"Pending\", and that status has never changed during the last two days.", "reference": "extra_charge_on_statement"}
+{"id": "b77test-02397", "input": "I need help finding the verification code for my top-up card.", "reference": "verify_top_up"}
+{"id": "b77test-02338", "input": "How do I top up my card?", "reference": "transfer_into_account"}
+{"id": "b77test-02102", "input": "I am attempting to make a purchase online, but my card is not working.  I know there are funds available, is this an issue on the banks end?", "reference": "reverted_card_payment?"}
+{"id": "b77test-00440", "input": "My entire gym bag, including my wallet, was stolen out of my locker today. Everything in my wallet is gone - how do I block the card to make it can't be used?", "reference": "lost_or_stolen_card"}
+{"id": "b77test-00577", "input": "How can I make my contactless work for the metro?", "reference": "contactless_not_working"}
+{"id": "b77test-00904", "input": "why wouldn't you support american express? its a card i like and use often and i don't want to get a different one", "reference": "supported_cards_and_currencies"}
+{"id": "b77test-02336", "input": "I want to top my account by using a bank transfer. How would that work?", "reference": "transfer_into_account"}
+{"id": "b77test-00902", "input": "Are US credit cards accepted?", "reference": "supported_cards_and_currencies"}
+{"id": "b77test-01953", "input": "I was taking out funds and was unable to regain my card.", "reference": "card_swallowed"}
+{"id": "b77test-00124", "input": "The exchange rate on my purchase is wrong.", "reference": "card_payment_wrong_exchange_rate"}
+{"id": "b77test-00335", "input": "can you assist me with the auto top up ?", "reference": "automatic_top_up"}
+{"id": "b77test-02080", "input": "I think my card payment has been stopped", "reference": "reverted_card_payment?"}
+{"id": "b77test-01443", "input": "Is there a list of ATM machines?", "reference": "atm_support"}
+{"id": "b77test-00712", "input": "I made a mistake and need to cancel a transaction", "reference": "cancel_transfer"}
+{"id": "b77test-02457", "input": "I'm looking for the option to top up by cheque.", "reference": "top_up_by_cash_or_cheque"}
+{"id": "b77test-02712", "input": "Hey, I try to make a bank transfer from my UK account a few hours ago, but it haven't show up yet. Please check my account to make sure everything alright with it?", "reference": "balance_not_updated_after_bank_transfer"}
+{"id": "b77test-01375", "input": "What is the maximum number of transactions I can make with one card?", "reference": "disposable_card_limits"}
+{"id": "b77test-00340", "input": "What's the limit on automatic top-up?", "reference": "automatic_top_up"}
+{"id": "b77test-02911", "input": "I have never been charged a fee for cash withdrawal before. When did that change?", "reference": "cash_withdrawal_charge"}
+{"id": "b77test-02013", "input": "My source of funds need verified.", "reference": "verify_source_of_funds"}
+{"id": "b77test-00301", "input": "Ordered awhile back, what is the ETA in the US?", "reference": "card_delivery_estimate"}
+{"id": "b77test-02246", "input": "Do I need to choose GBP to get my salary deposited properly?", "reference": "receiving_money"}
+{"id": "b77test-00835", "input": "There is a fee on my account. Why?", "reference": "card_payment_fee_charged"}
+{"id": "b77test-00109", "input": "what is the exchange rate?", "reference": "exchange_rate"}
+{"id": "b77test-01500", "input": "I found a charge for a direct debit that was not made by me.", "reference": "direct_debit_payment_not_recognised"}
+{"id": "b77test-00175", "input": "There is an extra $1 charge", "reference": "extra_charge_on_statement"}
+{"id": "b77test-00262", "input": "Do you accept exchanges to EUR?", "reference": "fiat_currency_support"}
+{"id": "b77test-01657", "input": "my phone was taken! can you place cancel my account so no one uses it", "reference": "lost_or_stolen_phone"}
+{"id": "b77test-01425", "input": "How do I freeze my account?", "reference": "compromised_card"}
+{"id": "b77test-02658", "input": "I need to know why my credit card was declined for top up? What is the deal here and why did it not go through?", "reference": "top_up_failed"}
+{"id": "b77test-02804", "input": "Will I get charged for topping off my card?", "reference": "top_up_by_card_charge"}
+{"id": "b77test-01736", "input": "Why was I unable to do a transfer?", "reference": "declined_transfer"}
+{"id": "b77test-01415", "input": "I don't recognize some of the transactions on my card, I think someone must have gotten my card info and used it.", "reference": "compromised_card"}
+{"id": "b77test-00404", "input": "Will this app exchange currencies?", "reference": "exchange_via_app"}
+{"id": "b77test-02835", "input": "Can I top up using an international card", "reference": "top_up_by_card_charge"}
+{"id": "b77test-01071", "input": "I submitted a cash deposit to my account but it hasn't posted yet.", "reference": "balance_not_updated_after_cheque_or_cash_deposit"}
+{"id": "b77test-00710", "input": "My transaction needs to be canceled.", "reference": "cancel_transfer"}
+{"id": "b77test-03073", "input": "What countries do you currently do business in?", "reference": "country_support"}
+{"id": "b77test-01646", "input": "I've lost track of my phone or someone stole it.", "reference": "lost_or_stolen_phone"}
+{"id": "b77test-02432", "input": "Where do I request another card?", "reference": "getting_spare_card"}
+{"id": "b77test-02678", "input": "why isnt top up working", "reference": "top_up_failed"}
+{"id": "b77test-01753", "input": "Why would my transfer be declined? I've checked that I've put in all the right details, but it is still declined.", "reference": "declined_transfer"}
+{"id": "b77test-01882", "input": "My account needs to be deleted.", "reference": "terminate_account"}
+{"id": "b77test-01956", "input": "The ATM won't give back my card", "reference": "card_swallowed"}
+{"id": "b77test-00870", "input": "I sent some money and the receiver can't access it.", "reference": "transfer_not_received_by_recipient"}
+{"id": "b77test-01208", "input": "app does not recognize me", "reference": "unable_to_verify_identity"}
+{"id": "b77test-00055", "input": "Hello, I found the card I misplaced and I need to reactive it, how do I do that?", "reference": "card_linking"}
+{"id": "b77test-01707", "input": "I would like a refund on one of your products that has been sold to me", "reference": "request_refund"}
+{"id": "b77test-00288", "input": "When can I expect my card to be delivered to the US?", "reference": "card_delivery_estimate"}
+{"id": "b77test-00778", "input": "I went to withdraw some cash earlier today, but seems the ATM gave me the wrong amount of cash! The amount showing up in the app is a lot more", "reference": "wrong_amount_of_cash_received"}
+{"id": "b77test-01873", "input": "Transferring money in 2018 to another country shouldn't take this long. My transfer has been pending for too long. I verified my account details are correct.", "reference": "pending_transfer"}
+{"id": "b77test-02879", "input": "What do I need to do to activate my card?", "reference": "activate_my_card"}
+{"id": "b77test-02914", "input": "I took cash and got charged a fee", "reference": "cash_withdrawal_charge"}
+{"id": "b77test-00394", "input": "The card I have doesn't work.", "reference": "card_not_working"}
+{"id": "b77test-00014", "input": "I am still waiting for my card after 1 week.  Is this ok?", "reference": "card_arrival"}
+{"id": "b77test-00665", "input": "Hi I'm a new customer and tried topping up for the first time today, seems it's not working, the thing shows up as pending since half an hour already! Please fix it!", "reference": "pending_top_up"}
+{"id": "b77test-02147", "input": "What do I need to do to change my PIN?", "reference": "change_pin"}
+{"id": "b77test-01712", "input": "I am chatting about an order from a long while back.  I never got it to this day and am deeply upset by this!  I want all of my money back!  I just can not accept paying for something I never got.", "reference": "request_refund"}
+{"id": "b77test-01215", "input": "The app will not let me into my account.", "reference": "unable_to_verify_identity"}
+{"id": "b77test-02829", "input": "Is it okay to use a bank card to top up", "reference": "top_up_by_card_charge"}
+{"id": "b77test-01172", "input": "Why do you require all my identity details?", "reference": "why_verify_identity"}
+{"id": "b77test-01630", "input": "Why are my payments showing pending?", "reference": "pending_card_payment"}
+{"id": "b77test-02159", "input": "How can I change the PIN?  Do I have to go to a real bank?", "reference": "change_pin"}
+{"id": "b77test-01784", "input": "I requested a refund from a store but it hasn't arrived.", "reference": "Refund_not_showing_up"}
+{"id": "b77test-02483", "input": "Where can I get my card at?", "reference": "order_physical_card"}
+{"id": "b77test-02476", "input": "I want to top-up using cash", "reference": "top_up_by_cash_or_cheque"}
+{"id": "b77test-02498", "input": "What is the charge for a physical card?", "reference": "order_physical_card"}
+{"id": "b77test-00775", "input": "My cash withdrawal was partly declined", "reference": "wrong_amount_of_cash_received"}
+{"id": "b77test-01225", "input": "What do i need to verify my id?", "reference": "unable_to_verify_identity"}
+{"id": "b77test-00912", "input": "Do you accept other currencies besides US Dollars?", "reference": "supported_cards_and_currencies"}
+{"id": "b77test-02016", "input": "I need my funds verified.", "reference": "verify_source_of_funds"}
+{"id": "b77test-00813", "input": "What is the fee charged with this card payment?", "reference": "card_payment_fee_charged"}
+{"id": "b77test-02330", "input": "I NEED TO KNOW HOW TO TRANSFER MONEY INTO MY BANK ACCOUNT. PLEASE HELP", "reference": "transfer_into_account"}
+{"id": "b77test-01282", "input": "How do I get a visa card?", "reference": "visa_or_mastercard"}
+{"id": "b77test-00199", "input": "Can you please check why I am having this extra fee on my statement.", "reference": "extra_charge_on_statement"}
+{"id": "b77test-00521", "input": "Where can I view my PIN?", "reference": "pin_blocked"}
+{"id": "b77test-01984", "input": "More than one time this week, I have been charged more than once for the same transaction. Please correct the issue and refund the duplicate charges.", "reference": "transaction_charged_twice"}
+{"id": "b77test-01148", "input": "I need to change my name since I got married", "reference": "edit_personal_details"}
+{"id": "b77test-01128", "input": "I moved.  I need to update my details.", "reference": "edit_personal_details"}
+{"id": "b77test-02741", "input": "Some cash is showing up in my app that I did not get.", "reference": "cash_withdrawal_not_recognised"}
+{"id": "b77test-02775", "input": "Will I be charged a fee for exchanging foreign currencies?", "reference": "exchange_charge"}
+{"id": "b77test-02780", "input": "If I need to exchange currency is there an extra fee?", "reference": "exchange_charge"}
+{"id": "b77test-01471", "input": "What are the ATMs that will accept this card?", "reference": "atm_support"}
+{"id": "b77test-02454", "input": "Can I top up using a cheque?", "reference": "top_up_by_cash_or_cheque"}
+{"id": "b77test-00070", "input": "Where do I go if I want to link my new card?", "reference": "card_linking"}
+{"id": "b77test-02950", "input": "The expiration date of my card is approaching .", "reference": "card_about_to_expire"}
+{"id": "b77test-01022", "input": "For what reason would a top up be reverted and returned to my account?", "reference": "top_up_reverted"}
+{"id": "b77test-01284", "input": "Are both Visa and Mastercard accepted?", "reference": "visa_or_mastercard"}
+{"id": "b77test-00657", "input": "top-up is slow to process", "reference": "pending_top_up"}
+{"id": "b77test-02249", "input": "Can I use this to receive my salary?", "reference": "receiving_money"}
+{"id": "b77test-00229", "input": "I have a pending transaction in my app. How is it still pending if I pulled the cash out from the ATM earlier?", "reference": "pending_cash_withdrawal"}
+{"id": "b77test-00491", "input": "What is the minimum age?", "reference": "age_limit"}
+{"id": "b77test-01078", "input": "I tired to deposit some cash into my account but it's not there", "reference": "balance_not_updated_after_cheque_or_cash_deposit"}
+{"id": "b77test-00618", "input": "What are the fees for top-ups?", "reference": "top_up_by_bank_transfer_charge"}
+{"id": "b77test-01517", "input": "I was charged on my account that shouldn't be there.", "reference": "direct_debit_payment_not_recognised"}
+{"id": "b77test-02361", "input": "It wants me to verify the top up. Why?", "reference": "verify_top_up"}
+{"id": "b77test-02857", "input": "Please, activate my card", "reference": "activate_my_card"}
+{"id": "b77test-00718", "input": "Can I change the amount I made on a payment that I made to the payment is correct.", "reference": "cancel_transfer"}
+{"id": "b77test-02722", "input": "I just lost my wallet and I see that they are already withdrawing money from my account. How can I stop this?", "reference": "cash_withdrawal_not_recognised"}
+{"id": "b77test-02122", "input": "Is the bank the only place I can change my PIN>", "reference": "change_pin"}
+{"id": "b77test-02661", "input": "I think my top up did not work", "reference": "top_up_failed"}
+{"id": "b77test-01334", "input": "I have friends that would like to top-up my account is that possible?", "reference": "topping_up_by_card"}
+{"id": "b77test-00730", "input": "What is maximum top up?", "reference": "top_up_limits"}
+{"id": "b77test-01197", "input": "Do I have to verify my identity?", "reference": "why_verify_identity"}

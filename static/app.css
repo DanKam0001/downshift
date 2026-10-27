@@ -133,6 +133,8 @@ table.ladder { width: 100%; border-collapse: collapse; min-width: 720px; }
 .score .fill.pass { background: var(--good); }
 .score .fill.fail { background: var(--warn); }
 .score .mark { position: absolute; top: -3px; width: 2px; height: 12px; background: var(--text); }
+.score .fill.ref { background: var(--accent, var(--muted)); }
+.score .band { position: absolute; top: -3px; height: 12px; border: 1px solid var(--text); border-radius: 2px; opacity: 0.55; z-index: 1; box-sizing: border-box; }
 .score .lbl { font-size: 11.5px; color: var(--muted); }
 .chip { display: inline-block; font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; }
 .chip.run { border-color: var(--accent); color: var(--accent); }

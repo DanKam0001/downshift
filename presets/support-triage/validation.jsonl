@@ -1,0 +1,40 @@
+{"id": "b77train-06572", "input": "Where can I find out where my funds came from?", "reference": "verify_source_of_funds"}
+{"id": "b77train-01554", "input": "What should I do?  My card has been stolen!", "reference": "lost_or_stolen_card"}
+{"id": "b77train-09716", "input": "Could google pay and top up be together?", "reference": "apple_pay_or_google_pay"}
+{"id": "b77train-04236", "input": "i can not see my top up", "reference": "topping_up_by_card"}
+{"id": "b77train-01340", "input": "I am having problems with my physical card.", "reference": "card_not_working"}
+{"id": "b77train-01028", "input": "To deliver to the US, how long will it take?", "reference": "card_delivery_estimate"}
+{"id": "b77train-01201", "input": "Is there a function where I can top-up automatically?", "reference": "automatic_top_up"}
+{"id": "b77train-03155", "input": "My top up did not show up as shown and my money has disappeared, can you help me fix this glitch problem?", "reference": "top_up_reverted"}
+{"id": "b77train-02533", "input": "On a card payment, why is there a fee?", "reference": "card_payment_fee_charged"}
+{"id": "b77train-05607", "input": "Hi, during online shopping payment is getting declined yesterday and today as well. Please check the issue.", "reference": "declined_transfer"}
+{"id": "b77train-03685", "input": "I've just got married and want to change my name.", "reference": "edit_personal_details"}
+{"id": "b77train-01951", "input": "My top up is incomplete.", "reference": "pending_top_up"}
+{"id": "b77train-09332", "input": "i cannot seem to activate card", "reference": "activate_my_card"}
+{"id": "b77train-01673", "input": "Can I reset my PIN if it is blocked?", "reference": "pin_blocked"}
+{"id": "b77train-05974", "input": "Why have you declined my card payment?", "reference": "declined_card_payment"}
+{"id": "b77train-07688", "input": "I would like to receive instructions showing the verification process for top up cards..", "reference": "verify_top_up"}
+{"id": "b77train-09379", "input": "Why was I charged for withdrawing cash?", "reference": "cash_withdrawal_charge"}
+{"id": "b77train-01766", "input": "Where do I unblock my PIN?", "reference": "pin_blocked"}
+{"id": "b77train-08295", "input": "Can I get money in my home currency at an ATM? I'm on vacation and don't have cash with me. This is cause for a bit of concern. Is it possible to withdraw here without additional cost?", "reference": "wrong_exchange_rate_for_cash_withdrawal"}
+{"id": "b77train-05982", "input": "I had a problem with my card payment, can you help?", "reference": "declined_card_payment"}
+{"id": "b77train-09538", "input": "How do I get a new card sent to China?", "reference": "card_about_to_expire"}
+{"id": "b77train-01290", "input": "I can't seem to be able to use my card", "reference": "card_not_working"}
+{"id": "b77train-00873", "input": "When will the cash that I put in the ATM be cleared from pending status?", "reference": "pending_cash_withdrawal"}
+{"id": "b77train-09390", "input": "I was told that withdrawing cash from the ATM is free, but I'm charged a fee. Why is this?", "reference": "cash_withdrawal_charge"}
+{"id": "b77train-00339", "input": "What is your opinion on the exchange rate?", "reference": "exchange_rate"}
+{"id": "b77train-03255", "input": "Why isn't my top up showing?  Was the money reversed?", "reference": "top_up_reverted"}
+{"id": "b77train-08288", "input": "What on earth is up with the exchange rate! This should have been a much higher amount of cash", "reference": "wrong_exchange_rate_for_cash_withdrawal"}
+{"id": "b77train-05957", "input": "I keep trying to make a payment, but it doesn't work.", "reference": "declined_card_payment"}
+{"id": "b77train-07594", "input": "How does it work when I transfer money into my account?", "reference": "transfer_into_account"}
+{"id": "b77train-09194", "input": "It won't let me activate my card.", "reference": "activate_my_card"}
+{"id": "b77train-05961", "input": "Why wasn't my card payment accepted?", "reference": "declined_card_payment"}
+{"id": "b77train-05814", "input": "Are the funds I requested from a merchant a few days ago in my account? I do not see them.", "reference": "Refund_not_showing_up"}
+{"id": "b77train-06334", "input": "What happens with the duplicate charge in my account?", "reference": "transaction_charged_twice"}
+{"id": "b77train-07787", "input": "Tell me how to verify a top up.", "reference": "verify_top_up"}
+{"id": "b77train-03659", "input": "I moved to a new city and need to change my address", "reference": "edit_personal_details"}
+{"id": "b77train-03234", "input": "I was under the impression that you offer crypto top up; however,  it doesn't appear to be working. The money has now disappeared from my account so I need to know what the deal is?", "reference": "top_up_reverted"}
+{"id": "b77train-06939", "input": "Can I change my pin at a cash machine?", "reference": "change_pin"}
+{"id": "b77train-01618", "input": "At what age can I open an account?", "reference": "age_limit"}
+{"id": "b77train-00049", "input": "How can I check on the status of my new card?", "reference": "card_arrival"}
+{"id": "b77train-02639", "input": "Why was I charged a fee for my card payment?", "reference": "card_payment_fee_charged"}

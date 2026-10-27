@@ -61,7 +61,7 @@
           </div>
           <label>Examples, one JSON object per line <span class="req">8 to 200 rows</span>
             <textarea name="examples" rows="6" class="mono" required placeholder='{"input": "I was charged twice", "reference": "billing"}&#10;{"input": "Where is my parcel?"}'></textarea></label>
-          <p class="hint">Half the rows are used to tune prompts, the other half are held out for the final score. Rows without a <code>reference</code> get one from Ultra, and Ultra writes the checker, which is tested before use.</p>
+          <p class="hint">40% of rows tune prompts, 20% choose between prompt candidates (validation), and 40% are held out for the final score. Rows without a <code>reference</code> get one from Ultra, and Ultra writes the checker, which is tested before use.</p>
         </form>
       </div>
 
@@ -69,15 +69,16 @@
         <details class="opts">
           <summary>Settings</summary>
           <div class="opts-grid">
-            <label>Allowed quality drop vs Ultra (points)
-              <input id="opt-tol" type="number" min="0" max="20" step="1" value="2"></label>
+            <label>Allowed quality drop vs Ultra (points, applied to the 95% CI)
+              <input id="opt-tol" type="number" min="0" max="20" step="1" value="3"></label>
             <label>Spend cap for this run (US$)
               <input id="opt-cap" type="number" min="0.01" max="0.50" step="0.01" value="0.10"></label>
             <label>Prompt-rewrite rounds per rung
-              <input id="opt-rounds" type="number" min="0" max="4" step="1" value="3"></label>
+              <input id="opt-rounds" type="number" min="0" max="4" step="1" value="2"></label>
           </div>
           <div class="checks">
-            <label class="check"><input id="opt-ultra-think" type="checkbox" checked> Also measure Ultra with thinking on, if it fits the cap (often needs a cap of US$0.25 or more)</label>
+            <label class="check"><input id="opt-live-ref" type="checkbox"> Re-measure Ultra live in this run (one pass) instead of using the cached reference (3 runs per thinking mode). Costs more; thinking on often needs a cap of US$0.50</label>
+            <label class="check"><input id="opt-ultra-think" type="checkbox" checked> When re-measuring live, also measure Ultra with thinking on if it fits the cap</label>
             <label class="check"><input id="opt-think-rungs" type="checkbox" checked> Try Lightning with thinking on as its own rung</label>
           </div>
         </details>
@@ -95,7 +96,7 @@
         </div>
       </div>
       <p class="story" id="task-story"></p>
-      <p class="bar-line" id="bar-line">Measuring every tier with the plain prompt…</p>
+      <p class="bar-line" id="bar-line">Starting…</p>
       <div class="table-wrap">
         <table class="ladder" id="ladder">
           <caption class="sr-only">Score, cost and latency for each Nemotron model and thinking mode</caption>
@@ -103,8 +104,8 @@
             <tr>
               <th scope="col">Rung<br><span class="sub">model and thinking mode</span></th>
               <th scope="col" class="num">Price per 1M tokens<br><span class="sub">in / out</span></th>
-              <th scope="col">Plain prompt<br><span class="sub">tuning split</span></th>
-              <th scope="col">Best prompt<br><span class="sub">held-out split</span></th>
+              <th scope="col">Chosen prompt<br><span class="sub">tuning / validation</span></th>
+              <th scope="col">Held out<br><span class="sub">score, 95% CI, vs Ultra</span></th>
               <th scope="col" class="num">US$ per 1k calls</th>
               <th scope="col" class="num">p50 latency</th>
               <th scope="col">Status</th>
@@ -120,7 +121,7 @@
       <div class="panel-head">
         <h2 id="rounds-h"><span class="step">3</span> Prompt rewrites</h2>
       </div>
-      <p class="muted">Ultra rewrites the instructions and picks examples from the tuning split. Each candidate is scored on the tuning rows it did not use as examples. Only the best one is scored on the held-out split.</p>
+      <p class="muted">Ultra rewrites the instructions and picks examples from the tuning split; it only ever sees tuning rows. Each candidate is scored on the tuning rows it did not use as examples and on the validation rows. The candidate with the best validation score is the only one scored on the held-out split, so the gap between the three scores shows how much the rewrite overfit.</p>
       <div id="rounds"></div>
     </section>
 

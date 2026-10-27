@@ -159,6 +159,8 @@ async def start_run(req: RunRequest):
             opts[k] = v
         if k in ("ultra_thinking", "thinking_rungs") and v is not None:
             opts[k] = bool(v)
+        if k == "reference" and v in ("cached", "live"):
+            opts[k] = v
     opts["spend_cap_usd"] = min(float(opts["spend_cap_usd"]), MAX_RUN_CAP_USD)
     opts["rounds"] = max(0, min(int(opts["rounds"]), 4))
     opts["candidates"] = max(1, min(int(opts["candidates"]), 3))
@@ -167,7 +169,7 @@ async def start_run(req: RunRequest):
     state = RunState(run_id, {"created": time.time(), "task": {k: task.get(k) for k in
                                                                 ("slug", "title", "business_story", "source")},
                               "options": opts})
-    state.task_rows = {"train": task["train"], "holdout": task["holdout"]}
+    state.task_rows = {"train": task["train"], "validation": task.get("validation", []), "holdout": task["holdout"]}
     RUNS[run_id] = state
     asyncio.create_task(_drive(state, task, opts))
     return {"run_id": run_id, "events_url": f"/api/run/{run_id}/events", "page_url": f"/?run={run_id}"}
