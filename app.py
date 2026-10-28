@@ -87,7 +87,7 @@ async def _drive(state: RunState, task: dict, options: dict) -> None:
                 if ev["type"] == "done":
                     state.done = True
                 state.cond.notify_all()
-            if ev["type"] in ("eval", "round", "verdict", "photo", "done", "grader", "aborted", "error"):
+            if ev["type"] in ("eval", "round", "verdict", "photo", "guess", "done", "grader", "aborted", "error"):
                 _save(state)
     except Exception as e:  # noqa: BLE001 - never leave a run hanging
         async with state.cond:
@@ -157,7 +157,7 @@ async def start_run(req: RunRequest):
     for k, v in (req.options or {}).items():
         if k in ("tolerance", "rounds", "candidates", "spend_cap_usd") and v is not None:
             opts[k] = v
-        if k in ("ultra_thinking", "thinking_rungs", "photo_check") and v is not None:
+        if k in ("ultra_thinking", "thinking_rungs", "photo_check", "guess_check") and v is not None:
             opts[k] = bool(v)
         if k == "reference" and v in ("cached", "live"):
             opts[k] = v

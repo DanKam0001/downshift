@@ -69,6 +69,8 @@ async def main(run_path: Path, repeats: int, max_usd: float) -> None:
         "graded_by": sorted({e["grader"] for e in reps}), "spent_usd": round(llm.meter.spent_usd, 4),
         "wall_s": round(time.time() - t0, 1),
         "per_repeat": [{k: e[k] for k in ("score", "cost_usd", "p50_ms", "truncated", "errors", "grade_batch")} for e in reps],
+        "per_row": {i: [e["row_scores"][i] for e in reps] for i in ids},
+        "per_row_outputs": {i: [e["outputs"][i] for e in reps] for i in ids},
     }
     dest = run_path.with_suffix(".repeats.json")
     dest.write_text(json.dumps(out, indent=1), encoding="utf-8")

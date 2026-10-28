@@ -24,6 +24,7 @@ import re
 import statistics
 import time
 import uuid
+from collections import Counter
 from datetime import date
 from pprint import pformat
 
@@ -45,7 +46,8 @@ DEFAULTS = {
     "reference": "cached",   # "cached": presets/<slug>/reference.json; "live": re-measure Ultra in this run
     "ultra_thinking": True,  # live reference only: also measure Ultra with thinking on, if it fits the cap
     "thinking_rungs": True,  # include Lightning with thinking on as a rung
-    "photo_check": True,     # tasks that ship photos: after the verdict, try Super VL reading the photo (no OCR)
+    "photo_check": True,
+    "guess_check": True,     # stop with no verdict if Ultra cannot provably beat a fixed guess on this checker     # tasks that ship photos: after the verdict, try Super VL reading the photo (no OCR)
     "train_limit": None,
     "validation_limit": None,
     "holdout_limit": None,
@@ -88,6 +90,8 @@ def prompt_sha(text: str) -> str:
 
 
 def max_tokens_for(task: dict) -> int:
+    if task.get("max_answer_tokens"):  # the reply carries more than the graded fields (e.g. a judge's reasons)
+        return int(task["max_answer_tokens"])
     rows = task["train"] + task.get("validation", []) + task["holdout"]
     refs = [as_text(r["reference"]) for r in rows if r.get("reference") is not None]
     longest = max((len(r) for r in refs), default=400)
@@ -487,6 +491,68 @@ def _verdict(run: Run, ref_info: dict, ref_key: str, rungs: dict, chosen_key: st
     }
 
 
+def _as_obj(x):
+    if isinstance(x, str):
+        try:
+            return json.loads(x)
+        except ValueError:
+            return x
+    return x
+
+
+def guess_answers(task: dict) -> list[dict]:
+    """Fixed answers that need no model: the most common answer in the tuning and validation rows, and (for JSON
+    answers) the typical value of every field. Held-out answers are never looked at."""
+    refs = [r["reference"] for r in task["train"] + task["validation"] if r.get("reference") is not None]
+    if not refs:
+        return []
+    out = [{"label": "the most common answer", "answer": Counter(as_text(x) for x in refs).most_common(1)[0][0]}]
+    objs = [_as_obj(x) for x in refs]
+    if all(isinstance(o, dict) for o in objs):
+        typical = {}
+        for k in set.intersection(*(set(o) for o in objs)):
+            vals = [o[k] for o in objs]
+            if all(isinstance(v, (int, float)) and not isinstance(v, bool) for v in vals):
+                typical[k] = statistics.median(vals)
+            else:
+                typical[k] = json.loads(Counter(json.dumps(v, sort_keys=True) for v in vals).most_common(1)[0][0])
+        if typical:
+            out.append({"label": "the typical value of every field", "answer": json.dumps(typical, ensure_ascii=False)})
+    seen, uniq = set(), []
+    for g in out:
+        if g["answer"] not in seen:
+            seen.add(g["answer"])
+            uniq.append(g)
+    return uniq
+
+
+async def guess_check(run: Run, ref: dict, ho_ids: list[str]) -> dict:
+    """Can the checker tell skill from guessing? Ultra must score provably higher than every fixed guess on the
+    same held-out rows; if it cannot, no model verdict on this checker means anything."""
+    rows = run.task["holdout"]
+    results = []
+    for g in guess_answers(run.task):
+        items = [{"id": r["id"], "input": r["input"], "output": g["answer"], "reference": r["reference"]} for r in rows]
+        grades, batch = await run.grader.grade(run.checker_code, items)
+        run.grade_backends.add(batch["backend"])
+        by_id = {x.item_id: x.score for x in grades}
+        scores = [by_id.get(i, 0.0) for i in ho_ids]
+        results.append({**g, "score": round(sum(scores) / len(scores), 4), "rows": scores})
+    if not results:
+        return {"guesses": [], "tripped": False}
+    best = max(results, key=lambda x: x["score"])
+    diff = paired_diff_ci(ref["rows"], best["rows"])  # Ultra minus the guess
+    tripped = enough_rows(diff) and not beats(diff)
+    return {"guesses": [{k: x[k] for k in ("label", "answer", "score")} for x in results],
+            "best": {k: best[k] for k in ("label", "answer", "score")}, "ultra_score": ref["mean"],
+            "diff": diff, "tripped": tripped,
+            "message": (f"Guess check: {best['label']} ({best['answer'][:80]}) scores {_pct(best['score'])} with no model; "
+                        f"Ultra scores {_pct(ref['mean'])} (Ultra minus the guess: {_diff_text(diff)}). "
+                        + ("Ultra is not provably better than a fixed guess, so this checker cannot tell skill from "
+                           "guessing. No model verdict." if tripped else "Ultra beats every fixed guess, so the "
+                                                                        "checker measures skill."))}
+
+
 def photo_system(task: dict, verdict: dict) -> tuple[str, list[dict], str]:
     """The prompt for the photo check: the verdict's tuned prompt and few-shots if a cheaper rung won with one,
     else the plain prompt. Its wording about OCR text is swapped for the photo."""
@@ -666,6 +732,24 @@ async def run_downshift(task: dict, options: dict | None = None, llm: LLM | None
                                                   "p50_ms", "label", "thinking")}
                             for k, m in ref_info["modes"].items()},
                      row_points=round(100 / max(1, len(ho_ids)), 2))
+
+        # 3b. Guess check: if a fixed answer scores as well as Ultra, the checker measures nothing and no model
+        # verdict on it means anything, so stop before spending on the ladder.
+        if opts["guess_check"]:
+            g = await guess_check(run, ref, ho_ids)
+            if g["guesses"]:
+                yield run.ev("guess", **g)
+            if g["tripped"]:
+                verdict = _verdict(run, ref_info, ref_key, {}, None, tol, None, started)
+                verdict.update(kind="no_verdict", finetune_offer=False, guess=g, sentence=(
+                    f"No verdict. A fixed guess with no model, {g['best']['label']}, scores {_pct(g['best']['score'])} "
+                    f"on the {len(ho_ids)} held-out rows; Ultra scores {_pct(ref['mean'])}. Ultra is not provably better "
+                    f"than the guess, so this checker cannot tell a good answer from a lucky one, and any 'cheaper model "
+                    f"matches' claim on it would be empty. Fix the checker (or the task) first."))
+                yield run.ev("verdict", verdict=verdict)
+                yield run.ev("done", ok=True, spend_usd=round(llm.meter.spent_usd, 6), calls=llm.meter.calls,
+                             seconds=round(time.time() - started, 1))
+                return
 
         # 4. Downshift loop, cheapest rung first. Each rung is measured only when we reach it.
         rungs: dict = {}

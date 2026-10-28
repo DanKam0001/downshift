@@ -139,6 +139,7 @@
       </div>
       <p class="headline" id="v-headline"></p>
       <p class="sentence" id="v-sentence"></p>
+      <div class="guess-check" id="v-guess" hidden></div>
       <dl class="stats" id="v-stats"></dl>
       <div class="savings" id="v-savings" hidden>
         <label for="calls-month">Calls per month
@@ -147,11 +148,11 @@
       </div>
       <div class="photo-check" id="v-photo" hidden aria-live="polite"></div>
       <div class="ft" id="v-finetune" hidden></div>
-      <details class="prompt-box">
+      <details class="prompt-box" id="v-prompt-box">
         <summary>Final prompt</summary>
         <pre id="v-prompt" class="mono"></pre>
       </details>
-      <div class="snippet">
+      <div class="snippet" id="v-snippet-box">
         <div class="snippet-head">
           <h3>Paste this into your code</h3>
           <button type="button" class="ghost" id="copy-btn">Copy</button>

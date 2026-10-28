@@ -130,7 +130,7 @@
     }
     es = new EventSource(`/api/run/${encodeURIComponent(runId)}/events${speed ? `?speed=${speed}` : ""}`);
     updateRunBtn();
-    const types = ["started", "stage", "references", "checker_attempt", "grader", "notice", "skipped", "eval", "bar", "round", "tier_done", "verdict", "photo", "aborted", "error", "done"];
+    const types = ["started", "stage", "references", "checker_attempt", "grader", "notice", "skipped", "eval", "bar", "round", "tier_done", "verdict", "photo", "guess", "aborted", "error", "done"];
     types.forEach((t) => es.addEventListener(t, (m) => handle(JSON.parse(m.data))));
     es.addEventListener("end", () => { es.close(); es = null; updateRunBtn(); });
     es.onerror = () => { if (es && es.readyState === EventSource.CLOSED) { es = null; updateRunBtn(); } };
@@ -209,6 +209,10 @@
         if (S.barText) $("#bar-line").textContent = S.barText;
         tiers.forEach((t) => { const r = row(t.key); if (!t.photo && ["waiting", "running"].includes(r.status)) r.status = "skipped"; });
         renderVerdict();
+        break;
+      case "guess":
+        S.guess = e; log(e.message);
+        if (e.tripped) $("#bar-line").textContent = e.message;
         break;
       case "photo":
         row(e.tier_key).done = e;
@@ -336,10 +340,12 @@
     p.hidden = false;
     const short = v.tier_name.replace(/^Nemotron\s*/, "") + (v.thinking ? " (thinking on)" : " (thinking off)");
     const tolPts = Math.round(v.tolerance * 100);
-    $("#v-headline").textContent = v.kind !== "downshift" ? "Keep Ultra for now"
+    $("#v-headline").textContent = v.kind === "no_verdict" ? "No verdict: this checker can't tell skill from guessing"
+      : v.kind !== "downshift" ? "Keep Ultra for now"
       : v.thinking_off_only ? `Turn thinking off: same quality within ${tolPts} points, ${v.savings_multiple}x cheaper`
       : (v.savings_multiple && v.savings_multiple > 1 ? `Use ${short}: ${v.savings_multiple}x cheaper, matches Ultra within ${tolPts} points (95% CI)` : `Use ${short}`);
-    $("#v-sentence").textContent = v.sentence + ` (Rule: matches = the 95% CI of the difference from Ultra stays within ${tolPts} points of Ultra; better = the whole CI is above Ultra.)`;
+    $("#v-sentence").textContent = v.sentence + (v.kind === "no_verdict" ? "" : ` (Rule: matches = the 95% CI of the difference from Ultra stays within ${tolPts} points of Ultra; better = the whole CI is above Ultra.)`);
+    $("#v-prompt-box").hidden = $("#v-snippet-box").hidden = v.kind === "no_verdict";
     const stat = (dt, dd, vs) => `<div><dt>${dt}</dt><dd>${dd}${vs ? `<span class="vs">${vs}</span>` : ""}</dd></div>`;
     $("#v-stats").innerHTML =
       stat("Held-out score", pct(v.holdout_score), `95% CI ${ciTxt(v.holdout_ci)} · n=${v.holdout_n}`) +
@@ -350,7 +356,7 @@
       stat("p50 latency", ms(v.p50_latency_ms), `Ultra ${ms(v.ultra_p50_latency_ms)}`) +
       stat("Thinking", v.thinking ? "On" : "Off", "set by enable_thinking in the snippet") +
       stat("This run cost", usd(v.run_spend_usd), `${v.run_seconds != null ? Math.round(v.run_seconds) + " s · " : ""}graded by ${v.graded_by.map((g) => (g === "sandbox" ? "Nebius Sandboxes" : "local subprocess")).join(" + ")}`);
-    renderSavings(); renderPhoto();
+    renderSavings(); renderPhoto(); renderGuess();
     $("#v-prompt").textContent = v.system_prompt + (v.fewshots.length ? `\n\n+ ${v.fewshots.length} example pair(s): ${v.fewshots.map((f) => f.id).join(", ")}` : "");
     $("#v-snippet").textContent = v.snippet;
     $("#share-link").href = `/?run=${S.runId}`;
@@ -365,6 +371,19 @@
       if (b) b.addEventListener("click", startFinetune);
     } else ft.hidden = true;
     p.focus({ preventScroll: true });
+  }
+
+  /* ---------- guess check: does the checker reward skill, or would a fixed answer do as well? ---------- */
+  function renderGuess() {
+    const g = S && S.guess, box = $("#v-guess");
+    box.hidden = !g || !g.best;
+    if (box.hidden) return;
+    box.className = "guess-check " + (g.tripped ? "fail" : "pass");
+    box.innerHTML = `<h3>Guess check: ${g.tripped ? "failed, so no model verdict" : "passed"}</h3>
+      <p>With no model at all, ${esc(g.best.label)} scores <strong>${pct(g.best.score)}</strong>; Ultra scores <strong>${pct(g.ultra_score)}</strong>
+        (Ultra minus the guess: ${pts(g.diff.diff)} pts, 95% CI ${pts(g.diff.lo)} to ${pts(g.diff.hi)}).</p>
+      <p class="sav-note">${g.tripped ? "If Ultra can't provably beat a fixed answer, the checker can't tell a good answer from a lucky one, and \"a cheaper model matches\" would mean nothing. Fix the checker first." : "Ultra beats every fixed answer, so the checker measures skill and the comparison below means something."}
+        Guess: <code>${esc(g.best.answer.slice(0, 120))}</code></p>`;
   }
 
   /* ---------- photo check: a vision model reading the photo instead of the OCR text ---------- */

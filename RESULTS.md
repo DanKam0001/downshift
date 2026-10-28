@@ -151,6 +151,40 @@ Sandboxes and compared with the same cached Ultra reference (Ultra, thinking on,
   validation-based selection.
 - **Run:** US$0.2124, 169 s, 1,715 model calls.
 
+## Customer test: my own hackathon judge bot (and the guess check it forced)
+
+The presets are public datasets. To test Downshift on a real workload, I ran it on one of my own bots:
+hackathon_scout's judge, which scores every lablab.ai submission 1-5 on the event's 4 criteria to predict winners.
+It runs once per submission (100 to 1,100 per event) on Claude Sonnet today. Task: the bot's exact prompt on 105
+IBM Bob Hackathon (May 2026) submissions, demo and repo links removed; correct answer = the real judges' average
+scores. The data stays private (not in this repo): only the aggregate numbers below are published.
+
+| Judge | Closeness to the real judges' scores (checker) | Rank agreement with the real judges (Spearman of totals) | US$ per 1k |
+|---|---|---|---|
+| **No model: always answer 3** | **75.4%** | none (no ranking) | 0 |
+| Claude Sonnet (the bot today; cached verdicts) | 74.1% | 0.33 | (Claude plan) |
+| Nemotron 3 Ultra, thinking off (3 runs) | 72.1% | 0.36 to 0.37 | 2.10 |
+| Nemotron 3 Ultra, thinking on (3 runs) | 71.7% | 0.37 to 0.38 | about 4.06 |
+| Nemotron 3 Nano, Downshift's rewritten prompt (3 runs) | 71.6% | 0.31 to 0.34 | 0.14 |
+
+- **The first ladder run said "use Nano: matches Ultra, 15x cheaper"** (one run 72.3%; 3 runs 71.6%, −0.5 pts,
+  95% CI −3.2 to +2.0). Statistically true, and empty: a fixed answer of 3 on every criterion beats every model on
+  this checker, because the real judges' averages sit near 3. A verdict on a checker that a guess passes means nothing.
+- **So Downshift now runs a guess check before the ladder** (`engine.guess_check`, `scripts/guess_check.py`): it
+  scores fixed answers taken from the tuning rows (the most common answer, and the typical value of every JSON field)
+  and stops with **no verdict** unless Ultra is provably better than the best guess (paired 95% CI above zero). It
+  costs no model calls. On the judge task it trips (Ultra minus the guess: −3.3 pts, CI −7.2 to +0.7) and the run
+  ends in 27 s at US$0.00. On the three presets it passes by 48 to 79 points, so their verdicts stand.
+- What the bot actually needs is ranking, and there every text-only model is weak (Spearman 0.31 to 0.38). Nano
+  ranks about as well as Sonnet. The real judges watched the demo videos; the lever for this bot is the video, not
+  the model size.
+- Thinking mode again bought nothing (71.7% on vs 72.1% off, twice the price): now 4 tasks out of 4.
+- Nano's rewritten prompt also stopped writing the per-criterion reasons, because the checker only grades the
+  scores. A checker defines what "as good" means; anything it does not grade can silently disappear.
+- Cost: US$2.11 for the Ultra reference (plus US$0.26 for a first estimate pass), US$0.12 for the ladder run,
+  US$0.04 for Nano's repeats. A first reference pass graded every row 0 because the references were stored as
+  objects instead of JSON text; the saved outputs were re-graded with no new calls.
+
 ## Finding: Ultra's own run-to-run noise
 
 At temperature 0, Ultra is not deterministic on Token Factory. Over 3 back-to-back runs on the same held-out rows:
@@ -211,6 +245,7 @@ quality was not measured. The practical lesson is the queue: a fine-tune is a ne
 | Nano re-measured 3 times on receipts with the verdict prompt (2 attempts; the first crashed after its calls) | 0.053 |
 | Super VL on receipt photos (plain + tuned prompt, 3 runs each, plus the 55.7% setup-error run) | 0.429 |
 | Receipts run with the photo check (`2e794b56ae40`) | 0.106 |
-| **Total** (sum of `runs/usage.jsonl` for this work, excluding the fine-tune job) | **4.63** |
+| Customer test on my own hackathon judge bot (estimate pass, Ultra reference, ladder run, Nano repeats) | 2.54 |
+| **Total** (sum of `runs/usage.jsonl` for this work, excluding the fine-tune job) | **7.17** |
 
 With the cached reference, a judge's live run costs US$0.06 to US$0.21 and takes 139 to 182 seconds.

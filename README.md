@@ -33,6 +33,14 @@ And one finding we did not expect: **on all three tasks, Ultra's thinking mode c
 its accuracy gain was not distinguishable from zero** (paired 95% CIs of on minus off all include zero, 3 runs per
 mode).
 
+**Then I ran it on my own bot.** My hackathon judge bot (Claude Sonnet today) scores lablab submissions to predict
+winners. On 105 real submissions, scored against the real judges, Downshift first said "use Nano, matches Ultra,
+15x cheaper". True, and empty: **a fixed answer of 3 on every criterion beat every model** on that checker (75.4% vs
+Ultra 72.1%, Sonnet 74.1%). So Downshift now runs a **guess check** before spending anything: if Ultra can't
+provably beat a fixed answer, the checker can't tell skill from guessing and there is **no verdict**. On the three
+presets the check passes by 48 to 79 points; on my bot it trips, in 27 s for US$0.00
+([details](RESULTS.md#customer-test-my-own-hackathon-judge-bot-and-the-guess-check-it-forced)).
+
 And a follow-up: **does the receipt pipeline even need its OCR step?** Nemotron 3.5 Super VL reading the photo
 directly scored 93.6% with a plain prompt and **96.0% with Downshift's tuned prompt, +4.0 pts over Ultra reading
 perfect OCR text (95% CI +1.2 to +7.3)**, at $0.72 per 1k calls, 3 runs each

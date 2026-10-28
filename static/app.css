@@ -217,3 +217,10 @@ details > summary { list-style-position: inside; }
 .photo-check p { margin: 4px 0; }
 .photo-check .pc-call { font-weight: 700; font-size: 17px; }
 .photo-check.pass .pc-call { color: var(--good); }
+
+.guess-check { background: var(--panel-2); border: 1px solid var(--line); border-left: 4px solid var(--good); border-radius: 10px; padding: 10px 14px; margin: 0 0 16px; }
+.guess-check.fail { border-left-color: var(--bad); }
+.guess-check h3 { margin: 0 0 4px; font-size: 15px; }
+.guess-check.fail h3 { color: var(--bad); }
+.guess-check p { margin: 4px 0; }
+.savings[hidden], .photo-check[hidden], .guess-check[hidden], .snippet[hidden], .prompt-box[hidden] { display: none; }
