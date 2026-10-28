@@ -190,15 +190,20 @@ def _sse(ev: dict, idx: int) -> str:
 
 
 @app.get("/api/run/{run_id}/events")
-async def run_events(run_id: str, request: Request, start: int = 0):
+async def run_events(run_id: str, request: Request, start: int = 0, speed: float = 0):
     state = RUNS.get(run_id)
     if state is None:
         saved = _load_saved(run_id)
         if not saved:
             raise HTTPException(404, "run not found")
+        speed = min(max(speed, 0), 64)  # 0 = all at once; otherwise the recorded pace divided by speed
 
         async def replay():
+            prev = None
             for i, ev in enumerate(saved["events"][start:], start):
+                if speed and prev is not None and ev.get("t") is not None:
+                    await asyncio.sleep(min(30, max(0, ev["t"] - prev) / speed))
+                prev = ev.get("t", prev)
                 yield _sse(ev, i)
             yield "event: end\ndata: {}\n\n"
         return StreamingResponse(replay(), media_type="text/event-stream")

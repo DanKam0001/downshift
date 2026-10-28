@@ -117,6 +117,21 @@ button.ghost { background: transparent; border: 1px solid var(--line); color: va
 .meter-track span { display: block; height: 100%; width: 0; background: var(--accent-bright); transition: width .3s; }
 .story { margin: 0 0 8px; color: var(--muted); }
 .bar-line { margin: 0 0 12px; font-weight: 600; }
+.replay { margin: 0 0 8px; display: inline-block; font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--warn); color: var(--warn); font-variant-numeric: tabular-nums; }
+.replay[hidden] { display: none; }
+.costs { display: grid; gap: 6px; margin: 0 0 16px; }
+.cost { display: grid; grid-template-columns: minmax(150px, 220px) 1fr minmax(120px, 230px); gap: 10px; align-items: center; font-size: 13.5px; }
+.cost .cname { font-weight: 650; white-space: nowrap; }
+.cost .ctrack { height: 14px; background: var(--bar-bg); border-radius: 4px; overflow: hidden; }
+.cost .cfill { display: block; height: 100%; background: color-mix(in srgb, var(--muted) 55%, transparent); border-radius: 4px; transition: width .5s ease; }
+.cost.ref .cfill { background: var(--muted); }
+.cost.pass .cfill { background: var(--good); }
+.cost.fail .cfill { background: var(--warn); }
+.cost.run .cfill { background: var(--focus); }
+.cost.empty { opacity: .5; }
+.cost .cval { font-variant-numeric: tabular-nums; color: var(--muted); }
+.cost.pass .cval { color: var(--good); font-weight: 700; }
+@media (max-width: 720px) { .cost { grid-template-columns: 1fr; gap: 2px; } }
 .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 table.ladder { width: 100%; border-collapse: collapse; min-width: 720px; }
 .ladder th, .ladder td { padding: 10px 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: middle; }

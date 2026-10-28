@@ -10,6 +10,7 @@
 
   let presets = [], selected = null, tiers = [], es = null, health = null;
   let S = null; // per-run view state
+  let replayTimer = null;
 
   function freshState() {
     return { rows: {}, rounds: {}, verdict: null, cap: 0.1, spend: 0, graders: new Set(), currentTier: null, runId: null, ref: null, refInfo: null, tol: 0.03, rowPts: null };
@@ -116,7 +117,18 @@
     $("#log").innerHTML = ""; $("#rounds").innerHTML = "";
     $("#bar-line").textContent = "Starting…";
     renderLadder();
-    es = new EventSource(`/api/run/${encodeURIComponent(runId)}/events`);
+    const speed = Number(new URLSearchParams(location.search).get("speed")) || 0;
+    clearInterval(replayTimer);
+    $("#replay-note").hidden = !speed;
+    if (speed) {
+      const t0 = performance.now();
+      const tick = () => {
+        const s = Math.round(((performance.now() - t0) / 1000) * speed);
+        $("#replay-note").textContent = `Replay of recorded run ${runId} at ${speed}x speed · ${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")} of real run time`;
+      };
+      tick(); replayTimer = setInterval(tick, 250);
+    }
+    es = new EventSource(`/api/run/${encodeURIComponent(runId)}/events${speed ? `?speed=${speed}` : ""}`);
     updateRunBtn();
     const types = ["started", "stage", "references", "checker_attempt", "grader", "notice", "skipped", "eval", "bar", "round", "tier_done", "verdict", "aborted", "error", "done"];
     types.forEach((t) => es.addEventListener(t, (m) => handle(JSON.parse(m.data))));
@@ -136,6 +148,7 @@
     switch (e.type) {
       case "started":
         tiers = e.tiers; S.cap = e.options.spend_cap_usd; S.rowPts = e.row_points;
+        if (e.task.slug && presets.some((p) => p.slug === e.task.slug)) { selected = e.task.slug; renderPresets(); }
         $("#task-story").textContent = (e.task.title ? e.task.title + ". " : "") + (e.task.business_story || "");
         $("#split-note").textContent = `${e.n_train} tuning rows (the prompt optimiser sees these), ${e.n_validation} validation rows (used only to choose between prompt candidates) and ${e.n_holdout} held-out rows (each rung's chosen prompt is scored on them once). Confidence intervals are 95% bootstrap intervals over rows; the comparison with Ultra is paired on the same rows. Prices: ${e.pricing_source}.`;
         log(`Run ${e.run_id} started`);
@@ -205,6 +218,7 @@
         $("#bar-line").textContent = "The run failed: " + e.message;
         break;
       case "done":
+        clearInterval(replayTimer);
         log(`Finished. ${e.calls ?? "?"} model calls, ${usd(e.spend_usd)} spent${e.seconds != null ? `, ${Math.round(e.seconds)} s` : ""}.`);
         tiers.forEach((t) => { const r = row(t.key); if (r.status === "running" || r.status === "tuning") r.status = "stopped"; });
         break;
@@ -276,6 +290,24 @@
         <td class="num">${best ? usd(best.cost_per_1k_usd) : "–"}</td>
         <td class="num">${best ? ms(best.p50_ms) : "–"}</td>
         <td><span class="chip ${cls}">${txt}</span></td></tr>`;
+    }).join("");
+    renderCosts(chosen);
+  }
+
+  // One bar per rung, US$ per 1k calls on a shared scale, coloured by what the run found.
+  function renderCosts(chosen) {
+    const cost = (r) => { const b = r.ref || (r.done && r.holdout) || r.holdout || r.plain; return b ? b.cost_per_1k_usd : null; };
+    const max = Math.max(0, ...tiers.map((t) => cost(row(t.key)) || 0));
+    const refCost = S.ref ? cost(row(S.ref)) : null;
+    $("#costs").innerHTML = tiers.map((t) => {
+      const r = row(t.key), c = cost(r);
+      const kind = chosen === t.key ? "pass" : r.status === "reference" ? "ref" : r.status === "failed" ? "fail"
+        : ["passed", "beats"].includes(r.status) ? "pass" : ["tuning", "running"].includes(r.status) ? "run" : "";
+      const x = chosen === t.key && refCost && c ? ` · ${(refCost / c).toFixed(1)}x cheaper` : kind === "ref" ? " · reference" : "";
+      return `<div class="cost ${kind} ${c == null ? "empty" : ""}">
+        <span class="cname">${esc(t.name.replace(/^Nemotron\s*/, ""))}<span class="think ${t.thinking ? "on" : ""}">thinking ${t.thinking ? "on" : "off"}</span></span>
+        <span class="ctrack"><span class="cfill" style="width:${c && max ? Math.max(1.2, (100 * c) / max) : 0}%"></span></span>
+        <span class="cval">${c == null ? "–" : usd(c, 3) + " / 1k" + x}</span></div>`;
     }).join("");
   }
 
