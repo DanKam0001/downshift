@@ -41,6 +41,20 @@ once per task: *is a cheaper model provably good enough for this job?* It measur
 non-inferiority rule (the 95% CI of the difference must stay within 5 points of Ultra), tunes the prompt for the
 cheaper model first, says "keep Ultra" when the evidence is not there, and hands you the config to ship.
 
+## Bring your own task
+
+![The "Your own" tab: a title, an instruction, an output format, optional labels and 8 to 200 example rows](docs/own-task.png)
+
+Open the **Your own** tab, describe the task, and paste 8 to 200 examples as JSON lines. Rows without a `reference`
+get one from Ultra. Ultra also writes the checker (a Python `check(output, reference, input)` returning 0 to 1),
+which is tested before use: references must score about 1.0 and deliberately wrong answers must score low, or it
+falls back to exact match. The checker runs in Nebius Sandboxes with networking off. The same task can be sent to
+`POST /api/run` as `{"custom": {...}}` (see API below).
+
+To add a permanent preset with a hand-written checker, copy a folder in `presets/` (it holds `task.json`,
+`train/validation/holdout.jsonl` and `checker.py`), then cache its Ultra reference with
+`python scripts/measure_reference.py <slug>`.
+
 ## How it works
 
 1. **Reference.** If your examples have no expected outputs, Nemotron Ultra writes them.
