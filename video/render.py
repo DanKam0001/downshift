@@ -10,6 +10,7 @@ HERE = Path(__file__).resolve().parent
 S, VO, W = HERE / "scenes", HERE / "vo", HERE / "work"
 W.mkdir(exist_ok=True)
 FPS, OFF, XF = 30, 0.45, 0.35
+HOLD = {"05-verdict": 1.5}  # keep in step with rec.py
 OUT = HERE / "demo.mp4"
 
 
@@ -46,7 +47,7 @@ with sync_playwright() as p:
     for i, name in enumerate(names):
         mp3 = VO / f"{name}.mp3"
         words = [{"n": norm(x["w"]), "t": x["t"]} for x in json.loads((VO / f"{name}.words.json").read_text(encoding="utf-8"))]
-        d = OFF + dur(mp3) + (1.4 if i == len(names) - 1 else 0.7)
+        d = OFF + dur(mp3) + (1.4 if i == len(names) - 1 else 0.7) + HOLD.get(name, 0)
         rec = W / f"rec_{name}.mp4"
         if rec.exists():   # a real recording of the reference mockup (rec.py) replaces the slide
             silent = rec

@@ -20,6 +20,7 @@ GLOW = """(() => { const st = document.createElement('style'); document.head.app
  window.big = () => { st.textContent += '.wrap{max-width:960px !important}'; document.body.style.zoom = 1.42; };
  document.body.style.zoom = 1.22; })()"""
 RUN = "45015b6df59e"   # the receipt-extract run behind RESULTS.md's headline
+HOLD = {"05-verdict": 1.5}  # extra seconds on screen after the narration (the code snippet)
 SPEED = 5.5            # shown on screen by the app's replay badge
 # Show only the head of the verdict's code snippet, with the lines that carry the decision marked.
 SNIP = r"""(() => { const pre = document.querySelector('#v-snippet'); const esc = t => t.replace(/[&<>]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'}[c]));
@@ -59,7 +60,7 @@ with sync_playwright() as p:
     for name in names:
         setup, steps = SCENES[name]
         words = json.loads((VO / f"{name}.words.json").read_text(encoding="utf-8"))
-        d = OFF + dur(VO / f"{name}.mp3") + 0.7
+        d = OFF + dur(VO / f"{name}.mp3") + 0.7 + HOLD.get(name, 0)
         pg = b.new_page(viewport={"width": 1440, "height": 810}, device_scale_factor=SCALE, color_scheme="dark")
         pg.goto(URL); pg.wait_for_load_state("networkidle"); pg.wait_for_timeout(2500); pg.evaluate("document.fonts.ready")
         pg.evaluate(CAP); pg.evaluate("document.documentElement.style.scrollBehavior='auto'"); pg.evaluate(setup); pg.wait_for_timeout(1200)
