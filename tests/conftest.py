@@ -9,7 +9,7 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from downshift import models  # noqa: E402
+from downshift import models, stats  # noqa: E402
 from downshift.grading import GradeResult, Grader  # noqa: E402
 from downshift.models import FALLBACK_PRICING, CallResult, Meter, call_cost  # noqa: E402
 from downshift.tasks import load_task_dir  # noqa: E402
@@ -34,6 +34,8 @@ def _isolate(tmp_path, monkeypatch):
     monkeypatch.setattr(models, "USAGE_LOG", tmp_path / "usage.jsonl")
     monkeypatch.setattr(models, "_pricing_mem", {"models": dict(FALLBACK_PRICING), "_source": "test",
                                                  "_fetched": 9e18})
+    # The toy fixture's held-out split is tiny; the minimum-rows rule has its own tests (test_stats_min_rows.py).
+    monkeypatch.setattr(stats, "MIN_ROWS", 1)
     yield
 
 

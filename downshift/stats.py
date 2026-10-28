@@ -51,10 +51,17 @@ def paired_diff_ci(a: list[float], b: list[float], n_boot: int = N_BOOT, seed: i
             "rows_better": sum(1 for d in diffs if d > 1e-9), "rows_worse": sum(1 for d in diffs if d < -1e-9)}
 
 
+MIN_ROWS = 20  # below this a bootstrap CI can collapse (e.g. 8 rows all scoring 1.0 give 0 to 0), so no claim
+
+
+def enough_rows(diff: dict) -> bool:
+    return diff.get("n", MIN_ROWS) >= MIN_ROWS
+
+
 def matches(diff: dict, tolerance: float) -> bool:
-    """A cheaper option matches the reference when the CI lower bound is above -tolerance."""
-    return diff["lo"] > -tolerance + 1e-12
+    """A cheaper option matches the reference when the CI lower bound is above -tolerance (on enough rows)."""
+    return enough_rows(diff) and diff["lo"] > -tolerance + 1e-12
 
 
 def beats(diff: dict) -> bool:
-    return diff["lo"] > 1e-12
+    return enough_rows(diff) and diff["lo"] > 1e-12

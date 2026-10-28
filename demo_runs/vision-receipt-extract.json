@@ -1,0 +1,1228 @@
+{
+ "task": "receipt-extract",
+ "measured_on": "2026-10-28",
+ "model": "nvidia/Nemotron-3.5-Super-VL",
+ "thinking": false,
+ "input": "receipt photo (CORD v2), long side <= 1280 px; no OCR",
+ "n": 86,
+ "tolerance": 0.05,
+ "reference": {
+  "label": "Nemotron 3 Ultra 550B (thinking on)",
+  "input": "CORD annotated OCR text",
+  "mean": 0.9196,
+  "repeat_scores": [
+   0.9372,
+   0.9071,
+   0.9144
+  ],
+  "cost_per_1k_usd": 3.6927
+ },
+ "text_verdict": {
+  "label": "Nemotron 3 Nano (thinking off), rules prompt + 4 text few-shots",
+  "mean": 0.9244,
+  "repeat_scores": [
+   0.9175,
+   0.9187,
+   0.9371
+  ],
+  "cost_per_1k_usd": 0.1035
+ },
+ "prompts": {
+  "plain": {
+   "system": "The image is a photo of a shop or restaurant receipt from Indonesia (amounts in rupiah). - \"items\": the purchased line items, each {\"name\": string as printed, \"quantity\": integer or null, \"price\": the line total as printed, integer}. Do not list sub-items or modifiers printed under an item.\n- \"subtotal\", \"discount\", \"service_charge\", \"tax\", \"total\", \"cash_paid\", \"change\": integers, or null if the receipt does not print that amount.\nWrite every amount as a plain integer with no currency or separators (\"Rp 25.000\" -> 25000). Discounts are positive numbers.\n\nReply with one JSON object only, no code fences.",
+   "repeat_scores": [
+    0.9344,
+    0.9353,
+    0.9397
+   ],
+   "mean": 0.9365,
+   "spread": 0.0053,
+   "ci": {
+    "mean": 0.9365,
+    "lo": 0.9176,
+    "hi": 0.9539,
+    "n": 86
+   },
+   "diff_vs_ultra": {
+    "diff": 0.0169,
+    "lo": -0.0095,
+    "hi": 0.046,
+    "n": 86,
+    "rows_better": 27,
+    "rows_worse": 22
+   },
+   "matches": true,
+   "cost_per_1k_usd": 0.4379,
+   "p50_ms": 2049.8,
+   "graded_by": [
+    "sandbox"
+   ],
+   "per_row": {
+    "cordtest-0030": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0023": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0002": [
+     0.9583,
+     0.9583,
+     0.9583
+    ],
+    "cordtest-0069": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0031": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "cordtest-0063": [
+     0.975,
+     0.975,
+     0.975
+    ],
+    "cordtest-0045": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0066": [
+     0.9583,
+     0.9583,
+     0.9583
+    ],
+    "cordtest-0056": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0087": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0079": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0044": [
+     1.0,
+     0.875,
+     1.0
+    ],
+    "cordtest-0017": [
+     0.875,
+     0.9904,
+     0.9904
+    ],
+    "cordtest-0080": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0016": [
+     0.9464,
+     0.9464,
+     0.9464
+    ],
+    "cordtest-0054": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0068": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0001": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0004": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0050": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0053": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0072": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0081": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0028": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0033": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0040": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0075": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0024": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0043": [
+     0.875,
+     1.0,
+     1.0
+    ],
+    "cordtest-0020": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0049": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0097": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0084": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0073": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0092": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0036": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0010": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0051": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "cordtest-0059": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0052": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0071": [
+     0.625,
+     0.625,
+     0.625
+    ],
+    "cordtest-0046": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0038": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0047": [
+     0.9167,
+     0.6667,
+     0.9167
+    ],
+    "cordtest-0042": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0098": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0019": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0015": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0048": [
+     0.75,
+     1.0,
+     0.75
+    ],
+    "cordtest-0007": [
+     0.625,
+     0.8333,
+     0.8333
+    ],
+    "cordtest-0000": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0083": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "cordtest-0067": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0025": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0096": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0008": [
+     0.9375,
+     0.9375,
+     0.9375
+    ],
+    "cordtest-0077": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0022": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0078": [
+     0.9583,
+     0.9583,
+     0.9583
+    ],
+    "cordtest-0034": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0090": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "cordtest-0012": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "cordtest-0091": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0055": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0035": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0029": [
+     0.9821,
+     0.9821,
+     0.9821
+    ],
+    "cordtest-0086": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0089": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0064": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0011": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0005": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "cordtest-0082": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0085": [
+     1.0,
+     0.75,
+     1.0
+    ],
+    "cordtest-0062": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0074": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0093": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "cordtest-0003": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0032": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0014": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0061": [
+     0.9792,
+     0.9792,
+     0.9792
+    ],
+    "cordtest-0094": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0088": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0027": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0018": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0006": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0021": [
+     0.875,
+     0.875,
+     0.875
+    ]
+   },
+   "outputs_r1": {
+    "cordtest-0030": "{\"items\": [{\"name\": \"Kupon 3\", \"quantity\": null, \"price\": 28636}], \"subtotal\": 28636, \"discount\": null, \"service_charge\": null, \"tax\": 2864, \"total\": 31500, \"cash_paid\": 50000, \"change\": 18500}",
+    "cordtest-0023": "{\"items\": [{\"name\": \"6 TWIST DONUT\", \"quantity\": 6, \"price\": 54000}, {\"name\": \"1 REDBEAN BREAD\", \"quantity\": 1, \"price\": 9000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 63000, \"cash_paid\": 70000, \"change\": 7000}",
+    "cordtest-0002": "{\"items\": [{\"name\": \"JASMINE MT (L)\", \"quantity\": 1, \"price\": 24000}, {\"name\": \"COCONUT JELLY (L)\", \"quantity\": 1, \"price\": 4000}], \"subtotal\": 28000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 28000, \"cash_paid\": 100000, \"change\": 72000}",
+    "cordtest-0069": "{\"items\": [{\"name\": \"[MD] SOFT MORNING ROLL\", \"quantity\": 1, \"price\": 18000}, {\"name\": \"REAL HONEY PANCAKE BREAD\", \"quantity\": 2, \"price\": 20000}, {\"name\": \"CUSTARD BRIOCHE\", \"quantity\": 4, \"price\": 36000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 74000, \"cash_paid\": 100000, \"change\": 26000}",
+    "cordtest-0031": "{\"items\": [{\"name\": \"SALMON PESTO\", \"quantity\": 1, \"price\": 85500}, {\"name\": \"SALMON PESTO\", \"quantity\": 1, \"price\": 85500}], \"subtotal\": 171000, \"discount\": 85500, \"service_charge\": 10260, \"tax\": 18126, \"total\": 113886, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0063": "{\"items\": [{\"name\": \"Kopi Susu Kampung. Ice\", \"quantity\": 1, \"price\": 19000}, {\"name\": \"Kopi Susu Kampung Less Ice\", \"quantity\": 0, \"price\": 0}, {\"name\": \"Kopi Susu Kampung. Ice\", \"quantity\": 2, \"price\": 38000}], \"subtotal\": 57000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 57000, \"cash_paid\": 60000, \"change\": 3000}",
+    "cordtest-0045": "{\"items\": [{\"name\": \"Lemon Tea (L).\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Mike & Ike Original\", \"quantity\": 1, \"price\": 28000}, {\"name\": \"Mike & Berry\", \"quantity\": 1, \"price\": 28000}, {\"name\": \"Roti Keju Manis.\", \"quantity\": 1, \"price\": 7000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 88000, \"cash_paid\": 88000, \"change\": 0}",
+    "cordtest-0066": "{\"items\": [{\"name\": \"PILLON DURIA\", \"quantity\": null, \"price\": 36364}], \"subtotal\": 36364, \"discount\": null, \"service_charge\": null, \"tax\": 3636, \"total\": 40000, \"cash_paid\": 50000, \"change\": 10000}",
+    "cordtest-0056": "{\"items\": [{\"name\": \"AIR MINERAL\", \"quantity\": null, \"price\": 8181}], \"subtotal\": 8181, \"discount\": null, \"service_charge\": null, \"tax\": 818, \"total\": 8999, \"cash_paid\": 10000, \"change\": 1001}",
+    "cordtest-0087": "{\"items\": [{\"name\": \"PHO TAI CHIN\", \"quantity\": 1, \"price\": 36500}], \"subtotal\": 36500, \"discount\": null, \"service_charge\": null, \"tax\": 3650, \"total\": 40150, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0079": "{\"items\": [{\"name\": \"1001-Choco Bun\", \"quantity\": 1, \"price\": 22000}, {\"name\": \"6001-Plastic Bag Small\", \"quantity\": 1, \"price\": 0}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 22000, \"cash_paid\": 22000, \"change\": null}",
+    "cordtest-0044": "{\"items\": [{\"name\": \"Combo 1\", \"quantity\": 1, \"price\": 30000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 30000, \"cash_paid\": 50000, \"change\": 20000}",
+    "cordtest-0017": "{\"items\": [{\"name\": \"Goblin's Mace\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Mozzarella Hot Dog\", \"quantity\": 2, \"price\": 38000}, {\"name\": \"Chili Pepper Croquette\", \"quantity\": 1, \"price\": 14000}, {\"name\": \"Cheese Croquette\", \"quantity\": 1, \"price\": 14000}, {\"name\": \"Plastik Amook\", \"quantity\": 1, \"price\": 0}, {\"name\": \"Plastik Putih\", \"quantity\": 1, \"price\": 0}], \"subtotal\": 91000, \"discount\": 0, \"service_charge\": null, \"tax\": null, \"total\": 91000, \"cash_paid\": 91000, \"change\": null}",
+    "cordtest-0080": "{\"items\": [{\"name\": \"Viet Milk Coffee\", \"quantity\": 1, \"price\": 25000}], \"subtotal\": 25000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 25000, \"cash_paid\": 25000, \"change\": 0}",
+    "cordtest-0016": "{\"items\": [{\"name\": \"[LG] BLACK SAKURA\", \"quantity\": 1, \"price\": 59091}, {\"name\": \"LONGAN\", \"quantity\": 1, \"price\": 0}, {\"name\": \"ROASTED ALMOND\", \"quantity\": 1, \"price\": 0}, {\"name\": \"VANGGO\", \"quantity\": 1, \"price\": 0}, {\"name\": \"VINERAL WATER (bundling) 5k\", \"quantity\": 1, \"price\": 4545}], \"subtotal\": 63636, \"discount\": null, \"service_charge\": null, \"tax\": 6364, \"total\": 70000, \"cash_paid\": 100000, \"change\": 30000}",
+    "cordtest-0054": "{\"items\": [{\"name\": \"KACANG MERAH\", \"quantity\": null, \"price\": 10000}], \"subtotal\": 10000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 10000, \"cash_paid\": 10000, \"change\": null}",
+    "cordtest-0068": "{\"items\": [{\"name\": \"ICED TT\", \"quantity\": null, \"price\": 20000}], \"subtotal\": 20000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 20000, \"cash_paid\": 50000, \"change\": 30000}",
+    "cordtest-0001": "{\"items\": [{\"name\": \"J.STB PROMO\", \"quantity\": null, \"price\": 17500}, {\"name\": \"Y.B.BAT\", \"quantity\": null, \"price\": 46000}, {\"name\": \"Y.BASO PROM\", \"quantity\": null, \"price\": 27500}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 91000, \"cash_paid\": 91000, \"change\": null}",
+    "cordtest-0004": "{\"items\": [{\"name\": \"ICE BLACKCOFFEE\", \"quantity\": 2, \"price\": 82000}, {\"name\": \"AVOCADO COFFEE\", \"quantity\": 1, \"price\": 61000}, {\"name\": \"CHIKEN KATSU FF\", \"quantity\": 1, \"price\": 51000}], \"subtotal\": 194000, \"discount\": 19400, \"service_charge\": null, \"tax\": null, \"total\": 174600, \"cash_paid\": 200000, \"change\": 25400}",
+    "cordtest-0050": "{\"items\": [{\"name\": \"SpclPrice Cadbury\", \"quantity\": 1, \"price\": 17727}], \"subtotal\": 17727, \"discount\": null, \"service_charge\": null, \"tax\": 1773, \"total\": 19500, \"cash_paid\": 100000, \"change\": 80500}",
+    "cordtest-0053": "{\"items\": [{\"name\": \"Pecel Komplit + Nasi\", \"quantity\": 1, \"price\": 42000}, {\"name\": \"SOTO KUDUS\", \"quantity\": 1, \"price\": 47000}, {\"name\": \"Mineral Water\", \"quantity\": 2, \"price\": 18000}], \"subtotal\": 107000, \"discount\": null, \"service_charge\": 5350, \"tax\": 11235, \"total\": 123585, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0072": "{\"items\": [{\"name\": \"Choco Devil\", \"quantity\": 1, \"price\": 15909}], \"subtotal\": 15909, \"discount\": null, \"service_charge\": null, \"tax\": 1591, \"total\": 17500, \"cash_paid\": 20000, \"change\": 2500}",
+    "cordtest-0081": "{\"items\": [{\"name\": \"3002-Kyoto Choco Mochi\", \"quantity\": 2, \"price\": 28000}, {\"name\": \"1001-Choco Bun\", \"quantity\": 1, \"price\": 22000}, {\"name\": \"6001-Plastic Bag Small\", \"quantity\": 1, \"price\": 0}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 50000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0028": "{\"items\": [{\"name\": \"SAMGYOPSAL\", \"quantity\": 2, \"price\": 194000}, {\"name\": \"SUL LUNG TANG\", \"quantity\": 1, \"price\": 75000}, {\"name\": \"MAKOLI\", \"quantity\": 1, \"price\": 100000}], \"subtotal\": 369000, \"discount\": 0, \"service_charge\": 18450, \"tax\": 38745, \"total\": 426195, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0033": "{\"items\": [{\"name\": \"GRILLED BABY POTATO (R\", \"quantity\": 1, \"price\": 50500}, {\"name\": \"HOT TUNA\", \"quantity\": 1, \"price\": 67000}, {\"name\": \"HOT TUNA\", \"quantity\": 1, \"price\": 67000}], \"subtotal\": 117500, \"discount\": 67000, \"service_charge\": 11070, \"tax\": 19557, \"total\": 148127, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0040": "{\"items\": [{\"name\": \"Snack Lestari All\", \"quantity\": 2, \"price\": 54000}, {\"name\": \"Bakery, Aneka Giring banana,Pizza,yoko,Ramer,Daging,abon,keju,cokelat,dll\", \"quantity\": 2, \"price\": 14000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 68000, \"cash_paid\": 100000, \"change\": 32000}",
+    "cordtest-0075": "{\"items\": [{\"name\": \"CHOCO PUFF\", \"quantity\": 1, \"price\": 29091}, {\"name\": \"CREAMY BEEF CLS FTC\", \"quantity\": 1, \"price\": 42727}, {\"name\": \"NEW ORIENTAL CHK RICE\", \"quantity\": 1, \"price\": 34545}, {\"name\": \"LIPTON PITCHER\", \"quantity\": 1, \"price\": 54545}, {\"name\": \"SC/P SUPER SUPREME\", \"quantity\": 1, \"price\": 47273}, {\"name\": \"CB/P BLACK PEPP BEEF\", \"quantity\": 1, \"price\": 48182}], \"subtotal\": 256363, \"discount\": null, \"service_charge\": null, \"tax\": 25637, \"total\": 282000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0024": "{\"items\": [{\"name\": \"5001-Corn Fliskes Cookies\", \"quantity\": 1, \"price\": 56000}, {\"name\": \"5003-Chokoreto Cookies\", \"quantity\": 1, \"price\": 62000}, {\"name\": \"6002-Plastic Bag Medium\", \"quantity\": 1, \"price\": 0}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 118000, \"cash_paid\": 118000, \"change\": null}",
+    "cordtest-0043": "{\"items\": [{\"name\": \"6 Pcs Cheese Tart Box of 6 PP Carrier\", \"quantity\": 6, \"price\": 165000}], \"subtotal\": 165000, \"discount\": null, \"service_charge\": null, \"tax\": 15000, \"total\": 165000, \"cash_paid\": 200000, \"change\": 35000}",
+    "cordtest-0020": "{\"items\": [{\"name\": \"cashew nuts chkn\", \"quantity\": 1, \"price\": 64500}, {\"name\": \"garlic pepper beef\", \"quantity\": 1, \"price\": 79500}, {\"name\": \"red curry beef\", \"quantity\": 1, \"price\": 69500}, {\"name\": \"phad thai\", \"quantity\": 1, \"price\": 64500}, {\"name\": \"steamed rice\", \"quantity\": 4, \"price\": 47600}], \"subtotal\": 325600, \"discount\": null, \"service_charge\": 17908, \"tax\": 34351, \"total\": 377859, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0049": "{\"items\": [{\"name\": \"Ptgs Eggtart\", \"quantity\": 1, \"price\": 12000}, {\"name\": \"Choco Melt\", \"quantity\": 1, \"price\": 11000}], \"subtotal\": 23000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 23000, \"cash_paid\": 30000, \"change\": 27000}",
+    "cordtest-0097": "{\"items\": [{\"name\": \"BUBUR GO\", \"quantity\": 2, \"price\": 40000}, {\"name\": \"PUYUH GO\", \"quantity\": null, \"price\": 6000}, {\"name\": \"SATE ATI GO\", \"quantity\": 3, \"price\": 9000}], \"subtotal\": 55000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 55000, \"cash_paid\": 55000, \"change\": null}",
+    "cordtest-0084": "{\"items\": [{\"name\": \"Kroket\", \"quantity\": 1, \"price\": 12000}, {\"name\": \"Arem Arem\", \"quantity\": 2, \"price\": 24000}], \"subtotal\": 36000, \"discount\": null, \"service_charge\": null, \"tax\": 3600, \"total\": 39600, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0073": "{\"items\": [{\"name\": \"1001-Choco Run\", \"quantity\": 1, \"price\": 22000}, {\"name\": \"6001-Plastic Bag Small\", \"quantity\": 1, \"price\": 0}], \"subtotal\": 22000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 22000, \"cash_paid\": 25000, \"change\": 3000}",
+    "cordtest-0092": "{\"items\": [{\"name\": \"TICKET CP\", \"quantity\": 4, \"price\": 240000}], \"subtotal\": 240000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 240000, \"cash_paid\": 250000, \"change\": 10000}",
+    "cordtest-0036": "{\"items\": [{\"name\": \"XXL Crispy Chicken - Sedang\", \"quantity\": 1, \"price\": 40000}], \"subtotal\": 40000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 40000, \"cash_paid\": 100000, \"change\": 60000}",
+    "cordtest-0010": "{\"items\": [{\"name\": \"CINNAMON SUGAR\", \"quantity\": 1, \"price\": 17000}], \"subtotal\": 17000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 17000, \"cash_paid\": 20000, \"change\": 3000}",
+    "cordtest-0051": "{\"items\": [{\"name\": \"(TA) NASI KRC TERI MEDAN\", \"quantity\": 4, \"price\": 165460}, {\"name\": \"(TA) BIHUN GORENG SEAFOOD\", \"quantity\": 1, \"price\": 40456}, {\"name\": \"(TA) KWETIAW SEAFOOD SIRAM\", \"quantity\": 1, \"price\": 42274}, {\"name\": \"(TA) NASI GORENG\", \"quantity\": 2, \"price\": 55456}], \"subtotal\": 303646, \"discount\": 30365, \"service_charge\": null, \"tax\": null, \"total\": 334000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0059": "{\"items\": [{\"name\": \"2 Tahu Isi\", \"quantity\": 2, \"price\": 78000}, {\"name\": \"5 Tea\", \"quantity\": 5, \"price\": 30000}, {\"name\": \"1 Kepiting 7-8.4ons - Chilly 0.7\", \"quantity\": 1, \"price\": 297490}, {\"name\": \"1 Udang Telur Asin - Regular\", \"quantity\": 1, \"price\": 47500}, {\"name\": \"1 Kailan 2 Rasa\", \"quantity\": 1, \"price\": 45000}, {\"name\": \"1 Mantau - 2 pcs\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"2 Sweet Tea\", \"quantity\": 2, \"price\": 16000}, {\"name\": \"7 Nasi Putih\", \"quantity\": 7, \"price\": 42000}, {\"name\": \"1 Mantau - 3 pcs\", \"quantity\": 1, \"price\": 37500}], \"subtotal\": 618490, \"discount\": null, \"service_charge\": null, \"tax\": 61849, \"total\": 680500, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0052": "{\"items\": [{\"name\": \"THAI ICED TEA\", \"quantity\": 1, \"price\": 20000}, {\"name\": \"THAI ICED TEA\", \"quantity\": 1, \"price\": 20000}], \"subtotal\": 40000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 40000, \"cash_paid\": 100000, \"change\": 60000}",
+    "cordtest-0071": "{\"items\": [{\"name\": \"Cuka Apel Tefes 1\", \"quantity\": null, \"price\": 198000}], \"subtotal\": 198000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 200200, \"cash_paid\": null, \"change\": 22000}",
+    "cordtest-0046": "{\"items\": [{\"name\": \"S-Bubble Milk Tea\", \"quantity\": 1, \"price\": 20000}, {\"name\": \"S-Caramel Milk Tea\", \"quantity\": 1, \"price\": 20000}], \"subtotal\": 40000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 40000, \"cash_paid\": 40000, \"change\": 0}",
+    "cordtest-0038": "{\"items\": [{\"name\": \"XLB Org Pork 10x\", \"quantity\": 1, \"price\": 78000}, {\"name\": \"Sicoto Babi\", \"quantity\": 1, \"price\": 65000}, {\"name\": \"Hotplate Tahu\", \"quantity\": 1, \"price\": 58000}, {\"name\": \"DF Fish Fillet Garlic\", \"quantity\": 1, \"price\": 108000}, {\"name\": \"LM Pork Belly\", \"quantity\": 1, \"price\": 88000}, {\"name\": \"Siew Mai\", \"quantity\": 1, \"price\": 38800}, {\"name\": \"Kwan Yin Cup\", \"quantity\": 5, \"price\": 50000}, {\"name\": \"Herbal Jelly\", \"quantity\": 1, \"price\": 38000}, {\"name\": \"Onde-Onde\", \"quantity\": 1, \"price\": 38000}], \"subtotal\": 561800, \"discount\": null, \"service_charge\": 42135, \"tax\": 60394, \"total\": 664329, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0047": "{\"items\": [{\"name\": \"COPIA 1 /GB 2100252000358\", \"quantity\": 1, \"price\": 45000}, {\"name\": \"PLASTIC BAG RED CENTRAL SI 9100544260074\", \"quantity\": 1, \"price\": 0}, {\"name\": \"COPIA 1 /GB 2100252000358\", \"quantity\": 1, \"price\": 18000}], \"subtotal\": null, \"discount\": 0, \"service_charge\": null, \"tax\": null, \"total\": 63000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0042": "{\"items\": [{\"name\": \"Chicken HCC, 1Pcs\", \"quantity\": 1, \"price\": 15000}], \"subtotal\": 15000, \"discount\": null, \"service_charge\": null, \"tax\": 1500, \"total\": 16500, \"cash_paid\": 50000, \"change\": 33500}",
+    "cordtest-0098": "{\"items\": [{\"name\": \"BLACK PEPPER MEATBALL PAS\", \"quantity\": 1, \"price\": 79000}, {\"name\": \"TRUFFLE CREAM\", \"quantity\": 1, \"price\": 77000}, {\"name\": \"EARL GREY MILK TEA\", \"quantity\": 1, \"price\": 59000}], \"subtotal\": 215000, \"discount\": null, \"service_charge\": 12900, \"tax\": 22790, \"total\": 250690, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0019": "{\"items\": [{\"name\": \"AMBUSH DBL CHS\", \"quantity\": 4, \"price\": 60000}, {\"name\": \"AMBUSH CHS BUR\", \"quantity\": 10, \"price\": 100000}], \"subtotal\": 160000, \"discount\": null, \"service_charge\": null, \"tax\": 16000, \"total\": 176000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0015": "{\"items\": [{\"name\": \"Lemon Tea (L)\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Caramel Small\", \"quantity\": 1, \"price\": 38000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 63000, \"cash_paid\": 70000, \"change\": 7000}",
+    "cordtest-0048": "{\"items\": [{\"name\": \"S-Hazelnut KOI Cafe\", \"quantity\": 1, \"price\": 25000}], \"subtotal\": 22728, \"discount\": null, \"service_charge\": 2272, \"tax\": null, \"total\": 25000, \"cash_paid\": 100000, \"change\": 75000}",
+    "cordtest-0007": "{\"items\": [{\"name\": \"ADD CHICKEN BOX\", \"quantity\": 1, \"price\": 100000}], \"subtotal\": 100709, \"discount\": 709, \"service_charge\": null, \"tax\": 10091, \"total\": 111000, \"cash_paid\": 111000, \"change\": null}",
+    "cordtest-0000": "{\"items\": [{\"name\": \"-TICKET CP\", \"quantity\": 2, \"price\": 60000}], \"subtotal\": 60000, \"discount\": 60000, \"service_charge\": null, \"tax\": 5455, \"total\": 60000, \"cash_paid\": 60000, \"change\": null}",
+    "cordtest-0083": "{\"items\": [{\"name\": \"COOKIES AND CREAM\", \"quantity\": 1, \"price\": 20909}], \"subtotal\": 20909, \"discount\": null, \"service_charge\": 2091, \"tax\": null, \"total\": 23000, \"cash_paid\": 25000, \"change\": 2000}",
+    "cordtest-0067": "{\"items\": [{\"name\": \"2009-CHEESE JOHN\", \"quantity\": 1, \"price\": 9500}], \"subtotal\": 9500, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 9500, \"cash_paid\": 9500, \"change\": null}",
+    "cordtest-0025": "{\"items\": [{\"name\": \"TWIST STRAWBERRY DONUT\", \"quantity\": 1, \"price\": 10000}, {\"name\": \"TLJ CROQUETTE\", \"quantity\": 1, \"price\": 17000}, {\"name\": \"POTATO PEPPER BAGEL\", \"quantity\": 1, \"price\": 16000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 43000, \"cash_paid\": 50000, \"change\": 7000}",
+    "cordtest-0096": "{\"items\": [{\"name\": \"BBQ Chicken - Tidak Pedas\", \"quantity\": 1, \"price\": 41000}], \"subtotal\": 41000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 41000, \"cash_paid\": 50000, \"change\": 9000}",
+    "cordtest-0008": "{\"items\": [{\"name\": \"[REG] BLACK SAKURA\", \"quantity\": 1, \"price\": 45455}, {\"name\": \"COOKIE DOH SAUCES\", \"quantity\": 1, \"price\": 0}, {\"name\": \"NATA DE COCO\", \"quantity\": 1, \"price\": 0}], \"subtotal\": 45455, \"discount\": null, \"service_charge\": null, \"tax\": 4545, \"total\": 50000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0077": "{\"items\": [{\"name\": \"TRIPPLE CHEESE\", \"quantity\": 1, \"price\": 17000}], \"subtotal\": 17000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 17000, \"cash_paid\": 22000, \"change\": 5000}",
+    "cordtest-0022": "{\"items\": [{\"name\": \"[MD] SOFT STEAMED CHEESEC\", \"quantity\": 2, \"price\": 20000}, {\"name\": \"[MD] SOFT STEAMED CHOCOCA\", \"quantity\": 2, \"price\": 20000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 40000, \"cash_paid\": 100000, \"change\": 60000}",
+    "cordtest-0078": "{\"items\": [{\"name\": \"Lemon Tea (L)\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Extra Jelly Lychee\", \"quantity\": 1, \"price\": 5000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 30000, \"cash_paid\": 30000, \"change\": 0}",
+    "cordtest-0034": "{\"items\": [{\"name\": \"Ash.Chick Sambal Matah\", \"quantity\": 5, \"price\": 75000}, {\"name\": \"Jamur Goreng\", \"quantity\": 2, \"price\": 10000}], \"subtotal\": 85000, \"discount\": null, \"service_charge\": null, \"tax\": 8500, \"total\": 93500, \"cash_paid\": 100000, \"change\": 6500}",
+    "cordtest-0090": "{\"items\": [{\"name\": \"CIRENG PANDAWA\", \"quantity\": 1, \"price\": 26818}], \"subtotal\": 26818, \"discount\": null, \"service_charge\": 2681, \"tax\": null, \"total\": 29500, \"cash_paid\": 29500, \"change\": null}",
+    "cordtest-0012": "{\"items\": [{\"name\": \"RLUS WAMITA\", \"quantity\": 1, \"price\": 120000}, {\"name\": \"SHOPPING BAG\", \"quantity\": 1, \"price\": 0}], \"subtotal\": 120000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 120000, \"cash_paid\": 120000, \"change\": 0}",
+    "cordtest-0091": "{\"items\": [{\"name\": \"BAKSO BNGKS\", \"quantity\": 1, \"price\": 15000}, {\"name\": \"GORENGAN\", \"quantity\": 1, \"price\": 6000}], \"subtotal\": 21000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 21000, \"cash_paid\": 30000, \"change\": 9000}",
+    "cordtest-0055": "{\"items\": [{\"name\": \"APPLE CINNAMON PASTRY\", \"quantity\": 1, \"price\": 22000}, {\"name\": \"ROYAL CHEESE TART\", \"quantity\": 2, \"price\": 32000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 54000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0035": "{\"items\": [{\"name\": \"TWIST DONUT\", \"quantity\": 2, \"price\": 18000}, {\"name\": \"BANANA DONUT\", \"quantity\": 1, \"price\": 11000}, {\"name\": \"CREAMCHEESE BREAD\", \"quantity\": 1, \"price\": 13000}, {\"name\": \"FRANKFRUIT SAUSAGE ROLL\", \"quantity\": 1, \"price\": 12000}], \"subtotal\": 54000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 54000, \"cash_paid\": 104000, \"change\": 50000}",
+    "cordtest-0029": "{\"items\": [{\"name\": \"COLD OCHA\", \"quantity\": 1, \"price\": 10909}, {\"name\": \"BCA PROMO\", \"quantity\": 1, \"price\": 54455}, {\"name\": \"I-ABURA UDON SPICY\", \"quantity\": 1, \"price\": 0}, {\"name\": \"I-KAKE UDON\", \"quantity\": 1, \"price\": 0}, {\"name\": \"SKEWERED SHUMAI\", \"quantity\": 1, \"price\": 12727}, {\"name\": \"SKEWERED TOFU ROLL\", \"quantity\": 1, \"price\": 12727}, {\"name\": \"EBI TEMPURA\", \"quantity\": 1, \"price\": 13636}, {\"name\": \"KITSUNE UDON (KIDS)\", \"quantity\": 1, \"price\": 28182}], \"subtotal\": 132636, \"discount\": null, \"service_charge\": null, \"tax\": 13264, \"total\": 145900, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0086": "{\"items\": [{\"name\": \"Chrezemania\", \"quantity\": 1, \"price\": 9500}, {\"name\": \"Mamamia\", \"quantity\": 1, \"price\": 12500}], \"subtotal\": 22000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 22000, \"cash_paid\": 52000, \"change\": 30000}",
+    "cordtest-0089": "{\"items\": [{\"name\": \"XXL Crispy Chicken\", \"quantity\": 1, \"price\": 40000}], \"subtotal\": 40000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 40000, \"cash_paid\": 50000, \"change\": 10000}",
+    "cordtest-0064": "{\"items\": [{\"name\": \"SINGLE SCOOP\", \"quantity\": 1, \"price\": 16000}], \"subtotal\": 16000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 16000, \"cash_paid\": 50000, \"change\": 34000}",
+    "cordtest-0011": "{\"items\": [{\"name\": \"BANABERRY FRESH CREAM CAK\", \"quantity\": 1, \"price\": 230000}], \"subtotal\": 230000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 230000, \"cash_paid\": 230000, \"change\": 0}",
+    "cordtest-0005": "{\"items\": [{\"name\": \"TRAD KY TOAST CARTE\", \"quantity\": 1, \"price\": 28182}], \"subtotal\": 28182, \"discount\": 2818, \"service_charge\": null, \"tax\": null, \"total\": 31000, \"cash_paid\": 31000, \"change\": null}",
+    "cordtest-0082": "{\"items\": [{\"name\": \"Chocolate Log Cake\", \"quantity\": 1, \"price\": 115000}, {\"name\": \"Snowman Cake Chocolate\", \"quantity\": 1, \"price\": 60000}, {\"name\": \"Strawberry Log Cake\", \"quantity\": 2, \"price\": 210000}], \"subtotal\": 385000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 385000, \"cash_paid\": 385000, \"change\": 0}",
+    "cordtest-0085": "{\"items\": [{\"name\": \"Nasi Putih\", \"quantity\": 3, \"price\": 30000}, {\"name\": \"Nasi Tambah\", \"quantity\": 1, \"price\": 7000}, {\"name\": \"Ayam POP\", \"quantity\": 2, \"price\": 40000}, {\"name\": \"Sambal SP\", \"quantity\": 1, \"price\": 11000}, {\"name\": \"Sambal Gabus Asin Cb\", \"quantity\": 1, \"price\": 18000}, {\"name\": \"Kerupuk Kuah\", \"quantity\": 1, \"price\": 15000}, {\"name\": \"Ikan Bawal Besa\", \"quantity\": 1, \"price\": 28500}, {\"name\": \"Telur Dadar\", \"quantity\": 1, \"price\": 10000}, {\"name\": \"Teh Es\", \"quantity\": 1, \"price\": 7000}, {\"name\": \"Teh Manis\", \"quantity\": 1, \"price\": 9000}, {\"name\": \"Es Batu\", \"quantity\": 1, \"price\": 4000}], \"subtotal\": 179500, \"discount\": null, \"service_charge\": null, \"tax\": 17950, \"total\": 197450, \"cash_paid\": 197450, \"change\": null}",
+    "cordtest-0062": "{\"items\": [{\"name\": \"XXI Java Tea (M)\", \"quantity\": 1, \"price\": 18000}, {\"name\": \"Combo 2\", \"quantity\": 1, \"price\": 30000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 48000, \"cash_paid\": 50000, \"change\": 2000}",
+    "cordtest-0074": "{\"items\": [{\"name\": \"BLACKCURRANT\", \"quantity\": 1, \"price\": 32000}, {\"name\": \"SPRITE\", \"quantity\": 1, \"price\": 32000}, {\"name\": \"GRILLED CALAMARI\", \"quantity\": 1, \"price\": 85000}, {\"name\": \"DINE FOR 2\", \"quantity\": 1, \"price\": 129000}], \"subtotal\": 278000, \"discount\": null, \"service_charge\": 22240, \"tax\": 30024, \"total\": 330264, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0093": "{\"items\": [{\"name\": \"THAI ICED TEA (L)\", \"quantity\": 1, \"price\": 16363}], \"subtotal\": 16363, \"discount\": null, \"service_charge\": 1636, \"tax\": null, \"total\": 17999, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0003": "{\"items\": [{\"name\": \"DONAT GULA\", \"quantity\": 1, \"price\": 11000}], \"subtotal\": 11000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 11000, \"cash_paid\": 11000, \"change\": null}",
+    "cordtest-0032": "{\"items\": [{\"name\": \"THAI ICED GREEN TEA\", \"quantity\": 1, \"price\": 24000}], \"subtotal\": 24000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 24000, \"cash_paid\": 50000, \"change\": 26000}",
+    "cordtest-0014": "{\"items\": [{\"name\": \"RedVelvet Cheese Slc\", \"quantity\": 1, \"price\": 38000}, {\"name\": \"Chicken Baked Rice\", \"quantity\": 1, \"price\": 55000}, {\"name\": \"Fish n Chips\", \"quantity\": 1, \"price\": 65000}, {\"name\": \"Mushroom Soup\", \"quantity\": 1, \"price\": 35000}, {\"name\": \"Chamomile\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Iced Tea\", \"quantity\": 1, \"price\": 20000}], \"subtotal\": 238000, \"discount\": null, \"service_charge\": 17850, \"tax\": 25585, \"total\": 281435, \"cash_paid\": 200000, \"change\": 18565}",
+    "cordtest-0061": "{\"items\": [{\"name\": \"TALAM UNGU\", \"quantity\": 1, \"price\": 6500}, {\"name\": \"AREM - AREM\", \"quantity\": 1, \"price\": 8000}, {\"name\": \"LEMPER\", \"quantity\": 2, \"price\": 10000}, {\"name\": \"MIKA SEDANG\", \"quantity\": 1, \"price\": 0}, {\"name\": \"PLASTIK KECIL\", \"quantity\": 1, \"price\": 0}, {\"name\": \"TEH KOTAK\", \"quantity\": 1, \"price\": 5000}], \"subtotal\": 24500, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 24500, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0094": "{\"items\": [{\"name\": \"TAHU GORENG\", \"quantity\": 1, \"price\": 28000}, {\"name\": \"CAKWE\", \"quantity\": 1, \"price\": 17000}, {\"name\": \"PHO TAI CHIN (R)\", \"quantity\": 1, \"price\": 63000}, {\"name\": \"TEA\", \"quantity\": 1, \"price\": 11000}], \"subtotal\": 119000, \"discount\": null, \"service_charge\": 8330, \"tax\": 12733, \"total\": 140063, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0088": "{\"items\": [{\"name\": \"STIX ECLAIRS\", \"quantity\": 1, \"price\": 19000}, {\"name\": \"ALMOND CREAM CHEESE\", \"quantity\": 1, \"price\": 28000}], \"subtotal\": 47000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 47000, \"cash_paid\": null, \"change\": 0}",
+    "cordtest-0027": "{\"items\": [{\"name\": \"PKT AYAM\", \"quantity\": 1, \"price\": 33000}, {\"name\": \"GULAI OTAK\", \"quantity\": 1, \"price\": 23000}], \"subtotal\": 56000, \"discount\": null, \"service_charge\": null, \"tax\": 5600, \"total\": 61600, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0018": "{\"items\": [{\"name\": \"Propolis Cair 1\", \"quantity\": null, \"price\": 156000}], \"subtotal\": 156000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 156000, \"cash_paid\": 156000, \"change\": 0}",
+    "cordtest-0006": "{\"items\": [{\"name\": \"EGG TART\", \"quantity\": 1, \"price\": 13000}, {\"name\": \"CHOCO CUSTARD PASTRY\", \"quantity\": 2, \"price\": 24000}, {\"name\": \"REDBEAN BREAD\", \"quantity\": 1, \"price\": 9000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 46000, \"cash_paid\": 50000, \"change\": 4000}",
+    "cordtest-0021": "{\"items\": [{\"name\": \"NASTI GOR SFD TLR\", \"quantity\": 1, \"price\": 35000}, {\"name\": \"ES TEH TAWAR\", \"quantity\": 1, \"price\": 3000}], \"subtotal\": 38000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 38000, \"cash_paid\": 50000, \"change\": 12000}"
+   },
+   "failures_r1": [
+    {
+     "id": "cordtest-0002",
+     "input": "1 JASMINE MT ( L ) 24,000\nCOCONUT JELLY ( L ) 4,000\nSUB TOTAL 28,000\nTOTAL SAI S 28,000\nTOTAL ITEMS 1\nCASH 100,000\nCHANGE 72,000",
+     "expected": "{\"items\": [{\"name\": \"JASMINE MT ( L )\", \"quantity\": 1, \"price\": 24000}], \"subtotal\": 28000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 28000, \"cash_paid\": 100000, \"change\": 72000}",
+     "got": "{\"items\": [{\"name\": \"JASMINE MT (L)\", \"quantity\": 1, \"price\": 24000}, {\"name\": \"COCONUT JELLY (L)\", \"quantity\": 1, \"price\": 4000}], \"subtotal\": 28000, \"discount\": null, \"service_charge\": null, \"tax\": ",
+     "detail": "items F1 0.67"
+    },
+    {
+     "id": "cordtest-0031",
+     "input": "1 SALMON PESTO 85,500\n1 SALMON PESTO 85,500\nDisc -100% (ITM06) -85,500\nSUBTTL 85,500\nSVC CHG 6% 10,260\nPB1 10% 18,126\nTOTAL 113,886",
+     "expected": "{\"items\": [{\"name\": \"SALMON PESTO\", \"quantity\": 1, \"price\": 85500}, {\"name\": \"SALMON PESTO\", \"quantity\": 1, \"price\": 85500}], \"subtotal\": 85500, \"discount\": null, \"service_charge\": 10260, \"tax\": 18126",
+     "got": "{\"items\": [{\"name\": \"SALMON PESTO\", \"quantity\": 1, \"price\": 85500}, {\"name\": \"SALMON PESTO\", \"quantity\": 1, \"price\": 85500}], \"subtotal\": 171000, \"discount\": 85500, \"service_charge\": 10260, \"tax\": 181",
+     "detail": "subtotal: got 171000, expected 85500; discount: got 85500, expected None"
+    },
+    {
+     "id": "cordtest-0063",
+     "input": "Kopi Susu Kampung. x1 19.000\nIce\nKopi Susu Kampung Less Ice 0\nKopi Susu Kampung. x2 38.000\nIce\nSubtotal 57.000\nTotal 57.000\nCash 60.000\nChange 3.000",
+     "expected": "{\"items\": [{\"name\": \"Kopi Susu Kampung.\", \"quantity\": 1, \"price\": 19000}, {\"name\": \"Kopi Susu Kampung.\", \"quantity\": 2, \"price\": 38000}], \"subtotal\": 57000, \"discount\": null, \"service_charge\": null, \"",
+     "got": "{\"items\": [{\"name\": \"Kopi Susu Kampung. Ice\", \"quantity\": 1, \"price\": 19000}, {\"name\": \"Kopi Susu Kampung Less Ice\", \"quantity\": 0, \"price\": 0}, {\"name\": \"Kopi Susu Kampung. Ice\", \"quantity\": 2, \"pric",
+     "detail": "items F1 0.80"
+    },
+    {
+     "id": "cordtest-0066",
+     "input": "PILLOW DURIA 36,364\nPLASTIK 25 0\nSUBTOTAL 36,364\nPD1 10% 10.000Z\nAMOUNT 3,636\nTOTAL 40,000\nCASH 50,000\nCHANGE 10,000",
+     "expected": "{\"items\": [{\"name\": \"PILLOW DURIA\", \"quantity\": null, \"price\": 36364}, {\"name\": \"PLASTIK 25\", \"quantity\": null, \"price\": 0}], \"subtotal\": 36364, \"discount\": null, \"service_charge\": null, \"tax\": 3636, ",
+     "got": "{\"items\": [{\"name\": \"PILLON DURIA\", \"quantity\": null, \"price\": 36364}], \"subtotal\": 36364, \"discount\": null, \"service_charge\": null, \"tax\": 3636, \"total\": 40000, \"cash_paid\": 50000, \"change\": 10000}",
+     "detail": "items F1 0.67"
+    },
+    {
+     "id": "cordtest-0017",
+     "input": "Goblin's Mace 1 25,000\nMozarella Hot 2 38,000\nDog\nChili Pepper 1 14,000\nCroquette\nCheese 1 14,000\nCroquette\nPlastik Amook 1 0\nPlastik Putih 1 0\nTake Away\nSubtotal 91,000\nDiscount (0)\nTOTAL Rp. 91,000\nDebit 91,000",
+     "expected": "{\"items\": [{\"name\": \"Goblin's Mace\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Mozarella Hot Dog\", \"quantity\": 2, \"price\": 38000}, {\"name\": \"Chili Pepper Croquette\", \"quantity\": 1, \"price\": 14000}, {\"",
+     "got": "{\"items\": [{\"name\": \"Goblin's Mace\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Mozzarella Hot Dog\", \"quantity\": 2, \"price\": 38000}, {\"name\": \"Chili Pepper Croquette\", \"quantity\": 1, \"price\": 14000}, {",
+     "detail": "cash_paid: got 91000, expected None"
+    },
+    {
+     "id": "cordtest-0016",
+     "input": "1 [LG] BLACK SAKURA 59,091\n1 LONGAN 0\n1 ROASTED ALMOND 0\n1 IVANGGO 0\n1 IVINERAL WATER (bundling) 5k 4,545\nSub Total 63,636\nPB1 (10%) 6,364\nRounding 0\nTotal 70,000\nCash Payment 100,000\nChange 30,000",
+     "expected": "{\"items\": [{\"name\": \"[LG] BLACK SAKURA\", \"quantity\": 1, \"price\": 59091}, {\"name\": \"IVINERAL WATER (bundling) 5k\", \"quantity\": 1, \"price\": 4545}], \"subtotal\": 63636, \"discount\": null, \"service_charge\":",
+     "got": "{\"items\": [{\"name\": \"[LG] BLACK SAKURA\", \"quantity\": 1, \"price\": 59091}, {\"name\": \"LONGAN\", \"quantity\": 1, \"price\": 0}, {\"name\": \"ROASTED ALMOND\", \"quantity\": 1, \"price\": 0}, {\"name\": \"VANGGO\", \"quant",
+     "detail": "items F1 0.57"
+    }
+   ]
+  },
+  "rules": {
+   "system": "The image is a photo of a shop or restaurant receipt from Indonesia (amounts in rupiah). Extract receipt data as JSON only. Rules:\n1. ITEMS: Lines with a printed line total (integer with optional dots/commas). Name = text before that number. Quantity = leading integer if present, else null. Price = line total as integer (remove separators). Ignore sub-items/modifiers (lines without line total, or indented, or price 0).\n2. TOTALS: Match labels case-insensitively.\n   - Subtotal: label contains SUBTOTAL/SUB TOTAL/NET SALES/NET AMT.\n   - Discount: label contains DISC/PROMO/LESS/OFF.\n   - Service Charge: label contains SVC/SERVICE/CHG.\n   - Tax: label contains TAX/PAJAK/PB1/PPN.\n   - Total: label TOTAL/GRAND TOTAL/TOTAL DUE (not Subtotal).\n   - Cash Paid: label CASH/BAYAR/PAY.\n   - Change: label CHANGE/CHANGED/KEMBALI.\n3. Values: integers only (strip Rp, dots, commas). Null if missing.\n4. Discounts are positive numbers.\n5. Do not infer missing fields from math.",
+   "fewshot_ids": [
+    "cordval-0085",
+    "cordval-0016",
+    "cordval-0035",
+    "cordval-0067"
+   ],
+   "repeat_scores": [
+    0.9599,
+    0.9601,
+    0.9599
+   ],
+   "mean": 0.96,
+   "spread": 0.0002,
+   "ci": {
+    "mean": 0.96,
+    "lo": 0.942,
+    "hi": 0.9757,
+    "n": 86
+   },
+   "diff_vs_ultra": {
+    "diff": 0.0404,
+    "lo": 0.0116,
+    "hi": 0.0726,
+    "n": 86,
+    "rows_better": 32,
+    "rows_worse": 14
+   },
+   "matches": true,
+   "cost_per_1k_usd": 0.7198,
+   "p50_ms": 1878.9,
+   "graded_by": [
+    "sandbox"
+   ],
+   "per_row": {
+    "cordtest-0030": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0023": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0002": [
+     0.9583,
+     0.9583,
+     0.9583
+    ],
+    "cordtest-0069": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0031": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0063": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0045": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0066": [
+     0.9583,
+     0.9583,
+     0.9583
+    ],
+    "cordtest-0056": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0087": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0079": [
+     0.9583,
+     0.9583,
+     0.9583
+    ],
+    "cordtest-0044": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0017": [
+     0.9886,
+     1.0,
+     0.9886
+    ],
+    "cordtest-0080": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0016": [
+     0.9464,
+     0.9464,
+     0.9464
+    ],
+    "cordtest-0054": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0068": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0001": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0004": [
+     0.9583,
+     0.9583,
+     0.9583
+    ],
+    "cordtest-0050": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0053": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0072": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0081": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0028": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0033": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0040": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0075": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0024": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0043": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0020": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0049": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0097": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0084": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0073": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0092": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0036": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0010": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0051": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0059": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0052": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0071": [
+     0.625,
+     0.5,
+     0.625
+    ],
+    "cordtest-0046": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0038": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0047": [
+     0.7917,
+     0.7917,
+     0.7917
+    ],
+    "cordtest-0042": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "cordtest-0098": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0019": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0015": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0048": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0007": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "cordtest-0000": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0083": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0067": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0025": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0096": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0008": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0077": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0022": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0078": [
+     0.9583,
+     0.9583,
+     0.9583
+    ],
+    "cordtest-0034": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0090": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0012": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0091": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0055": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0035": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0029": [
+     0.9821,
+     0.9821,
+     0.9821
+    ],
+    "cordtest-0086": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0089": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0064": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0011": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0005": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0082": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0085": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "cordtest-0062": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0074": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0093": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "cordtest-0003": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0032": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0014": [
+     0.9792,
+     0.9792,
+     0.9792
+    ],
+    "cordtest-0061": [
+     0.95,
+     0.95,
+     0.95
+    ],
+    "cordtest-0094": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0088": [
+     0.875,
+     1.0,
+     0.875
+    ],
+    "cordtest-0027": [
+     0.875,
+     0.875,
+     0.875
+    ],
+    "cordtest-0018": [
+     0.75,
+     0.75,
+     0.75
+    ],
+    "cordtest-0006": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "cordtest-0021": [
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "outputs_r1": {
+    "cordtest-0030": "{\"items\": [{\"name\": \"Kupon 3\", \"quantity\": null, \"price\": 28636}], \"subtotal\": 28636, \"discount\": null, \"service_charge\": null, \"tax\": 2864, \"total\": 31500, \"cash_paid\": 50000, \"change\": 18500}",
+    "cordtest-0023": "{\"items\": [{\"name\": \"TWIST DONUT\", \"quantity\": 6, \"price\": 54000}, {\"name\": \"REDBEAN BREAD\", \"quantity\": 1, \"price\": 9000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 63000, \"cash_paid\": 70000, \"change\": 7000}",
+    "cordtest-0002": "{\"items\": [{\"name\": \"JASMINE MT (L)\", \"quantity\": 1, \"price\": 24000}, {\"name\": \"COCONUT JELLY (L)\", \"quantity\": null, \"price\": 4000}], \"subtotal\": 28000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 28000, \"cash_paid\": 100000, \"change\": 72000}",
+    "cordtest-0069": "{\"items\": [{\"name\": \"[MD] SOFT MORNING ROLL\", \"quantity\": 1, \"price\": 18000}, {\"name\": \"REAL HONEY PANCAKE BREAD\", \"quantity\": 2, \"price\": 20000}, {\"name\": \"CUSTARD BRIOCHE\", \"quantity\": 4, \"price\": 36000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 74000, \"cash_paid\": 100000, \"change\": 26000}",
+    "cordtest-0031": "{\"items\": [{\"name\": \"SALMON PESTO\", \"quantity\": 1, \"price\": 85500}, {\"name\": \"SALMON PESTO\", \"quantity\": 1, \"price\": 85500}], \"subtotal\": 85500, \"discount\": 85500, \"service_charge\": 10260, \"tax\": 18126, \"total\": 113886, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0063": "{\"items\": [{\"name\": \"Kopi Susu Kampung.\", \"quantity\": 1, \"price\": 19000}, {\"name\": \"Kopi Susu Kampung.\", \"quantity\": 2, \"price\": 38000}], \"subtotal\": 57000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 57000, \"cash_paid\": 60000, \"change\": 3000}",
+    "cordtest-0045": "{\"items\": [{\"name\": \"Lemon Tea (L).\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Mike & Ike Original\", \"quantity\": 1, \"price\": 28000}, {\"name\": \"Mike & Berry\", \"quantity\": 1, \"price\": 28000}, {\"name\": \"Roti Keju Manis.\", \"quantity\": 1, \"price\": 7000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 88000, \"cash_paid\": 88000, \"change\": 0}",
+    "cordtest-0066": "{\"items\": [{\"name\": \"PILLON DURIA\", \"quantity\": null, \"price\": 36364}], \"subtotal\": 36364, \"discount\": null, \"service_charge\": null, \"tax\": 3636, \"total\": 40000, \"cash_paid\": 50000, \"change\": 10000}",
+    "cordtest-0056": "{\"items\": [{\"name\": \"AIR MINERAL\", \"quantity\": null, \"price\": 8181}], \"subtotal\": 8181, \"discount\": null, \"service_charge\": null, \"tax\": 818, \"total\": 8999, \"cash_paid\": 10000, \"change\": 1001}",
+    "cordtest-0087": "{\"items\": [{\"name\": \"PHO TAI CHIN\", \"quantity\": 1, \"price\": 36500}], \"subtotal\": 36500, \"discount\": null, \"service_charge\": null, \"tax\": 3650, \"total\": 40150, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0079": "{\"items\": [{\"name\": \"Choco Bun\", \"quantity\": 1, \"price\": 22000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 22000, \"cash_paid\": 22000, \"change\": null}",
+    "cordtest-0044": "{\"items\": [{\"name\": \"Combo 1\", \"quantity\": 1, \"price\": 30000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 30000, \"cash_paid\": 50000, \"change\": 20000}",
+    "cordtest-0017": "{\"items\": [{\"name\": \"Goblin's Mace\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Mozzarella Hot Dog\", \"quantity\": 2, \"price\": 38000}, {\"name\": \"Chill Pepper Croquette Cheese\", \"quantity\": 1, \"price\": 14000}, {\"name\": \"Plastik Amook\", \"quantity\": 1, \"price\": 0}, {\"name\": \"Plastik Putih\", \"quantity\": 1, \"price\": 0}], \"subtotal\": 91000, \"discount\": 0, \"service_charge\": null, \"tax\": null, \"total\": 91000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0080": "{\"items\": [{\"name\": \"Viet Milk Coffee\", \"quantity\": 1, \"price\": 25000}], \"subtotal\": 25000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 25000, \"cash_paid\": 25000, \"change\": 0}",
+    "cordtest-0016": "{\"items\": [{\"name\": \"[LG] BLACK SAKURA\", \"quantity\": 1, \"price\": 59091}, {\"name\": \"LONGAN\", \"quantity\": 1, \"price\": 0}, {\"name\": \"ROASTED ALMOND\", \"quantity\": 1, \"price\": 0}, {\"name\": \"VANGOGO\", \"quantity\": 1, \"price\": 0}, {\"name\": \"MINERAL WATER (bundling) 5k\", \"quantity\": 1, \"price\": 4545}], \"subtotal\": 63636, \"discount\": null, \"service_charge\": null, \"tax\": 6364, \"total\": 70000, \"cash_paid\": 100000, \"change\": 30000}",
+    "cordtest-0054": "{\"items\": [{\"name\": \"KACANG MERAH\", \"quantity\": null, \"price\": 10000}], \"subtotal\": 10000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 10000, \"cash_paid\": 10000, \"change\": null}",
+    "cordtest-0068": "{\"items\": [{\"name\": \"ICED TT\", \"quantity\": null, \"price\": 20000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 20000, \"cash_paid\": 50000, \"change\": 30000}",
+    "cordtest-0001": "{\"items\": [{\"name\": \"J.STB PROMO\", \"quantity\": null, \"price\": 17500}, {\"name\": \"Y.B.BAT\", \"quantity\": null, \"price\": 46000}, {\"name\": \"Y.BASO PROM\", \"quantity\": null, \"price\": 27500}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 91000, \"cash_paid\": 91000, \"change\": null}",
+    "cordtest-0004": "{\"items\": [{\"name\": \"ICE BLACKCOFFE\", \"quantity\": 2, \"price\": 62000}, {\"name\": \"AVOCADO COFFEE\", \"quantity\": 1, \"price\": 61000}, {\"name\": \"CHIKEN KATSU FF\", \"quantity\": 1, \"price\": 51000}], \"subtotal\": 194000, \"discount\": 19400, \"service_charge\": null, \"tax\": null, \"total\": 174600, \"cash_paid\": 200000, \"change\": 25400}",
+    "cordtest-0050": "{\"items\": [{\"name\": \"SpPrice Cadbury\", \"quantity\": 1, \"price\": 17727}], \"subtotal\": 17727, \"discount\": null, \"service_charge\": null, \"tax\": 1773, \"total\": 19500, \"cash_paid\": 100000, \"change\": 80500}",
+    "cordtest-0053": "{\"items\": [{\"name\": \"Pecel Komplit + Nasi\", \"quantity\": 1, \"price\": 42000}, {\"name\": \"SOTO KUDUS\", \"quantity\": 1, \"price\": 47000}, {\"name\": \"Mineral Water\", \"quantity\": 2, \"price\": 18000}], \"subtotal\": 107000, \"discount\": null, \"service_charge\": 5350, \"tax\": 11235, \"total\": 123585, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0072": "{\"items\": [{\"name\": \"Choco Devil\", \"quantity\": 1, \"price\": 15909}], \"subtotal\": 15909, \"discount\": null, \"service_charge\": null, \"tax\": 1591, \"total\": 17500, \"cash_paid\": 20000, \"change\": 2500}",
+    "cordtest-0081": "{\"items\": [{\"name\": \"Kyoto Choco Mochi\", \"quantity\": 2, \"price\": 28000}, {\"name\": \"Choco Bun\", \"quantity\": 1, \"price\": 22000}, {\"name\": \"Plastic Bag Small\", \"quantity\": 1, \"price\": 0}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 50000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0028": "{\"items\": [{\"name\": \"SAMGYOPSAL\", \"quantity\": 2, \"price\": 194000}, {\"name\": \"SUL LUNG TANG\", \"quantity\": 1, \"price\": 75000}, {\"name\": \"MAKOLI\", \"quantity\": 1, \"price\": 100000}], \"subtotal\": 369000, \"discount\": 0, \"service_charge\": 18450, \"tax\": 38745, \"total\": 426195, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0033": "{\"items\": [{\"name\": \"GRILLED BABY POTATO (R\", \"quantity\": 1, \"price\": 50500}, {\"name\": \"HOT TUNA\", \"quantity\": 1, \"price\": 67000}, {\"name\": \"HOT TUNA\", \"quantity\": 1, \"price\": 67000}], \"subtotal\": 117500, \"discount\": 67000, \"service_charge\": 11070, \"tax\": 19557, \"total\": 148127, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0040": "{\"items\": [{\"name\": \"Snack Lestari All\", \"quantity\": 2, \"price\": 54000}, {\"name\": \"Bakery, Aneka Giring banana,Pizza,yoko,Ramer,Daging,abon,keju,cokelat,dll\", \"quantity\": 2, \"price\": 14000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 68000, \"cash_paid\": 100000, \"change\": 32000}",
+    "cordtest-0075": "{\"items\": [{\"name\": \"CHOCO PUFF\", \"quantity\": 1, \"price\": 29091}, {\"name\": \"CREAMY BEEF CLS FTC\", \"quantity\": 1, \"price\": 42727}, {\"name\": \"NEW ORIENTAL CHK RICE\", \"quantity\": 1, \"price\": 34545}, {\"name\": \"LIPTON PITCHER\", \"quantity\": 1, \"price\": 54545}, {\"name\": \"SC/P SUPER SUPREME\", \"quantity\": 1, \"price\": 47273}, {\"name\": \"CB/P BLACK PEPP BEEF\", \"quantity\": 1, \"price\": 48182}], \"subtotal\": 256363, \"discount\": null, \"service_charge\": null, \"tax\": 25637, \"total\": 282000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0024": "{\"items\": [{\"name\": \"5001-Corn Fliskes Cookies\", \"quantity\": 1, \"price\": 56000}, {\"name\": \"5003-Chokoreto Cookies\", \"quantity\": 1, \"price\": 62000}, {\"name\": \"6002-Plastic Bag Medium\", \"quantity\": 1, \"price\": 0}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 118000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0043": "{\"items\": [{\"name\": \"Cheese Tart\", \"quantity\": 6, \"price\": 165000}], \"subtotal\": 165000, \"discount\": null, \"service_charge\": null, \"tax\": 15000, \"total\": 165000, \"cash_paid\": 200000, \"change\": 35000}",
+    "cordtest-0020": "{\"items\": [{\"name\": \"cashew nuts chkn\", \"quantity\": 1, \"price\": 64500}, {\"name\": \"garlic pepper beef\", \"quantity\": 1, \"price\": 79500}, {\"name\": \"red curry beef\", \"quantity\": 1, \"price\": 69500}, {\"name\": \"phad thai\", \"quantity\": 1, \"price\": 64500}, {\"name\": \"steamed rice\", \"quantity\": 4, \"price\": 47600}], \"subtotal\": 325600, \"discount\": null, \"service_charge\": 17908, \"tax\": 34351, \"total\": 377859, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0049": "{\"items\": [{\"name\": \"Ptgs Eggtart\", \"quantity\": 1, \"price\": 12000}, {\"name\": \"Choco Melt\", \"quantity\": 1, \"price\": 11000}], \"subtotal\": 23000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 23000, \"cash_paid\": 30000, \"change\": 27000}",
+    "cordtest-0097": "{\"items\": [{\"name\": \"BUBUR GO\", \"quantity\": 2, \"price\": 40000}, {\"name\": \"PUYUH GO\", \"quantity\": null, \"price\": 6000}, {\"name\": \"SATE=ATI=GO\", \"quantity\": 3, \"price\": 9000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 55000, \"cash_paid\": 55000, \"change\": null}",
+    "cordtest-0084": "{\"items\": [{\"name\": \"Kroket\", \"quantity\": 1, \"price\": 12000}, {\"name\": \"Arem Arem\", \"quantity\": 2, \"price\": 24000}], \"subtotal\": 36000, \"discount\": null, \"service_charge\": null, \"tax\": 3600, \"total\": 39600, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0073": "{\"items\": [{\"name\": \"1001-Choco Run\", \"quantity\": 1, \"price\": 22000}, {\"name\": \"6001-Plastic Bag Small\", \"quantity\": 1, \"price\": 0}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 22000, \"cash_paid\": 25000, \"change\": 3000}",
+    "cordtest-0092": "{\"items\": [{\"name\": \"TICKET CP\", \"quantity\": 4, \"price\": 240000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 240000, \"cash_paid\": 250000, \"change\": 10000}",
+    "cordtest-0036": "{\"items\": [{\"name\": \"XXL Crispy Chicken\", \"quantity\": 1, \"price\": 40000}], \"subtotal\": 40000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 40000, \"cash_paid\": 100000, \"change\": 60000}",
+    "cordtest-0010": "{\"items\": [{\"name\": \"CINNAMON SUGAR\", \"quantity\": 1, \"price\": 17000}], \"subtotal\": 17000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 17000, \"cash_paid\": 20000, \"change\": 3000}",
+    "cordtest-0051": "{\"items\": [{\"name\": \"(TA) NASI KRC TERI MEDAN\", \"quantity\": 4, \"price\": 165460}, {\"name\": \"(TA) BIHUN GORENG SEAFOOD\", \"quantity\": 1, \"price\": 40456}, {\"name\": \"(TA) KWETIAW SEAFOOD SIRAM\", \"quantity\": 1, \"price\": 42274}, {\"name\": \"(TA) NASI GORENG\", \"quantity\": 2, \"price\": 55456}], \"subtotal\": 303646, \"discount\": null, \"service_charge\": null, \"tax\": 30365, \"total\": 334000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0059": "{\"items\": [{\"name\": \"Tahu Isi\", \"quantity\": 2, \"price\": 78000}, {\"name\": \"Tea\", \"quantity\": 5, \"price\": 30000}, {\"name\": \"Kepiting 7-8.4ons - Chilly 0.7\", \"quantity\": 1, \"price\": 297490}, {\"name\": \"Udang Telur Asin - Regular\", \"quantity\": 1, \"price\": 47500}, {\"name\": \"Kailan 2 Rasa\", \"quantity\": 1, \"price\": 45000}, {\"name\": \"Mantau - 2 pcs\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Sweet Tea\", \"quantity\": 2, \"price\": 16000}, {\"name\": \"Nasi Putih\", \"quantity\": 7, \"price\": 42000}, {\"name\": \"Mantau - 3 pcs\", \"quantity\": 1, \"price\": 37500}], \"subtotal\": 618490, \"discount\": null, \"service_charge\": null, \"tax\": 61849, \"total\": 680500, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0052": "{\"items\": [{\"name\": \"THAI ICED TEA\", \"quantity\": 1, \"price\": 20000}, {\"name\": \"THAI ICED TEA\", \"quantity\": 1, \"price\": 20000}], \"subtotal\": 40000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 40000, \"cash_paid\": 100000, \"change\": 60000}",
+    "cordtest-0071": "{\"items\": [{\"name\": \"Cuka Apel Tefes 1 198000\", \"quantity\": null, \"price\": 198000}], \"subtotal\": 198000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 200200, \"cash_paid\": null, \"change\": 22000}",
+    "cordtest-0046": "{\"items\": [{\"name\": \"S-Bubble Milk Tea\", \"quantity\": 1, \"price\": 20000}, {\"name\": \"S-Caramel Milk Tea\", \"quantity\": 1, \"price\": 20000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 40000, \"cash_paid\": 40000, \"change\": 0}",
+    "cordtest-0038": "{\"items\": [{\"name\": \"XLB Org Pork 10x\", \"quantity\": 1, \"price\": 78000}, {\"name\": \"Sicoto Babi\", \"quantity\": 1, \"price\": 65000}, {\"name\": \"Hotplate Tahu\", \"quantity\": 1, \"price\": 58000}, {\"name\": \"DF Fish Fillet Garlic\", \"quantity\": 1, \"price\": 108000}, {\"name\": \"LM Pork Belly\", \"quantity\": 1, \"price\": 88000}, {\"name\": \"Siew Mai\", \"quantity\": 1, \"price\": 38800}, {\"name\": \"Kwan Yin Cup\", \"quantity\": 5, \"price\": 50000}, {\"name\": \"Herbal Jelly\", \"quantity\": 1, \"price\": 38000}, {\"name\": \"Onde-Onde\", \"quantity\": 1, \"price\": 38000}], \"subtotal\": 561800, \"discount\": null, \"service_charge\": 42135, \"tax\": 60394, \"total\": 664329, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0047": "{\"items\": [{\"name\": \"COPIA 1 /GB 2100252000358\", \"quantity\": 1, \"price\": 45000}, {\"name\": \"PLASTIC BAG RED CENTRAL SI 9100544260074\", \"quantity\": 1, \"price\": 0}, {\"name\": \"COPIA 1 /GB 2100252000358\", \"quantity\": 1, \"price\": 18000}], \"subtotal\": null, \"discount\": 0, \"service_charge\": null, \"tax\": null, \"total\": 63000, \"cash_paid\": 63000, \"change\": null}",
+    "cordtest-0042": "{\"items\": [{\"name\": \"Chicken HCC, 1Pcs\", \"quantity\": 1, \"price\": 15000}], \"subtotal\": 15000, \"discount\": null, \"service_charge\": 1500, \"tax\": null, \"total\": 16500, \"cash_paid\": 50000, \"change\": 33500}",
+    "cordtest-0098": "{\"items\": [{\"name\": \"BLACK PEPPER MEATBALL PAS\", \"quantity\": 1, \"price\": 79000}, {\"name\": \"TRUFFLE CREAM\", \"quantity\": 1, \"price\": 77000}, {\"name\": \"EARL GREY MILK TEA\", \"quantity\": 1, \"price\": 59000}], \"subtotal\": 215000, \"discount\": null, \"service_charge\": 12900, \"tax\": 22790, \"total\": 250690, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0019": "{\"items\": [{\"name\": \"AMBUSH DBL CHS\", \"quantity\": 4, \"price\": 60000}, {\"name\": \"AMBUSH CHS BUR\", \"quantity\": 10, \"price\": 100000}], \"subtotal\": 160000, \"discount\": null, \"service_charge\": null, \"tax\": 16000, \"total\": 176000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0015": "{\"items\": [{\"name\": \"Lemon Tea (L)\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Caramel Small\", \"quantity\": 1, \"price\": 38000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 63000, \"cash_paid\": 70000, \"change\": 7000}",
+    "cordtest-0048": "{\"items\": [{\"name\": \"S-Hazelnut KOI Cafe\", \"quantity\": 1, \"price\": 25000}], \"subtotal\": 22728, \"discount\": null, \"service_charge\": null, \"tax\": 2272, \"total\": 25000, \"cash_paid\": 100000, \"change\": 75000}",
+    "cordtest-0007": "{\"items\": [{\"name\": \"Kupon 15 ADD CHICKEN BOX\", \"quantity\": null, \"price\": 100000}], \"subtotal\": 100709, \"discount\": null, \"service_charge\": null, \"tax\": 10091, \"total\": 111000, \"cash_paid\": 111000, \"change\": null}",
+    "cordtest-0000": "{\"items\": [{\"name\": \"-TICKET CP\", \"quantity\": 2, \"price\": 60000}], \"subtotal\": 60000, \"discount\": 60000, \"service_charge\": null, \"tax\": 5455, \"total\": 60000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0083": "{\"items\": [{\"name\": \"COOKIES AND CREAM\", \"quantity\": 1, \"price\": 20909}], \"subtotal\": 20909, \"discount\": null, \"service_charge\": null, \"tax\": 2091, \"total\": 23000, \"cash_paid\": 25000, \"change\": 2000}",
+    "cordtest-0067": "{\"items\": [{\"name\": \"2009-CHEESE JOHN\", \"quantity\": 1, \"price\": 9500}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 9500, \"cash_paid\": 9500, \"change\": null}",
+    "cordtest-0025": "{\"items\": [{\"name\": \"TWIST STRAWBERRY DONUT\", \"quantity\": 1, \"price\": 10000}, {\"name\": \"TLJ CROQUETTE\", \"quantity\": 1, \"price\": 17000}, {\"name\": \"POTATO PEPPER BAGEL\", \"quantity\": 1, \"price\": 16000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 43000, \"cash_paid\": 50000, \"change\": 7000}",
+    "cordtest-0096": "{\"items\": [{\"name\": \"BBQ Chicken - Tidak Pedas\", \"quantity\": 1, \"price\": 41000}], \"subtotal\": 41000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 41000, \"cash_paid\": 50000, \"change\": 9000}",
+    "cordtest-0008": "{\"items\": [{\"name\": \"[REG] BLACK SAKURA\", \"quantity\": 1, \"price\": 45455}], \"subtotal\": 45455, \"discount\": null, \"service_charge\": null, \"tax\": 4545, \"total\": 50000, \"cash_paid\": 50000, \"change\": null}",
+    "cordtest-0077": "{\"items\": [{\"name\": \"TRIPPLE CHEESE\", \"quantity\": 1, \"price\": 17000}], \"subtotal\": 17000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 17000, \"cash_paid\": 22000, \"change\": 5000}",
+    "cordtest-0022": "{\"items\": [{\"name\": \"[MD] SOFT STEAMED CHEESEC\", \"quantity\": 2, \"price\": 20000}, {\"name\": \"[MD] SOFT STEAMED CHOCOCA\", \"quantity\": 2, \"price\": 20000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 40000, \"cash_paid\": 100000, \"change\": 60000}",
+    "cordtest-0078": "{\"items\": [{\"name\": \"Lemon Tea (L)\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Extra Jelly Lychee\", \"quantity\": 1, \"price\": 5000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 30000, \"cash_paid\": 30000, \"change\": 0}",
+    "cordtest-0034": "{\"items\": [{\"name\": \"Ash.Chick Sambal Matah\", \"quantity\": 5, \"price\": 75000}, {\"name\": \"Jamur Goreng\", \"quantity\": 2, \"price\": 10000}], \"subtotal\": 85000, \"discount\": null, \"service_charge\": null, \"tax\": 8500, \"total\": 93500, \"cash_paid\": 100000, \"change\": 6500}",
+    "cordtest-0090": "{\"items\": [{\"name\": \"CIRENG PANDAWA\", \"quantity\": 1, \"price\": 26818}], \"subtotal\": 26818, \"discount\": null, \"service_charge\": null, \"tax\": 2681, \"total\": 29500, \"cash_paid\": 29500, \"change\": null}",
+    "cordtest-0012": "{\"items\": [{\"name\": \"RLUS WAMITA\", \"quantity\": 1, \"price\": 120000}, {\"name\": \"SHOPPING BAG\", \"quantity\": 1, \"price\": 0}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 120000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0091": "{\"items\": [{\"name\": \"BAKSO BNGKS\", \"quantity\": 1, \"price\": 15000}, {\"name\": \"GORENGAN\", \"quantity\": 1, \"price\": 6000}], \"subtotal\": 21000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 21000, \"cash_paid\": 30000, \"change\": 9000}",
+    "cordtest-0055": "{\"items\": [{\"name\": \"APPLE CINNAMON PASTRY\", \"quantity\": 1, \"price\": 22000}, {\"name\": \"ROYAL CHEESE TART\", \"quantity\": 2, \"price\": 32000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 54000, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0035": "{\"items\": [{\"name\": \"TWIST DONUT\", \"quantity\": 2, \"price\": 18000}, {\"name\": \"BANANA DONUT\", \"quantity\": 1, \"price\": 11000}, {\"name\": \"CREAMCHEESE BREAD\", \"quantity\": 1, \"price\": 13000}, {\"name\": \"FRANKFRUIT SAUSAGE ROLL\", \"quantity\": 1, \"price\": 12000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 54000, \"cash_paid\": 104000, \"change\": 50000}",
+    "cordtest-0029": "{\"items\": [{\"name\": \"COLD OCHA\", \"quantity\": 1, \"price\": 10909}, {\"name\": \"BCA PROMO\", \"quantity\": 1, \"price\": 54455}, {\"name\": \"ABURA UDON SPICY\", \"quantity\": 1, \"price\": 0}, {\"name\": \"KAKE UDON\", \"quantity\": 1, \"price\": 0}, {\"name\": \"SKEWERED SHUMAI\", \"quantity\": 1, \"price\": 12727}, {\"name\": \"SKEWERED TOFU ROLL\", \"quantity\": 1, \"price\": 12727}, {\"name\": \"EBI TEMPURA\", \"quantity\": 1, \"price\": 13636}, {\"name\": \"KITSUNE UDON (KIDS)\", \"quantity\": 1, \"price\": 28182}], \"subtotal\": 132636, \"discount\": null, \"service_charge\": null, \"tax\": 13264, \"total\": 145900, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0086": "{\"items\": [{\"name\": \"Cheezemania\", \"quantity\": 1, \"price\": 9500}, {\"name\": \"Mamamia\", \"quantity\": 1, \"price\": 12500}], \"subtotal\": 22000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 22000, \"cash_paid\": 52000, \"change\": 30000}",
+    "cordtest-0089": "{\"items\": [{\"name\": \"XXL Crispy Chicken\", \"quantity\": 1, \"price\": 40000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 40000, \"cash_paid\": 50000, \"change\": 10000}",
+    "cordtest-0064": "{\"items\": [{\"name\": \"SINGLE SCOOP\", \"quantity\": null, \"price\": 16000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 16000, \"cash_paid\": 50000, \"change\": 34000}",
+    "cordtest-0011": "{\"items\": [{\"name\": \"BANABERRY FRESH CREAM CAK\", \"quantity\": 1, \"price\": 230000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 230000, \"cash_paid\": 230000, \"change\": 0}",
+    "cordtest-0005": "{\"items\": [{\"name\": \"TRAD KY TOAST CARTE\", \"quantity\": 1, \"price\": 28182}], \"subtotal\": 28182, \"discount\": null, \"service_charge\": null, \"tax\": 2818, \"total\": 31000, \"cash_paid\": 31000, \"change\": null}",
+    "cordtest-0082": "{\"items\": [{\"name\": \"Chocolate Log Cake\", \"quantity\": 1, \"price\": 115000}, {\"name\": \"Snowman Cake Chocolate\", \"quantity\": 1, \"price\": 60000}, {\"name\": \"Strawberry Log Cake\", \"quantity\": 2, \"price\": 210000}], \"subtotal\": 385000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 385000, \"cash_paid\": 385000, \"change\": 0}",
+    "cordtest-0085": "{\"items\": [{\"name\": \"Nasi Putih\", \"quantity\": 3, \"price\": 30000}, {\"name\": \"Nasi Tambah\", \"quantity\": 1, \"price\": 7000}, {\"name\": \"Ayam POP\", \"quantity\": 2, \"price\": 40000}, {\"name\": \"Sambal SP\", \"quantity\": 1, \"price\": 11000}, {\"name\": \"Sambal Gabus Asin Cb\", \"quantity\": 1, \"price\": 18000}, {\"name\": \"Kerupuk Kuah\", \"quantity\": 1, \"price\": 15000}, {\"name\": \"Ikan Bawal Besa\", \"quantity\": 1, \"price\": 28500}, {\"name\": \"Telur Dadar\", \"quantity\": 1, \"price\": 10000}, {\"name\": \"Teh Es\", \"quantity\": 1, \"price\": 7000}, {\"name\": \"Teh Manis\", \"quantity\": 1, \"price\": 9000}, {\"name\": \"Es Batu\", \"quantity\": 1, \"price\": 4000}], \"subtotal\": 179500, \"discount\": 17950, \"service_charge\": null, \"tax\": null, \"total\": 197450, \"cash_paid\": 197450, \"change\": null}",
+    "cordtest-0062": "{\"items\": [{\"name\": \"XXI Java Tea (M)\", \"quantity\": 1, \"price\": 18000}, {\"name\": \"Combo 2\", \"quantity\": 1, \"price\": 30000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 48000, \"cash_paid\": 50000, \"change\": 2000}",
+    "cordtest-0074": "{\"items\": [{\"name\": \"BLACKCURRANT\", \"quantity\": 1, \"price\": 32000}, {\"name\": \"SPRITE\", \"quantity\": 1, \"price\": 32000}, {\"name\": \"GRILLED CALAMARI\", \"quantity\": 1, \"price\": 85000}, {\"name\": \"DINE FOR 2\", \"quantity\": 1, \"price\": 129000}], \"subtotal\": 278000, \"discount\": null, \"service_charge\": 22240, \"tax\": 30024, \"total\": 330264, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0093": "{\"items\": [{\"name\": \"THAI ICED TEA (L)\", \"quantity\": 1, \"price\": 16363}], \"subtotal\": 16363, \"discount\": null, \"service_charge\": 1636, \"tax\": null, \"total\": 17999, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0003": "{\"items\": [{\"name\": \"DONAT GULA\", \"quantity\": 1, \"price\": 11000}], \"subtotal\": 11000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 11000, \"cash_paid\": 11000, \"change\": null}",
+    "cordtest-0032": "{\"items\": [{\"name\": \"THAI ICED GREEN TEA\", \"quantity\": 1, \"price\": 24000}], \"subtotal\": 24000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 24000, \"cash_paid\": 50000, \"change\": 26000}",
+    "cordtest-0014": "{\"items\": [{\"name\": \"RedVelvet Cheese Slc\", \"quantity\": 1, \"price\": 30000}, {\"name\": \"Chicken Baked Rice\", \"quantity\": 1, \"price\": 55000}, {\"name\": \"Fish n Chips\", \"quantity\": 1, \"price\": 65000}, {\"name\": \"Mushroom Soup\", \"quantity\": 1, \"price\": 35000}, {\"name\": \"Chamomile\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Iced Tea\", \"quantity\": 1, \"price\": 20000}], \"subtotal\": 238000, \"discount\": null, \"service_charge\": 17850, \"tax\": 25585, \"total\": 281435, \"cash_paid\": 200000, \"change\": 18565}",
+    "cordtest-0061": "{\"items\": [{\"name\": \"TALAM UNGU\", \"quantity\": 1, \"price\": 6500}, {\"name\": \"AREM - AREM\", \"quantity\": 1, \"price\": 8000}, {\"name\": \"LEMPER\", \"quantity\": 2, \"price\": 10000}, {\"name\": \"TEH KOTAK\", \"quantity\": 1, \"price\": 5000}], \"subtotal\": 24500, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 24500, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0094": "{\"items\": [{\"name\": \"TAHU GORENG\", \"quantity\": 1, \"price\": 28000}, {\"name\": \"CAKWE\", \"quantity\": 1, \"price\": 17000}, {\"name\": \"PHO TAI CHIN (R)\", \"quantity\": 1, \"price\": 63000}, {\"name\": \"TEA\", \"quantity\": 1, \"price\": 11000}], \"subtotal\": 119000, \"discount\": null, \"service_charge\": 8330, \"tax\": 12733, \"total\": 140063, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0088": "{\"items\": [{\"name\": \"STIX ECLAIRS\", \"quantity\": 1, \"price\": 19000}, {\"name\": \"ALMOND CREAM CHEESE\", \"quantity\": 1, \"price\": 28000}], \"subtotal\": 47000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 47000, \"cash_paid\": 47000, \"change\": 0}",
+    "cordtest-0027": "{\"items\": [{\"name\": \"PKT AYAM\", \"quantity\": null, \"price\": 33000}, {\"name\": \"GULAI OTAK\", \"quantity\": null, \"price\": 23000}], \"subtotal\": 56000, \"discount\": null, \"service_charge\": null, \"tax\": 5600, \"total\": 61600, \"cash_paid\": null, \"change\": null}",
+    "cordtest-0018": "{\"items\": [{\"name\": \"Propolis Cair 1\", \"quantity\": 1, \"price\": 156000}], \"subtotal\": 156000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 156000, \"cash_paid\": null, \"change\": 0}",
+    "cordtest-0006": "{\"items\": [{\"name\": \"EGG TART\", \"quantity\": 1, \"price\": 13000}, {\"name\": \"CHOCO CUSTARD PASTRY\", \"quantity\": 2, \"price\": 24000}, {\"name\": \"REDBEAN BREAD\", \"quantity\": 1, \"price\": 9000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 46000, \"cash_paid\": 50000, \"change\": 4000}",
+    "cordtest-0021": "{\"items\": [{\"name\": \"NASI GOR SFD TLR\", \"quantity\": 1, \"price\": 35000}, {\"name\": \"ES TEH TAWAR\", \"quantity\": 1, \"price\": 3000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 38000, \"cash_paid\": 50000, \"change\": 12000}"
+   },
+   "failures_r1": [
+    {
+     "id": "cordtest-0002",
+     "input": "1 JASMINE MT ( L ) 24,000\nCOCONUT JELLY ( L ) 4,000\nSUB TOTAL 28,000\nTOTAL SAI S 28,000\nTOTAL ITEMS 1\nCASH 100,000\nCHANGE 72,000",
+     "expected": "{\"items\": [{\"name\": \"JASMINE MT ( L )\", \"quantity\": 1, \"price\": 24000}], \"subtotal\": 28000, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 28000, \"cash_paid\": 100000, \"change\": 72000}",
+     "got": "{\"items\": [{\"name\": \"JASMINE MT (L)\", \"quantity\": 1, \"price\": 24000}, {\"name\": \"COCONUT JELLY (L)\", \"quantity\": null, \"price\": 4000}], \"subtotal\": 28000, \"discount\": null, \"service_charge\": null, \"tax",
+     "detail": "items F1 0.67"
+    },
+    {
+     "id": "cordtest-0031",
+     "input": "1 SALMON PESTO 85,500\n1 SALMON PESTO 85,500\nDisc -100% (ITM06) -85,500\nSUBTTL 85,500\nSVC CHG 6% 10,260\nPB1 10% 18,126\nTOTAL 113,886",
+     "expected": "{\"items\": [{\"name\": \"SALMON PESTO\", \"quantity\": 1, \"price\": 85500}, {\"name\": \"SALMON PESTO\", \"quantity\": 1, \"price\": 85500}], \"subtotal\": 85500, \"discount\": null, \"service_charge\": 10260, \"tax\": 18126",
+     "got": "{\"items\": [{\"name\": \"SALMON PESTO\", \"quantity\": 1, \"price\": 85500}, {\"name\": \"SALMON PESTO\", \"quantity\": 1, \"price\": 85500}], \"subtotal\": 85500, \"discount\": 85500, \"service_charge\": 10260, \"tax\": 1812",
+     "detail": "discount: got 85500, expected None"
+    },
+    {
+     "id": "cordtest-0066",
+     "input": "PILLOW DURIA 36,364\nPLASTIK 25 0\nSUBTOTAL 36,364\nPD1 10% 10.000Z\nAMOUNT 3,636\nTOTAL 40,000\nCASH 50,000\nCHANGE 10,000",
+     "expected": "{\"items\": [{\"name\": \"PILLOW DURIA\", \"quantity\": null, \"price\": 36364}, {\"name\": \"PLASTIK 25\", \"quantity\": null, \"price\": 0}], \"subtotal\": 36364, \"discount\": null, \"service_charge\": null, \"tax\": 3636, ",
+     "got": "{\"items\": [{\"name\": \"PILLON DURIA\", \"quantity\": null, \"price\": 36364}], \"subtotal\": 36364, \"discount\": null, \"service_charge\": null, \"tax\": 3636, \"total\": 40000, \"cash_paid\": 50000, \"change\": 10000}",
+     "detail": "items F1 0.67"
+    },
+    {
+     "id": "cordtest-0079",
+     "input": "1001-Choco Bun\n22.000 x1 22.000\n6001-Plastic Bag Small\n0 x1 0\nTotal Item: 2\n22.000\n22.000",
+     "expected": "{\"items\": [{\"name\": \"1001-Choco Bun\", \"quantity\": 1, \"price\": 22000}, {\"name\": \"6001-Plastic Bag Small\", \"quantity\": 1, \"price\": 0}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\":",
+     "got": "{\"items\": [{\"name\": \"Choco Bun\", \"quantity\": 1, \"price\": 22000}], \"subtotal\": null, \"discount\": null, \"service_charge\": null, \"tax\": null, \"total\": 22000, \"cash_paid\": 22000, \"change\": null}",
+     "detail": "items F1 0.67"
+    },
+    {
+     "id": "cordtest-0017",
+     "input": "Goblin's Mace 1 25,000\nMozarella Hot 2 38,000\nDog\nChili Pepper 1 14,000\nCroquette\nCheese 1 14,000\nCroquette\nPlastik Amook 1 0\nPlastik Putih 1 0\nTake Away\nSubtotal 91,000\nDiscount (0)\nTOTAL Rp. 91,000\nDebit 91,000",
+     "expected": "{\"items\": [{\"name\": \"Goblin's Mace\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Mozarella Hot Dog\", \"quantity\": 2, \"price\": 38000}, {\"name\": \"Chili Pepper Croquette\", \"quantity\": 1, \"price\": 14000}, {\"",
+     "got": "{\"items\": [{\"name\": \"Goblin's Mace\", \"quantity\": 1, \"price\": 25000}, {\"name\": \"Mozzarella Hot Dog\", \"quantity\": 2, \"price\": 38000}, {\"name\": \"Chill Pepper Croquette Cheese\", \"quantity\": 1, \"price\": 14",
+     "detail": "items F1 0.91"
+    },
+    {
+     "id": "cordtest-0016",
+     "input": "1 [LG] BLACK SAKURA 59,091\n1 LONGAN 0\n1 ROASTED ALMOND 0\n1 IVANGGO 0\n1 IVINERAL WATER (bundling) 5k 4,545\nSub Total 63,636\nPB1 (10%) 6,364\nRounding 0\nTotal 70,000\nCash Payment 100,000\nChange 30,000",
+     "expected": "{\"items\": [{\"name\": \"[LG] BLACK SAKURA\", \"quantity\": 1, \"price\": 59091}, {\"name\": \"IVINERAL WATER (bundling) 5k\", \"quantity\": 1, \"price\": 4545}], \"subtotal\": 63636, \"discount\": null, \"service_charge\":",
+     "got": "{\"items\": [{\"name\": \"[LG] BLACK SAKURA\", \"quantity\": 1, \"price\": 59091}, {\"name\": \"LONGAN\", \"quantity\": 1, \"price\": 0}, {\"name\": \"ROASTED ALMOND\", \"quantity\": 1, \"price\": 0}, {\"name\": \"VANGOGO\", \"quan",
+     "detail": "items F1 0.57"
+    }
+   ]
+  }
+ },
+ "spent_usd": 0.4294,
+ "wall_s": 72.7
+}

@@ -30,7 +30,7 @@ from pprint import pformat
 from .grading import Grader
 from .models import (CHEAP_RUNGS, RUNGS, THINKING_BUDGET, ULTRA, ULTRA_OFF, ULTRA_ON, BudgetExceeded, LLM, Meter,
                      get_pricing, rung_by_key)
-from .stats import beats, bootstrap_ci, matches, paired_diff_ci
+from .stats import MIN_ROWS, beats, bootstrap_ci, enough_rows, matches, paired_diff_ci
 from .tasks import as_text, build_messages, ensure_labels, plain_system
 
 DEFAULTS = {
@@ -390,6 +390,8 @@ def compare_sentence(d: dict, tol: float) -> str:
         return f"better than Ultra by {_diff_text(d)}"
     if matches(d, tol):
         return f"matches Ultra within {tol * 100:.0f} points (95% CI of the difference {_pts(d['lo'])} to {_pts(d['hi'])})"
+    if not enough_rows(d):
+        return (f"not judged: only {d['n']} held-out rows (at least {MIN_ROWS} are needed); difference {_diff_text(d)}")
     return (f"not shown to match Ultra within {tol * 100:.0f} points: difference {_diff_text(d)}")
 
 
@@ -519,6 +521,10 @@ async def run_downshift(task: dict, options: dict | None = None, llm: LLM | None
                  tiers=[r | {"price_in_per_m": price(r, "prompt"), "price_out_per_m": price(r, "completion")}
                         for r in cheap_rungs + [ULTRA_OFF, ULTRA_ON]],
                  pricing_source=pricing["_source"])
+    if len(task["holdout"]) < MIN_ROWS:
+        yield run.ev("notice", message=f"Only {len(task['holdout'])} held-out rows: Downshift needs at least {MIN_ROWS} "
+                                       f"to call a match, so this run can only say keep Ultra. Add more examples "
+                                       f"(held out = 40% of them).")
     try:
         # 1. Reference outputs from Ultra where none were given.
         missing = [r for r in task["train"] + task["validation"] + task["holdout"] if r.get("reference") is None]

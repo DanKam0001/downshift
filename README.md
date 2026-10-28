@@ -32,6 +32,11 @@ And one finding we did not expect: **on all three tasks, Ultra's thinking mode c
 its accuracy gain was not distinguishable from zero** (paired 95% CIs of on minus off all include zero, 3 runs per
 mode).
 
+And a follow-up: **does the receipt pipeline even need its OCR step?** Nemotron 3.5 Super VL reading the photo
+directly scored 93.6% with a plain prompt and **96.0% with Downshift's tuned prompt, +4.0 pts over Ultra reading
+perfect OCR text (95% CI +1.2 to +7.3)**, at $0.72 per 1k calls, 3 runs each
+([details](RESULTS.md#do-you-even-need-the-ocr-step-nemotron-super-vl-reads-the-photo-demo_runsvision-receipt-extractjson)).
+
 A whole ladder run costs cents: the receipts run was 606 model calls, US$0.06 and 139 seconds.
 
 ## Why not a model router?

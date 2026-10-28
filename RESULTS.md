@@ -104,6 +104,29 @@ prompt overfit. The Ultra rows are the cached 3-run means.
   range; the exact figure depends on which prompt Ultra proposes.
 - **Run:** US$0.0605, 139 s, 606 model calls.
 
+### Do you even need the OCR step? Nemotron Super VL reads the photo (`demo_runs/vision-receipt-extract.json`)
+
+receipt-extract's inputs are CORD v2's annotated OCR text: perfect OCR, which a real pipeline would have to pay for
+and would get wrong sometimes. So we gave Nemotron 3.5 Super VL (thinking off) the receipt photo instead, with no
+OCR at all, and asked for the same JSON: 86 held-out receipts, 3 passes each, graded by the same checker in Nebius
+Sandboxes and compared with the same cached Ultra reference (Ultra, thinking on, reading the perfect OCR text).
+
+| Super VL, photo in | 3 runs | Mean | vs Ultra on perfect OCR text, paired 95% CI | US$ per 1k calls | p50 latency |
+|---|---|---|---|---|---|
+| Plain prompt | 93.4% / 93.5% / 94.0% | **93.6%** | +1.7 (−0.9 to +4.6): matches | 0.438 | 2.05 s |
+| Verdict prompt + its 4 text few-shots | 96.0% / 96.0% / 96.0% | **96.0%** | **+4.0 (+1.2 to +7.3): better than Ultra** | 0.720 | 1.88 s |
+
+- Reading the photo directly is as good as Ultra reading perfect OCR text with the plain prompt, and **measurably
+  better** with the prompt Downshift had already tuned for Nano, at 5x to 8x cheaper than Ultra. A receipt image is
+  about 1,082 input tokens, which is why it costs more than Nano on text ($0.103).
+- Caveats: one dataset; the comparison is photo vs perfect text, not photo vs a real OCR engine (which would make the
+  text side worse, not better); the few-shots are text, only the final turn is an image.
+- A setup error we kept on record: the tuned prompt *without* its few-shots scored 55.7%, because the few-shots are
+  where the output keys are defined, and Super VL nested the totals under a `"totals"` key. That run is excluded
+  from the table but its cost is in the total below.
+- Reproduce: `python scripts/fetch_cord_images.py` then `python scripts/vision_rung.py --repeats 3` (about US$0.20).
+- Not yet a rung in the app's ladder: the presets carry text inputs. It is the next rung to add.
+
 ### Contract clause classification, 32 clause types (`contract-clauses`, run `7ee9b72d56be`)
 
 | Rung | Thinking | Prompt | Tuning → validation → held out | Held out, 95% CI | vs Ultra (thinking on), paired 95% CI | US$ per 1k calls | p50 latency | Status |
@@ -182,6 +205,7 @@ quality was not measured. The practical lesson is the queue: a fine-tune is a ne
 | One development run, three earlier runs at a US$0.10 cap and a 3-point rule | 0.257 |
 | The three runs above (US$0.25 cap, 5-point rule) | 0.447 |
 | Nano re-measured 3 times on receipts with the verdict prompt (2 attempts; the first crashed after its calls) | 0.053 |
-| **Total** (sum of `runs/usage.jsonl` for this work, excluding the fine-tune job) | **4.09** |
+| Super VL on receipt photos (plain + tuned prompt, 3 runs each, plus the 55.7% setup-error run) | 0.429 |
+| **Total** (sum of `runs/usage.jsonl` for this work, excluding the fine-tune job) | **4.52** |
 
 With the cached reference, a judge's live run costs US$0.06 to US$0.21 and takes 139 to 182 seconds.
