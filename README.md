@@ -26,7 +26,7 @@ held-out score with a 95% confidence interval next to Ultra's, the cost per 1,00
 |---|---|---|---|
 | Receipt OCR to JSON (86) | **Use Nemotron 3 Nano, thinking off** | 92.4% vs 92.0%, both 3-run means; paired diff +0.5 pts (95% CI −2.6 to +3.6) | $0.103 vs $3.693, **36x cheaper** |
 | Bank support triage, 77 intents (150) | **Keep Ultra, turn thinking off** | 71.6% vs 72.2%, −0.7 pts (−4.7 to +3.6) | $0.554 vs $1.319, 2.4x cheaper |
-| Contract clauses, 32 types (150) | **Keep Ultra** | best smaller model −6.2 pts (−12.4 to 0.0) | none |
+| Contract clauses, 32 types (150) | **Keep Ultra** | best smaller model −6.2 pts (95% CI −12.4 to +0.0) | none |
 
 And one finding we did not expect: **on all three tasks, Ultra's thinking mode cost 2.4x to 6.6x more per call, and
 its accuracy gain was not distinguishable from zero** (paired 95% CIs of on minus off all include zero, 3 runs per
