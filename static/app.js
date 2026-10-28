@@ -339,6 +339,7 @@
       stat("p50 latency", ms(v.p50_latency_ms), `Ultra ${ms(v.ultra_p50_latency_ms)}`) +
       stat("Thinking", v.thinking ? "On" : "Off", "set by enable_thinking in the snippet") +
       stat("This run cost", usd(v.run_spend_usd), `${v.run_seconds != null ? Math.round(v.run_seconds) + " s · " : ""}graded by ${v.graded_by.map((g) => (g === "sandbox" ? "Nebius Sandboxes" : "local subprocess")).join(" + ")}`);
+    renderSavings();
     $("#v-prompt").textContent = v.system_prompt + (v.fewshots.length ? `\n\n+ ${v.fewshots.length} example pair(s): ${v.fewshots.map((f) => f.id).join(", ")}` : "");
     $("#v-snippet").textContent = v.snippet;
     $("#share-link").href = `/?run=${S.runId}`;
@@ -354,6 +355,35 @@
     } else ft.hidden = true;
     p.focus({ preventScroll: true });
   }
+
+  /* ---------- monthly savings, from the verdict's measured cost per 1k calls ---------- */
+  const money = (x) => "US$" + Math.round(x).toLocaleString("en-US");
+  function callsPerMonth() {
+    const n = Number(String($("#calls-month").value).replace(/[^\d.]/g, ""));
+    return Number.isFinite(n) && n > 0 ? n : null;
+  }
+  function renderSavings() {
+    const v = S && S.verdict, box = $("#v-savings");
+    const ok = v && v.kind === "downshift" && v.cost_per_1k_usd != null && v.ultra_cost_per_1k_usd != null;
+    box.hidden = !ok;
+    if (!ok) return;
+    const n = callsPerMonth(), out = $("#sav-out");
+    if (!n) { out.textContent = "Enter a number of calls."; return; }
+    const now = (v.ultra_cost_per_1k_usd * n) / 1000, next = (v.cost_per_1k_usd * n) / 1000;
+    const who = v.thinking_off_only ? "Ultra with thinking off" : v.tier_name;
+    out.innerHTML = `Ultra (thinking ${v.reference.thinking ? "on" : "off"}): <strong>${money(now)}</strong> a month →
+      ${esc(who)}: <strong>${money(next)}</strong> a month.
+      <span class="sav-big">You save ${money(now - next)} a month, ${money((now - next) * 12)} a year.</span>
+      <span class="sav-note">From this run's measured cost per call; your token mix may differ.</span>`;
+  }
+  try { const saved = localStorage.getItem("ds-calls-month"); if (saved) $("#calls-month").value = saved; } catch (e) {}
+  $("#calls-month").addEventListener("input", () => {
+    try { localStorage.setItem("ds-calls-month", $("#calls-month").value); } catch (e) {}
+    renderSavings();
+  });
+  $("#calls-month").addEventListener("blur", () => {
+    const n = callsPerMonth(); if (n) $("#calls-month").value = n.toLocaleString("en-US");
+  });
 
   async function startFinetune() {
     const st = $("#ft-status"); $("#ft-btn").disabled = true; st.textContent = "Starting…";

@@ -1,0 +1,40 @@
+{"id": "log-000", "input": "I was charged twice for order 88213, please fix this.", "reference": "billing"}
+{"id": "log-001", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "My card got declined but the money still left my account?"}], "response": "billing"}
+{"id": "log-002", "input": "Why is there a $4.99 fee on my invoice that wasn't there last month?", "reference": "billing"}
+{"id": "log-003", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "Can I switch my plan to annual billing and get the discount?"}], "response": "billing"}
+{"id": "log-004", "input": "The invoice PDF shows the wrong company name, we need it corrected for accounting.", "reference": "billing"}
+{"id": "log-005", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "I cancelled my subscription in March but you charged me again in April."}], "response": "billing"}
+{"id": "log-006", "input": "How do I update the credit card on file? The old one expired.", "reference": "billing"}
+{"id": "log-007", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "Is GST included in the price shown at checkout or added after?"}], "response": "billing"}
+{"id": "log-008", "input": "You billed me in USD but I'm in Australia, can it be AUD?", "reference": "billing"}
+{"id": "log-009", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "My promo code SPRING20 didn't apply and I paid full price."}], "response": "billing"}
+{"id": "log-010", "input": "Where is my parcel? Tracking hasn't moved since Monday.", "reference": "shipping"}
+{"id": "log-011", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "The courier says delivered but nothing arrived at my door."}], "response": "shipping"}
+{"id": "log-012", "input": "Can I change the delivery address? I moved last week and order 55120 hasn't shipped yet.", "reference": "shipping"}
+{"id": "log-013", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "Do you ship to New Zealand and how long does it take?"}], "response": "shipping"}
+{"id": "log-014", "input": "Only one of the three boxes arrived, where are the others?", "reference": "shipping"}
+{"id": "log-015", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "My order says 'label created' for 6 days now. Is it actually coming?"}], "response": "shipping"}
+{"id": "log-016", "input": "Can I pick up from the warehouse instead of waiting for delivery?", "reference": "shipping"}
+{"id": "log-017", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "The parcel was left in the rain and the box is soaked, is the item ok to use?"}], "response": "shipping"}
+{"id": "log-018", "input": "Express shipping was paid for but it's taking a week, what happened?", "reference": "shipping"}
+{"id": "log-019", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "Is there any way to get this before Friday? It's a birthday present."}], "response": "shipping"}
+{"id": "log-020", "input": "The blender arrived cracked, I want my money back.", "reference": "refund"}
+{"id": "log-021", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "I returned the jacket two weeks ago and still no refund."}], "response": "refund"}
+{"id": "log-022", "input": "Wrong size sent, can I return it for a full refund instead of exchange?", "reference": "refund"}
+{"id": "log-023", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "The headphones stopped working after 3 days, I'd like a refund please."}], "response": "refund"}
+{"id": "log-024", "input": "How long do refunds take to show up on my card?", "reference": "refund"}
+{"id": "log-025", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "I never received the order so I want a refund, not a replacement."}], "response": "refund"}
+{"id": "log-026", "input": "You refunded the item but kept the shipping fee, that's not fair since it was faulty.", "reference": "refund"}
+{"id": "log-027", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "Can I get a refund on a gift I received? I have the order number."}], "response": "refund"}
+{"id": "log-028", "input": "The refund went to my old card which is closed now, what happens?", "reference": "refund"}
+{"id": "log-029", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "The product isn't as described on your site, I'd like to send it back for my money."}], "response": "refund"}
+{"id": "log-030", "input": "I can't log in, the reset email never arrives.", "reference": "account"}
+{"id": "log-031", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "Please delete my account and all my data."}], "response": "account"}
+{"id": "log-032", "input": "How do I change the email address on my account?", "reference": "account"}
+{"id": "log-033", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "Someone else seems to have logged into my account from overseas."}], "response": "account"}
+{"id": "log-034", "input": "My account got locked after too many password attempts.", "reference": "account"}
+{"id": "log-035", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "Can I merge my two accounts? I used different emails by mistake."}], "response": "account"}
+{"id": "log-036", "input": "I want to turn on two-factor authentication but can't find the setting.", "reference": "account"}
+{"id": "log-037", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "Your app keeps logging me out every few minutes."}], "response": "account"}
+{"id": "log-038", "input": "How do I unsubscribe from the marketing emails but keep my account?", "reference": "account"}
+{"id": "log-039", "messages": [{"role": "system", "content": "Route the customer email to one queue: billing, shipping, refund or account. Reply with the label only."}, {"role": "user", "content": "I need to change the name on my account after getting married."}], "response": "account"}

@@ -55,6 +55,27 @@ To add a permanent preset with a hand-written checker, copy a folder in `presets
 `train/validation/holdout.jsonl` and `checker.py`), then cache its Ultra reference with
 `python scripts/measure_reference.py <slug>`.
 
+## Run it on your own traffic (CLI)
+
+Point it at a JSONL export of real requests. Each line is either a plain example, `{"input": ..., "reference": ...}`,
+or an OpenAI-style chat log, `{"messages": [...], "response": ...}`: the last user message becomes the input and the
+logged answer (from `response`, `output`, `completion`, or a trailing assistant message) becomes the reference that
+cheaper models are graded against. Rows without an answer get one from Ultra.
+
+```bash
+python -m downshift.cli examples/support_logs.jsonl   --instruction "Route the customer email to one queue."   --labels billing,shipping,refund,account --output-format "One label, lowercase"   --cap 0.25 --calls-per-month 1000000 --json verdict.json
+```
+
+Progress streams to stderr. The verdict prints the model and thinking flag to use, the held-out score with its 95%
+CI next to Ultra's, cost per 1k calls, and the monthly and yearly saving at your volume; `--json` also saves the
+final prompt and a ready-to-paste Token Factory snippet. The run is a custom task (40% tuning, 20% validation, 40%
+held out) with Ultra measured live, so it obeys the same spend cap and grading in Nebius Sandboxes as the web app.
+
+`examples/support_logs.jsonl` is **synthetic**: 40 made-up support emails we wrote to show both input formats, not
+real customer data. Use real logs, and use enough of them: 8 to 200 rows are accepted, but the confidence interval
+is only informative with a sizeable held-out split (we used 86 to 150 held-out rows per preset; with 40 rows there are
+only 16). A 20-row smoke test on this file cost US$0.009.
+
 ## How it works
 
 1. **Reference.** If your examples have no expected outputs, Nemotron Ultra writes them.
@@ -197,6 +218,7 @@ downshift/stats.py      bootstrap CIs and the paired comparison
 downshift/grading.py    Sandboxes grader with labelled local fallback
 downshift/sandbox_grader.py  Nebius Sandboxes harness
 downshift/finetune.py   dataset builder and fine-tune job launcher
+downshift/cli.py        run Downshift on your own logged traffic (JSONL)
 downshift/tasks.py      presets, custom tasks, prompt assembly
 static/                 single-page UI, no build step
 presets/                three benchmark tasks: splits, checkers, cached Ultra references
