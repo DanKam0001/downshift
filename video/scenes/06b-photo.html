@@ -1,0 +1,44 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:120px;top:70px;font:800 56px Inter;letter-spacing:-1px}
+  .t small{display:block;margin-top:10px;font:600 22px 'JetBrains Mono';color:var(--acc2);letter-spacing:2px}
+  .photo{position:absolute;left:120px;top:220px;width:380px;height:620px;border-radius:14px;overflow:hidden;border:2px solid var(--line);background:#fff}
+  .photo img{width:100%;display:block;margin-top:-230px}
+  .photo .lbl{position:absolute;left:0;right:0;bottom:0;padding:10px 14px;background:rgba(15,17,19,.85);font:600 20px 'JetBrains Mono';color:var(--mute)}
+  .lanes{position:absolute;left:560px;right:120px;top:220px;display:grid;gap:30px}
+  .lane{padding:26px 32px;display:grid;grid-template-columns:1fr auto;gap:8px 30px;align-items:center}
+  .lane.vl{border:2px solid var(--good)}
+  .lane .path{font:600 22px 'JetBrains Mono';color:var(--mute);letter-spacing:1px}
+  .lane .who{font:800 40px/1.15 Inter}
+  .lane .score{grid-row:1/4;grid-column:2;text-align:right;font:800 96px Inter;line-height:1}
+  .lane .score small{display:block;font:600 26px 'JetBrains Mono';color:var(--mute);margin-top:10px}
+  .lane.vl .score{color:var(--good)}
+  .lane .json{font:500 19px 'JetBrains Mono';color:var(--acc2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:820px}
+  .diff{position:absolute;left:560px;right:120px;top:770px;font:700 34px Inter}
+  .diff .m{font:500 22px 'JetBrains Mono';display:block;margin-top:10px}
+  .note{position:absolute;left:120px;right:120px;top:930px;display:flex;justify-content:space-between;align-items:center;font:500 22px 'JetBrains Mono';color:var(--mute)}
+</style></head>
+<body>
+  <div class="t" data-cue="one" data-fx="rise">Do you need the OCR step at all?<small>ONE MORE FINDING</small></div>
+  <div class="photo card" data-cue="ocr" data-fx="rise"><img src="receipt.jpg" alt=""><div class="lbl">the photo, no OCR</div></div>
+  <div class="lanes">
+    <div class="card lane vl" data-cue="super" data-fx="rise">
+      <div class="path">PHOTO → </div>
+      <div class="who">Nemotron 3.5 Super VL</div>
+      <div class="json" data-cue="directly" data-fx="wipe" data-dur="1.2">{"items":[{"name":"Kopi Susu Kampung.","quantity":1,"price":19000}, …],"total":57000}</div>
+      <div class="score" data-cue="scored" data-fx="pop">96.0%<small>$0.72 / 1k calls</small></div>
+    </div>
+    <div class="card lane" data-cue="against" data-fx="rise">
+      <div class="path">PERFECT OCR TEXT → </div>
+      <div class="who">Nemotron 3 Ultra <span class="chip warn">thinking on</span></div>
+      <div class="json m">the dataset's own annotated text</div>
+      <div class="score">92.0%<small>$3.69 / 1k calls</small></div>
+    </div>
+  </div>
+  <div class="diff" data-cue="fifth" data-fx="rise"><span class="g">+4.0 points</span> over Ultra, at about <span class="g">a fifth of the cost</span>
+    <span class="m">paired 95% CI +1.2 to +7.3 · 3 runs each · 86 held-out receipts</span></div>
+  <div class="note" data-cue="check" data-fx="fade"><span>On this dataset (CORD v2 receipts). Now a "photo check" step in the app.</span><span class="chip ok">reads the photo</span></div>
+</body></html>

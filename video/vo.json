@@ -24,6 +24,10 @@
 "And it doesn't always say downgrade. On support triage, the small models were close, but not provably close, so the answer is: keep Ultra, turn thinking off, two point four times cheaper. On contract clauses, everything smaller fell six to ten points short, so it says keep Ultra. Across all three tasks, Ultra's thinking mode cost up to six and a half times more, with no measurable accuracy gain. Measure, don't assume."
 ],
 [
+"06b-photo",
+"One more finding: you may not need OCR at all. Nemotron Super VL, reading the receipt photo directly, scored ninety-six percent, against Ultra's ninety-two on perfect OCR text, at about a fifth of the cost. It's now a photo check, right in the app."
+],
+[
 "07-close",
 "Downshift. Nemotron on Token Factory, graded in Nebius Sandboxes, live and open source. Stop paying Ultra prices for Nano work."
 ]
