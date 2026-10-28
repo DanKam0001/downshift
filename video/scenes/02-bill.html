@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:150px;top:140px;font:800 64px Inter;letter-spacing:-1px}
+  .t .m{font-weight:600}
+  .bars{position:absolute;left:150px;right:150px;top:330px;display:grid;gap:56px}
+  .b{display:grid;grid-template-columns:420px 1fr;align-items:center;gap:30px}
+  .b .lab{font:700 34px Inter}
+  .b .lab small{display:block;font:500 22px 'JetBrains Mono';color:var(--mute);margin-top:6px}
+  .b .track{position:relative;height:110px}
+  .b .fill{position:absolute;left:0;top:0;bottom:0;border-radius:12px}
+  .b .val{position:absolute;top:50%;transform:translateY(-50%);font:800 64px Inter;white-space:nowrap}
+  .u .fill{width:100%;background:#4a5058}.u .val{left:36px;color:#fff}
+  .n .fill{width:2.8%;background:var(--good)}.n .val{left:calc(2.8% + 30px);color:var(--good)}
+  .note{position:absolute;left:150px;right:150px;top:780px;font:600 40px Inter;color:var(--mute)}
+  .note b{color:var(--ink)}
+</style></head>
+<body>
+  <div class="t" data-cue="million">1,000,000 receipts <span class="m">a month</span></div>
+  <div class="bars">
+    <div class="b u"><div class="lab">Ultra, thinking on<small>$3.693 per 1k calls</small></div>
+      <div class="track"><div class="fill" data-cue="bill" data-fx="growx" data-dur="0.9"></div><div class="val" data-cue="$3700" data-fx="fade">$3,693 / month</div></div></div>
+    <div class="b n" data-cue="down" data-fx="rise"><div class="lab">Nano, thinking off<small>$0.103 per 1k calls</small></div>
+      <div class="track"><div class="fill"></div><div class="val" data-cue="$100" data-fx="pop">$103 / month</div></div></div>
+  </div>
+  <div class="note" data-cue="most" data-fx="rise">Most teams never check: a <b>proper evaluation</b> takes days.</div>
+</body></html>

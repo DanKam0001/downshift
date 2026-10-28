@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+:root{--bg:#0f1113;--panel:#171a1d;--panel2:#1e2226;--line:#2b3035;--ink:#e9ecef;--mute:#a2aab2;--acc:#76b900;--acc2:#8fd11a;--good:#6cc56f;--warn:#e3a63a;--bad:#ff8a80;--blue:#7cb7ff}
+*{box-sizing:border-box}
+body{margin:0;width:1920px;height:1080px;overflow:hidden;position:relative;background:radial-gradient(ellipse at 75% 20%,#1b2414 0%,var(--bg) 60%);color:var(--ink);font-family:Inter,sans-serif}
+.abs{position:absolute}.mono{font-family:'JetBrains Mono',monospace}
+.kick{font:600 22px 'JetBrains Mono',monospace;letter-spacing:3px;text-transform:uppercase;color:var(--mute)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px}
+.chip{display:inline-block;font:700 18px 'JetBrains Mono',monospace;letter-spacing:1px;padding:6px 14px;border-radius:999px;border:1px solid var(--line);color:var(--mute)}
+.chip.ok{border-color:var(--good);color:var(--good)}.chip.warn{border-color:var(--warn);color:var(--warn)}.chip.acc{background:var(--acc);border-color:var(--acc);color:#0d1200}
+.logo{display:inline-block;width:1em;height:1em;vertical-align:-.12em}
+.logo rect{fill:var(--acc)}.logo path{fill:#fff}
+.foot{position:absolute;left:120px;right:120px;bottom:40px;display:flex;justify-content:space-between;font:500 18px 'JetBrains Mono',monospace;color:#6b737b;letter-spacing:1px}
+.g{color:var(--good)}.w{color:var(--warn)}.a{color:var(--acc2)}.m{color:var(--mute)}
+span[data-cue]{display:inline-block}

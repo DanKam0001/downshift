@@ -1,0 +1,49 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:120px;top:90px;font:800 56px Inter;letter-spacing:-1px}
+  .t .sub{display:block;font:500 24px 'JetBrains Mono';color:var(--mute);margin-top:10px;letter-spacing:0}
+  .code{position:absolute;left:120px;top:250px;width:780px;padding:30px 34px;font:500 25px/1.6 'JetBrains Mono';white-space:pre}
+  .code .k{color:var(--blue)}.code .s{color:#d7ba7d}.code .c{color:#6b737b}
+  .code .hl{display:inline-block;margin:0 -8px;padding:0 8px;border-radius:6px;background:rgba(118,185,0,.18);outline:2px solid var(--acc)}
+  .ops{position:absolute;left:960px;right:120px;top:250px;padding:26px 30px}
+  .ops .h{display:grid;grid-template-columns:1.45fr 1.35fr .5fr .6fr;font:600 18px 'JetBrains Mono';color:var(--mute);letter-spacing:1px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+  .op{display:grid;grid-template-columns:1.45fr 1.35fr .5fr .6fr;white-space:nowrap;font:500 21px/2.05 'JetBrains Mono'}
+  .op span:first-child{color:var(--acc2)}
+  .stats{position:absolute;left:120px;right:120px;top:850px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .st{padding:22px 30px}
+  .st b{display:block;font:800 52px Inter}
+  .st span{font:500 22px 'JetBrains Mono';color:var(--mute)}
+</style></head>
+<body>
+  <div class="t" data-cue="every">Every score is graded in Nebius Sandboxes
+    <span class="sub">downshift/sandbox_grader.py · one disposable instance per batch</span></div>
+  <div class="card code" data-cue="checker" data-fx="rise"><span class="c"># POST {sandboxes}/instances</span>
+body = {
+  <span class="s">"image"</span>: <span class="s">"python:3.12-slim"</span>,
+  <span class="s">"command"</span>: <span class="s">"exec python3 -I -"</span>,
+  <span class="s">"stdin"</span>: checker + rows,  <span class="c"># base64</span>
+  <span class="hl" data-cue="networking" data-fx="pop"><span class="s">"networking"</span>: {<span class="s">"enabled"</span>: <span class="k">False</span>},</span>
+  <span class="hl" data-cue="disposable" data-fx="pop"><span class="s">"disposable"</span>: <span class="k">True</span>,</span>
+  <span class="s">"timeout"</span>: 120,
+}</div>
+  <div class="card ops" data-cue="inside" data-fx="rise">
+    <div class="h"><span>SANDBOX OPERATION</span><span>RUNG · SPLIT</span><span>ROWS</span><span>WALL</span></div>
+    <div class="op" data-cue="sandboxes" data-fx="fade" data-dur="0.3"><span>01a17cbe-b5b6…</span><span>checker test</span><span>24</span><span>2.9 s</span></div>
+    <div class="op" data-cue="sandboxes" data-fx="fade" data-dur="0.5"><span>01a17cbf-08fe…</span><span>Lightning · tune</span><span>49</span><span>4.0 s</span></div>
+    <div class="op" data-cue="sandboxes" data-fx="fade" data-dur="0.7"><span>01a17cbf-1a61…</span><span>Lightning · val</span><span>40</span><span>3.7 s</span></div>
+    <div class="op" data-cue="disposable" data-fx="fade" data-dur="0.3"><span>01a17cc0-0941…</span><span>Lightning · held out</span><span>86</span><span>3.7 s</span></div>
+    <div class="op" data-cue="disposable" data-fx="fade" data-dur="0.5"><span>01a17cc0-3c09…</span><span>Nano · tune</span><span>49</span><span>3.7 s</span></div>
+    <div class="op" data-cue="container" data-fx="fade" data-dur="0.3"><span>01a17cc0-4983…</span><span>Nano · val</span><span>40</span><span>3.0 s</span></div>
+    <div class="op" data-cue="container" data-fx="fade" data-dur="0.5"><span>01a17cc0-7168…</span><span>Nano · tune</span><span>45</span><span>3.0 s</span></div>
+    <div class="op" data-cue="container" data-fx="fade" data-dur="0.7"><span>01a17cc0-832f…</span><span>Nano · val</span><span>40</span><span>3.7 s</span></div>
+    <div class="op" data-cue="with" data-fx="fade" data-dur="0.4"><span>01a17cc0-c18e…</span><span>Nano · held out</span><span>86</span><span>4.8 s</span></div>
+  </div>
+  <div class="stats">
+    <div class="card st" data-cue="600" data-fx="rise"><b>606</b><span>model calls on Token Factory</span></div>
+    <div class="card st" data-cue="cost" data-fx="rise"><b class="g">US$0.06</b><span>whole run, all rungs</span></div>
+    <div class="card st" data-cue="cents" data-fx="rise"><b>139 s</b><span>real run time</span></div>
+  </div>
+</body></html>

@@ -1,0 +1,30 @@
+[
+[
+"01-hook",
+"This receipt pipeline runs on Nemotron Ultra, at three dollars sixty-nine per thousand calls. Nemotron Nano does the same job for ten cents, with the same accuracy on receipts it never saw. Downshift finds that swap for you, and proves it."
+],
+[
+"02-bill",
+"At a million receipts a month, that's a bill of about thirty-seven hundred dollars, down to about a hundred. Most teams never check, because checking properly takes days of evaluation work."
+],
+[
+"03-demo",
+"Here's the live app on Nebius Token Factory. Pick a task, and Downshift climbs down a ladder of Nemotron models, cheapest first. At each rung, Ultra rewrites the prompt using only the tuning examples. The best rewrite is picked on a separate validation set, and only that one is scored, once, on held-out data. This is a real run, replayed faster. Lightning overfits: eighty-eight percent on validation, eighty-two held out. Rejected. Nano holds up: ninety-three point six, against Ultra's ninety-two."
+],
+[
+"04-sandbox",
+"Every one of those scores was graded by checker code inside Nebius Sandboxes: a disposable container, with networking switched off. The whole run was six hundred model calls, and cost six cents."
+],
+[
+"05-verdict",
+"The verdict comes with its evidence: eighty-six held-out receipts, and a paired confidence interval. The rule is simple. It only downshifts if the cheaper model is provably no more than five points worse than Ultra. Then it hands you the code to paste in."
+],
+[
+"06-honest",
+"And it doesn't always say downgrade. On support triage, the small models were close, but not provably close, so the answer is: keep Ultra, turn thinking off, two point four times cheaper. On contract clauses, everything smaller fell six to ten points short, so it says keep Ultra. Across all three tasks, Ultra's thinking mode cost up to six and a half times more, with no measurable accuracy gain. Measure, don't assume."
+],
+[
+"07-close",
+"Downshift. Nemotron on Token Factory, graded in Nebius Sandboxes, live and open source. Stop paying Ultra prices for Nano work."
+]
+]
