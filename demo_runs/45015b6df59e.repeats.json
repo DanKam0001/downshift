@@ -1,0 +1,90 @@
+{
+ "run_id": "45015b6df59e",
+ "slug": "receipt-extract",
+ "measured_on": "2026-10-28",
+ "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+ "thinking": false,
+ "repeats": 3,
+ "repeat_scores": [
+  0.9175,
+  0.9187,
+  0.9371
+ ],
+ "mean": 0.9244,
+ "spread": 0.0196,
+ "ci": {
+  "mean": 0.9244,
+  "lo": 0.8995,
+  "hi": 0.9469,
+  "n": 86
+ },
+ "reference": {
+  "mode": "ultra-think",
+  "mean": 0.9196,
+  "repeat_scores": [
+   0.9372,
+   0.9071,
+   0.9144
+  ]
+ },
+ "diff_vs_reference": {
+  "diff": 0.0049,
+  "lo": -0.0259,
+  "hi": 0.0363,
+  "n": 86,
+  "rows_better": 23,
+  "rows_worse": 24
+ },
+ "tolerance": 0.05,
+ "matches": true,
+ "cost_per_1k_usd": 0.1035,
+ "graded_by": [
+  "sandbox"
+ ],
+ "spent_usd": 0.0267,
+ "wall_s": 126.7,
+ "per_repeat": [
+  {
+   "score": 0.9175,
+   "cost_usd": 0.008934,
+   "p50_ms": 3874.1,
+   "truncated": 1,
+   "errors": 0,
+   "grade_batch": {
+    "backend": "sandbox",
+    "n": 86,
+    "label": "Nebius Sandboxes",
+    "operation_id": "01a180c7-17b9-7218-bcc6-5ad40f8627b0",
+    "wall_s": 4.39
+   }
+  },
+  {
+   "score": 0.9187,
+   "cost_usd": 0.008905,
+   "p50_ms": 3836.0,
+   "truncated": 1,
+   "errors": 0,
+   "grade_batch": {
+    "backend": "sandbox",
+    "n": 86,
+    "label": "Nebius Sandboxes",
+    "operation_id": "01a180c7-af61-709d-9974-4082ae648db8",
+    "wall_s": 4.297
+   }
+  },
+  {
+   "score": 0.9371,
+   "cost_usd": 0.00886,
+   "p50_ms": 3755.5,
+   "truncated": 0,
+   "errors": 0,
+   "grade_batch": {
+    "backend": "sandbox",
+    "n": 86,
+    "label": "Nebius Sandboxes",
+    "operation_id": "01a180c8-6566-75a0-82eb-e756ba71c301",
+    "wall_s": 3.797
+   }
+  }
+ ]
+}

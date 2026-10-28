@@ -1,18 +1,45 @@
-# Downshift
+# Downshift: prove a cheaper Nemotron is enough
 
 Give it a task and a few dozen examples. Downshift finds the cheapest NVIDIA Nemotron model on Nebius Token
-Factory that does the task as well as Nemotron Ultra. It measures every step, rewrites the prompt where that helps,
-and recommends fine-tuning only when prompting runs out of room.
+Factory that does the task as well as Nemotron Ultra, and proves it on held-out data. It measures every step,
+rewrites the prompt where that helps, and recommends fine-tuning only when prompting runs out of room.
 
 The result is a verdict you can paste into code: the model, whether to turn thinking on, the final prompt, the
 held-out score with a 95% confidence interval next to Ultra's, the cost per 1,000 calls, and the median latency.
-Every number comes from measured calls: the cheaper models are measured in the run, and Ultra comes from a cached
-3-run reference with its date shown (or is re-measured live on request).
+**Every number comes from real Token Factory calls graded in Nebius Sandboxes. Nothing is mocked or simulated.**
 
-**Results on three public datasets are in [RESULTS.md](RESULTS.md).** Headline: on receipt extraction, Nemotron 3
-Nano (thinking off) with a rewritten prompt matched Ultra within 5 points at 36x lower cost per call (one run of Nano
-against a 3-run Ultra mean). On all three tasks, turning Ultra's thinking on cost 2.4x to 6.6x more per call for an
-accuracy gain not distinguishable from zero.
+## For judges: two minutes
+
+- **Live app:** https://downshift-qcuv.onrender.com (pick a preset and press "Downshift it": about 2 to 3 minutes
+  and US$0.06 to US$0.21 of real calls, or open a recorded run below).
+- **Recorded runs, replayed at 4x with no model calls:**
+  [receipts → use Nano](https://downshift-qcuv.onrender.com/?run=45015b6df59e&speed=4) ·
+  [support triage → turn thinking off](https://downshift-qcuv.onrender.com/?run=de04430645fb&speed=4) ·
+  [contract clauses → keep Ultra](https://downshift-qcuv.onrender.com/?run=7ee9b72d56be&speed=4)
+- **Results:** [RESULTS.md](RESULTS.md). Every figure traces to a file in `demo_runs/` or `presets/*/reference.json`.
+- **Reproduce the headline yourself** (needs a Nebius key, about US$0.03):
+  `python scripts/repeat_verdict.py demo_runs/45015b6df59e.json --repeats 3`
+
+## What it found
+
+| Task (held-out rows) | Verdict | Quality vs Ultra | Cost per 1k calls |
+|---|---|---|---|
+| Receipt OCR to JSON (86) | **Use Nemotron 3 Nano, thinking off** | 92.4% vs 92.0%, both 3-run means; paired diff +0.5 pts (95% CI −2.6 to +3.6) | $0.103 vs $3.693, **36x cheaper** |
+| Bank support triage, 77 intents (150) | **Keep Ultra, turn thinking off** | 71.6% vs 72.2%, −0.7 pts (−4.7 to +3.6) | $0.554 vs $1.319, 2.4x cheaper |
+| Contract clauses, 32 types (150) | **Keep Ultra** | best smaller model −6.2 pts (−12.4 to 0.0) | none |
+
+And one finding we did not expect: **on all three tasks, Ultra's thinking mode cost 2.4x to 6.6x more per call, and
+its accuracy gain was not distinguishable from zero** (paired 95% CIs of on minus off all include zero, 3 runs per
+mode).
+
+A whole ladder run costs cents: the receipts run was 606 model calls, US$0.06 and 139 seconds.
+
+## Why not a model router?
+
+Routers pick a model per request from heuristics or a learned predictor. Downshift answers a different question,
+once per task: *is a cheaper model provably good enough for this job?* It measures that on held-out rows with a
+non-inferiority rule (the 95% CI of the difference must stay within 5 points of Ultra), tunes the prompt for the
+cheaper model first, says "keep Ultra" when the evidence is not there, and hands you the config to ship.
 
 ## How it works
 
@@ -118,7 +145,7 @@ API:
 | GET | `/api/health` | backend, `key_present`, Sandboxes info, pricing source |
 | GET | `/api/presets` | preset list |
 | POST | `/api/run` | `{"preset": "receipt-extract", "options": {"spend_cap_usd": 0.1}}` or `{"custom": {...}}`, returns a run id |
-| GET | `/api/run/{id}/events` | server-sent events (replays a finished run) |
+| GET | `/api/run/{id}/events` | server-sent events (replays a finished run; `?speed=4` paces it at 4x the recorded time) |
 | GET | `/api/run/{id}` | saved run with verdict |
 
 Options for `/api/run`: `spend_cap_usd`, `tolerance` (default 0.05), `rounds`, `candidates`, `thinking_rungs`,
@@ -159,7 +186,7 @@ downshift/finetune.py   dataset builder and fine-tune job launcher
 downshift/tasks.py      presets, custom tasks, prompt assembly
 static/                 single-page UI, no build step
 presets/                three benchmark tasks: splits, checkers, cached Ultra references
-scripts/                build_presets, measure_reference, run_presets, results_tables
+scripts/                build_presets, measure_reference, run_presets, results_tables, repeat_verdict
 ```
 
 ## Licence

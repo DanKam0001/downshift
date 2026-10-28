@@ -215,7 +215,7 @@
         break;
       case "error":
         log("Error: " + e.message);
-        $("#bar-line").textContent = "The run failed: " + e.message;
+        $("#bar-line").textContent = "The run failed: " + e.message + " The recorded runs under the task picker replay without any model calls.";
         break;
       case "done":
         clearInterval(replayTimer);

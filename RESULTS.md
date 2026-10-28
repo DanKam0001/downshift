@@ -8,9 +8,11 @@ the Ultra reference comes from `presets/<slug>/reference.json` and the ladder ru
 ## Headline
 
 **On receipt extraction, Nemotron 3 Nano (thinking off) with a rewritten prompt matched Ultra within 5 points at
-36x lower cost per call: 93.6% vs Ultra's 92.0%, paired difference +1.7 points (95% CI −1.0 to +4.7).** That is one
-run of Nano against a 3-run Ultra mean. An earlier run of the same rung, with a different rewritten prompt, scored
-90.8%, so read it as "Nano is in Ultra's range on this task", not "Nano beats Ultra".
+36x lower cost per call: 92.4% vs Ultra's 92.0%, both the mean of 3 runs on the same 86 held-out receipts, paired
+difference +0.5 points (95% CI −2.6 to +3.6).** The ladder run that chose this prompt scored Nano once at 93.6%
+(+1.7, CI −1.0 to +4.7); re-running that exact prompt 3 more times gave 91.8%, 91.9% and 93.7%
+(`scripts/repeat_verdict.py`, saved in `demo_runs/45015b6df59e.repeats.json`, US$0.03). An earlier ladder run with a
+different rewritten prompt scored 90.8%. Read it as "Nano is in Ultra's range on this task", not "Nano beats Ultra".
 
 **Across all three tasks, turning Ultra's thinking on cost 2.4x to 6.6x more per call, and the accuracy gain was
 not distinguishable from zero on any of them.** On two of the three (support-triage and receipt-extract) Ultra with

@@ -110,6 +110,7 @@ button.primary { background: var(--accent); color: var(--accent-ink); border: 0;
 button.primary:disabled { opacity: .55; cursor: not-allowed; }
 button.ghost { background: transparent; border: 1px solid var(--line); color: var(--text); border-radius: 8px; padding: 6px 12px; font: inherit; cursor: pointer; }
 .error { color: var(--bad); margin: 10px 0 0; }
+.recorded { margin: 12px 0 0; font-size: 13.5px; color: var(--muted); }
 
 /* Ladder */
 .meter { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
