@@ -143,13 +143,33 @@ At temperature 0, Ultra is not deterministic on Token Factory. Over 3 back-to-ba
 
 ## Limits
 
-- **Cheaper rungs are single runs.** A different prompt proposal can move a rung by a few points (Nano on receipts:
-  90.8% in one run, 93.6% in the next).
+- **Cheaper rungs are single runs inside a ladder run.** A different prompt proposal can move a rung by a few points
+  (Nano on receipts: 90.8% with one proposal, 93.6% with the next). For the headline verdict we re-ran the chosen
+  prompt 3 times (`scripts/repeat_verdict.py`: 91.8%, 91.9%, 93.7%, mean 92.4%), the same treatment as Ultra's
+  reference; the other rungs were not repeated.
 - **Even 5 points is strict at 150 rows.** Small models that average the same as Ultra (support-triage) still fail
   because they disagree with Ultra on many individual rows. More held-out rows would narrow the CI.
 - **Lightning with thinking on was never reached.** At US$0.25 it fits after one or two rungs, not after three.
 - **receipt-extract has 86 held-out rows**, not 150.
 - **The prompt optimiser is Ultra with thinking off**, with 2,500 tokens per proposal. One proposal was cut off.
+
+## Fine-tune fallback: one real job
+
+Token Factory fine-tunes Qwen, Llama, Gemma, GPT-OSS and DeepSeek models, not Nemotron, so the fallback is a small
+open model trained on Ultra's answers. We ran one job end to end on 2026-10-27 to measure what that path costs in
+time: LoRA (r=8) on Qwen3-0.6B, 60 chat rows, 1 epoch (`ftjob-e31dcdd634894b8c92bf1c19071e4b4d`).
+
+| Stage | Time |
+|---|---|
+| Submitted → training data processed | 58 s |
+| Queued before training started | **4 h 19 min** |
+| Training (1,881 tokens, 1 step) | 7 min 27 s |
+| Status | succeeded, 6 result files, no servable model id |
+
+Serving the trained weights on Token Factory needs its custom-weights access, which is granted on request. We asked,
+then withdrew the request because the contest rules bar preferential support. So this job proves the pipeline runs end to end, but its
+quality was not measured. The practical lesson is the queue: a fine-tune is a next-day step, not part of a
+3-minute run, which is why Downshift exhausts prompting on Nemotron first and only then offers the job.
 
 ## Cost of this work
 
@@ -161,6 +181,7 @@ At temperature 0, Ultra is not deterministic on Token Factory. Over 3 back-to-ba
 | A first contract-clauses reference attempt that stopped at its cost check | 0.092 |
 | One development run, three earlier runs at a US$0.10 cap and a 3-point rule | 0.257 |
 | The three runs above (US$0.25 cap, 5-point rule) | 0.447 |
-| **Total** (sum of `runs/usage.jsonl` for this work) | **4.04** |
+| Nano re-measured 3 times on receipts with the verdict prompt (2 attempts; the first crashed after its calls) | 0.053 |
+| **Total** (sum of `runs/usage.jsonl` for this work, excluding the fine-tune job) | **4.09** |
 
 With the cached reference, a judge's live run costs US$0.06 to US$0.21 and takes 139 to 182 seconds.
