@@ -130,7 +130,7 @@
     }
     es = new EventSource(`/api/run/${encodeURIComponent(runId)}/events${speed ? `?speed=${speed}` : ""}`);
     updateRunBtn();
-    const types = ["started", "stage", "references", "checker_attempt", "grader", "notice", "skipped", "eval", "bar", "round", "tier_done", "verdict", "aborted", "error", "done"];
+    const types = ["started", "stage", "references", "checker_attempt", "grader", "notice", "skipped", "eval", "bar", "round", "tier_done", "verdict", "photo", "aborted", "error", "done"];
     types.forEach((t) => es.addEventListener(t, (m) => handle(JSON.parse(m.data))));
     es.addEventListener("end", () => { es.close(); es = null; updateRunBtn(); });
     es.onerror = () => { if (es && es.readyState === EventSource.CLOSED) { es = null; updateRunBtn(); } };
@@ -157,6 +157,7 @@
         log(e.message);
         if (e.stage === "bar") row(e.tier_key || "ultra").status = "running";
         if (e.stage === "downshift") { S.currentTier = e.tier_key; row(e.tier_key).status = "tuning"; }
+        if (e.stage === "photo") row(e.tier_key).status = "running";
         $("#bar-line").textContent = e.message + "…";
         break;
       case "references": log(`Ultra wrote ${e.n} reference outputs`); break;
@@ -206,8 +207,15 @@
       case "verdict":
         S.verdict = e.verdict;
         if (S.barText) $("#bar-line").textContent = S.barText;
-        tiers.forEach((t) => { const r = row(t.key); if (["waiting", "running"].includes(r.status)) r.status = "skipped"; });
+        tiers.forEach((t) => { const r = row(t.key); if (!t.photo && ["waiting", "running"].includes(r.status)) r.status = "skipped"; });
         renderVerdict();
+        break;
+      case "photo":
+        row(e.tier_key).done = e;
+        row(e.tier_key).status = e.passed ? (e.beats ? "beats" : "passed") : "failed";
+        S.photo = e; renderPhoto();
+        if (S.barText) $("#bar-line").textContent = S.barText;
+        log(e.message);
         break;
       case "aborted":
         log("Stopped: " + e.reason);
@@ -275,6 +283,9 @@
     capped: ["", "Skipped (spend cap)"],
   };
 
+  const modeChip = (t) => t.photo ? '<span class="think photo">reads the photo</span>'
+    : `<span class="think ${t.thinking ? "on" : ""}">thinking ${t.thinking ? "on" : "off"}</span>`;
+
   function renderLadder() {
     if (!S) return;
     const chosen = S.verdict && S.verdict.kind === "downshift" ? S.verdict.rung : null;
@@ -282,8 +293,8 @@
       const r = row(t.key);
       const best = r.ref || r.holdout || r.plain;
       const [cls, txt] = STATUS[r.status] || ["", r.status];
-      return `<tr class="${chosen === t.key ? "chosen" : ""}">
-        <th scope="row"><div class="tier-name">${esc(t.name)}<span class="think ${t.thinking ? "on" : ""}">thinking ${t.thinking ? "on" : "off"}</span></div><div class="tier-model">${esc(t.model)}</div></th>
+      return `<tr class="${chosen === t.key ? "chosen" : ""}${t.photo ? " photo-row" : ""}">
+        <th scope="row"><div class="tier-name">${esc(t.name)}${modeChip(t)}</div><div class="tier-model">${esc(t.model)}</div></th>
         <td class="num">$${t.price_in_per_m} / $${t.price_out_per_m}</td>
         <td>${tvCell(r)}</td>
         <td>${holdoutCell(r)}</td>
@@ -305,7 +316,7 @@
         : ["passed", "beats"].includes(r.status) ? "pass" : ["tuning", "running"].includes(r.status) ? "run" : "";
       const x = chosen === t.key && refCost && c ? ` · ${(refCost / c).toFixed(1)}x cheaper` : kind === "ref" ? " · reference" : "";
       return `<div class="cost ${kind} ${c == null ? "empty" : ""}">
-        <span class="cname">${esc(t.name.replace(/^Nemotron\s*/, ""))}<span class="think ${t.thinking ? "on" : ""}">thinking ${t.thinking ? "on" : "off"}</span></span>
+        <span class="cname">${esc(t.name.replace(/^Nemotron\s*/, ""))}${modeChip(t)}</span>
         <span class="ctrack"><span class="cfill" style="width:${c && max ? Math.max(1.2, (100 * c) / max) : 0}%"></span></span>
         <span class="cval">${c == null ? "–" : usd(c, 3) + " / 1k" + x}</span></div>`;
     }).join("");
@@ -339,7 +350,7 @@
       stat("p50 latency", ms(v.p50_latency_ms), `Ultra ${ms(v.ultra_p50_latency_ms)}`) +
       stat("Thinking", v.thinking ? "On" : "Off", "set by enable_thinking in the snippet") +
       stat("This run cost", usd(v.run_spend_usd), `${v.run_seconds != null ? Math.round(v.run_seconds) + " s · " : ""}graded by ${v.graded_by.map((g) => (g === "sandbox" ? "Nebius Sandboxes" : "local subprocess")).join(" + ")}`);
-    renderSavings();
+    renderSavings(); renderPhoto();
     $("#v-prompt").textContent = v.system_prompt + (v.fewshots.length ? `\n\n+ ${v.fewshots.length} example pair(s): ${v.fewshots.map((f) => f.id).join(", ")}` : "");
     $("#v-snippet").textContent = v.snippet;
     $("#share-link").href = `/?run=${S.runId}`;
@@ -354,6 +365,23 @@
       if (b) b.addEventListener("click", startFinetune);
     } else ft.hidden = true;
     p.focus({ preventScroll: true });
+  }
+
+  /* ---------- photo check: a vision model reading the photo instead of the OCR text ---------- */
+  function renderPhoto() {
+    const e = S && S.photo, box = $("#v-photo");
+    box.hidden = !e;
+    if (!e) return;
+    const vsUltra = e.reference_cost_per_1k_usd && e.cost_per_1k_usd ? (e.reference_cost_per_1k_usd / e.cost_per_1k_usd).toFixed(1) + "x cheaper than Ultra" : "";
+    const call = e.beats ? "Better than Ultra, with no OCR step" : e.passed ? "Matches Ultra, with no OCR step" : "Not shown to match Ultra from the photo";
+    box.className = "photo-check " + (e.passed ? "pass" : "fail");
+    box.innerHTML = `<h3>Photo check: do you need the OCR step at all?</h3>
+      <p class="pc-call">${esc(call)}</p>
+      <p>${esc(e.label)} read the ${e.ci ? e.ci.n : ""} held-out receipt photos directly, with ${esc(e.prompt)}: <strong>${pct(e.holdout_score)}</strong>
+        (95% CI ${ciTxt(e.ci)}), against Ultra's ${pct(S.verdict ? S.verdict.reference.mean : null)} reading the OCR text.
+        Difference ${pts(e.diff.diff)} pts (95% CI ${pts(e.diff.lo)} to ${pts(e.diff.hi)}), paired on the same receipts.</p>
+      <p>${usd(e.cost_per_1k_usd)} per 1k calls${vsUltra ? " · " + vsUltra : ""}${e.verdict_cost_per_1k_usd ? ` · the text verdict above costs ${usd(e.verdict_cost_per_1k_usd)}, but needs OCR first` : ""} · p50 ${ms(e.p50_ms)}.</p>
+      <p class="sav-note">One pass in this run. The text side is the dataset's annotated OCR, i.e. perfect OCR; a real OCR engine would only make the text side worse.</p>`;
   }
 
   /* ---------- monthly savings, from the verdict's measured cost per 1k calls ---------- */

@@ -28,10 +28,12 @@ from datetime import date
 from pprint import pformat
 
 from .grading import Grader
-from .models import (CHEAP_RUNGS, RUNGS, THINKING_BUDGET, ULTRA, ULTRA_OFF, ULTRA_ON, BudgetExceeded, LLM, Meter,
-                     get_pricing, rung_by_key)
+from pathlib import Path
+
+from .models import (CHEAP_RUNGS, PHOTO_RUNG, RUNGS, THINKING_BUDGET, ULTRA, ULTRA_OFF, ULTRA_ON, BudgetExceeded, LLM,
+                     Meter, get_pricing, rung_by_key)
 from .stats import MIN_ROWS, beats, bootstrap_ci, enough_rows, matches, paired_diff_ci
-from .tasks import as_text, build_messages, ensure_labels, plain_system
+from .tasks import as_text, build_messages, ensure_labels, photo_messages, plain_system
 
 DEFAULTS = {
     "tolerance": 0.05,       # a rung matches Ultra if the 95% CI of (rung - Ultra) stays above -5 points
@@ -43,6 +45,7 @@ DEFAULTS = {
     "reference": "cached",   # "cached": presets/<slug>/reference.json; "live": re-measure Ultra in this run
     "ultra_thinking": True,  # live reference only: also measure Ultra with thinking on, if it fits the cap
     "thinking_rungs": True,  # include Lightning with thinking on as a rung
+    "photo_check": True,     # tasks that ship photos: after the verdict, try Super VL reading the photo (no OCR)
     "train_limit": None,
     "validation_limit": None,
     "holdout_limit": None,
@@ -484,6 +487,63 @@ def _verdict(run: Run, ref_info: dict, ref_key: str, rungs: dict, chosen_key: st
     }
 
 
+def photo_system(task: dict, verdict: dict) -> tuple[str, list[dict], str]:
+    """The prompt for the photo check: the verdict's tuned prompt and few-shots if a cheaper rung won with one,
+    else the plain prompt. Its wording about OCR text is swapped for the photo."""
+    p = task["photos"]
+    tuned = (verdict["kind"] == "downshift" and not verdict["thinking_off_only"]
+             and (verdict["fewshots"] or verdict["system_prompt"] != plain_system(task)))
+    system = verdict["system_prompt"] if tuned else plain_system(task)
+    shots = verdict["fewshots"] if tuned else []
+    if p.get("text_says") and p["text_says"] in system:
+        system = system.replace(p["text_says"], p["photo_says"])
+    else:
+        system = p["lead"] + system
+    return system, shots, "the verdict's prompt" if tuned else "the plain prompt"
+
+
+def _photo_rows(task: dict) -> list[tuple[dict, Path]] | None:
+    d = Path(task["photos"]["dir"])
+    rows = [(r, d / f"{r['id']}.jpg") for r in task["holdout"]]
+    return rows if rows and all(p.exists() for _, p in rows) else None
+
+
+async def _photo_check(run: Run, verdict: dict, ref: dict, ho_ids: list[str], pricing: dict):
+    """Does a vision model reading the photo match Ultra reading the text? Scored once on the held-out rows."""
+    task, rung, tol = run.task, PHOTO_RUNG, verdict["tolerance"]
+    rows = _photo_rows(task)
+    if not rows:
+        yield run.ev("skipped", tier_key=rung["key"], message="Skipped the photo check: this server does not have the task's photos.")
+        return
+    system, shots, how = photo_system(task, verdict)
+    image_tokens = 1100  # a 1280 px receipt photo, measured
+    p = pricing["models"].get(rung["model"], {})
+    est = len(rows) * ((image_tokens + len(system) // 3) * p.get("prompt", 3e-7) + run.max_tokens(rung) * p.get("completion", 9e-7))
+    if est > run.remaining():
+        yield run.ev("skipped", tier_key=rung["key"],
+                     message=f"Skipped the photo check: it would cost about ${est:.3f}, more than is left of this run's cap.")
+        return
+    yield run.ev("stage", stage="photo", tier_key=rung["key"],
+                 message=f"Photo check: {rung['name']} reads the {len(rows)} held-out photos, no OCR, with {how}")
+    calls = await asyncio.gather(*(run.llm.chat(rung["model"], photo_messages(system, shots, path.read_bytes()),
+                                                max_tokens=run.max_tokens(rung), purpose="eval:holdout:photo",
+                                                thinking=False) for _, path in rows))
+    e = await score_calls(run.grader, run.checker_code, rung, [r for r, _ in rows], calls, "holdout", "photo")
+    run.grade_backends.add(e["grader"])
+    e.update({"system": system, "fewshot_ids": [str(f["id"]) for f in shots]})
+    run.evals.append(e)
+    yield run.ev("eval", **_public_eval(e))
+    scores = [e["row_scores"][i] for i in ho_ids]
+    diff = paired_diff_ci(scores, ref["rows"])
+    yield run.ev("photo", tier_key=rung["key"], model=rung["model"], label=rung["label"], prompt=how,
+                 holdout_score=e["score"], ci=bootstrap_ci(scores), diff=diff, passed=matches(diff, tol),
+                 beats=beats(diff), tolerance=tol, cost_per_1k_usd=e["cost_per_1k_usd"], p50_ms=e["p50_ms"],
+                 reference_label=ref["label"], reference_cost_per_1k_usd=ref["cost_per_1k_usd"],
+                 verdict_cost_per_1k_usd=verdict["cost_per_1k_usd"],
+                 message=f"Photo check, {rung['label']}: {_pct(e['score'])} with no OCR step, "
+                         f"{compare_sentence(diff, tol)} (Ultra reads the OCR text)")
+
+
 # --------------------------------------------------------------------------------------------- pipeline
 
 async def run_downshift(task: dict, options: dict | None = None, llm: LLM | None = None,
@@ -515,11 +575,12 @@ async def run_downshift(task: dict, options: dict | None = None, llm: LLM | None
     def price(r, k):
         return round(pricing["models"].get(r["model"], {}).get(k, 0) * 1e6, 4)
 
+    photo = bool(task.get("photos") and opts["photo_check"])
     yield run.ev("started", run_id=run_id, task={k: task.get(k) for k in ("slug", "title", "business_story")},
                  n_train=len(task["train"]), n_validation=len(task["validation"]), n_holdout=len(task["holdout"]),
                  options=opts, row_points=round(100 / max(1, len(task["holdout"])), 2),
                  tiers=[r | {"price_in_per_m": price(r, "prompt"), "price_out_per_m": price(r, "completion")}
-                        for r in cheap_rungs + [ULTRA_OFF, ULTRA_ON]],
+                        for r in cheap_rungs + [ULTRA_OFF, ULTRA_ON] + ([PHOTO_RUNG] if photo else [])],
                  pricing_source=pricing["_source"])
     if len(task["holdout"]) < MIN_ROWS:
         yield run.ev("notice", message=f"Only {len(task['holdout'])} held-out rows: Downshift needs at least {MIN_ROWS} "
@@ -723,6 +784,14 @@ async def run_downshift(task: dict, options: dict | None = None, llm: LLM | None
         # 5. Verdict.
         verdict = _verdict(run, ref_info, ref_key, rungs, chosen_key, tol, budget_stop, started)
         yield run.ev("verdict", verdict=verdict)
+
+        # 6. Photo check, for tasks whose text came from photos.
+        if photo:
+            try:
+                async for ev in _photo_check(run, verdict, ref, ho_ids, pricing):
+                    yield ev
+            except BudgetExceeded as e:
+                yield run.ev("skipped", tier_key=PHOTO_RUNG["key"], message=f"Photo check stopped at the spend cap: {e}")
         yield run.ev("done", ok=True, spend_usd=round(llm.meter.spent_usd, 6), calls=llm.meter.calls,
                      seconds=round(time.time() - started, 1))
     except BudgetExceeded as e:

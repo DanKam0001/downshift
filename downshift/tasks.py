@@ -1,6 +1,7 @@
 """Tasks (presets or custom) and how a prompt is turned into chat messages."""
 from __future__ import annotations
 
+import base64
 import json
 import random
 from pathlib import Path
@@ -39,6 +40,8 @@ def load_task_dir(d: Path) -> dict:
     checker = d / "checker.py"
     task["checker_code"] = checker.read_text(encoding="utf-8") if checker.exists() else None
     task["source"] = "fixture" if FIXTURES_DIR in d.parents else "preset"
+    if task.get("photos"):
+        task["photos"] = dict(task["photos"], dir=str(d / task["photos"]["dir"]))
     return task
 
 
@@ -52,7 +55,7 @@ def list_presets() -> list[dict]:
         out.append({k: t.get(k) for k in ("slug", "title", "business_story", "instruction", "output_format",
                                           "label_set", "source_url", "license", "source")}
                    | {"n_train": len(t["train"]), "n_validation": len(t["validation"]), "n_holdout": len(t["holdout"]),
-                      "has_checker": bool(t["checker_code"]),
+                      "has_checker": bool(t["checker_code"]), "has_photos": bool(t.get("photos")),
                       "reference_measured": (t["cached_reference"] or {}).get("measured_on")})
     return out
 
@@ -138,3 +141,10 @@ def build_messages(system: str, fewshots: list[dict], item_input) -> list[dict]:
         msgs.append({"role": "assistant", "content": as_text(ex["reference"])})
     msgs.append({"role": "user", "content": as_text(item_input)})
     return msgs
+
+
+def photo_messages(system: str, fewshots: list[dict], jpeg: bytes) -> list[dict]:
+    """Like build_messages, but the final user turn is the photo instead of its text. Few-shots stay text."""
+    msgs = build_messages(system, fewshots, "")[:-1]
+    url = "data:image/jpeg;base64," + base64.b64encode(jpeg).decode("ascii")
+    return msgs + [{"role": "user", "content": [{"type": "image_url", "image_url": {"url": url}}]}]

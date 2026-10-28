@@ -103,6 +103,8 @@ textarea.mono { font-family: var(--mono); font-size: 13px; }
 .check input { width: auto; }
 .think { display: inline-block; font-size: 11px; padding: 0 6px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); margin-left: 6px; vertical-align: 1px; }
 .think.on { border-color: var(--warn); color: var(--warn); }
+.think.photo { border-color: var(--good); color: var(--good); }
+.ladder tr.photo-row th, .ladder tr.photo-row td { border-top: 2px dashed var(--line); }
 .trunc { display: block; font-size: 11.5px; color: var(--warn); }
 .opts summary { cursor: pointer; color: var(--muted); padding: 8px 0; }
 .opts-grid { display: grid; grid-template-columns: repeat(3, minmax(160px, 1fr)); gap: 12px; padding-top: 6px; }
@@ -208,3 +210,10 @@ details > summary { list-style-position: inside; }
   button.primary { width: 100%; }
   .panel { padding: 14px; }
 }
+
+.photo-check { background: var(--panel-2); border: 1px solid var(--line); border-left: 4px solid var(--good); border-radius: 10px; padding: 12px 14px; margin: 0 0 16px; }
+.photo-check.fail { border-left-color: var(--warn); }
+.photo-check h3 { margin: 0 0 4px; font-size: 15px; }
+.photo-check p { margin: 4px 0; }
+.photo-check .pc-call { font-weight: 700; font-size: 17px; }
+.photo-check.pass .pc-call { color: var(--good); }

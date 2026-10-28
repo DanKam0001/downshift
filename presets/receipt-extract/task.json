@@ -95,5 +95,15 @@
   "slug": "receipt-extract",
   "n_train": 49,
   "n_validation": 40,
-  "n_holdout": 86
+  "n_holdout": 86,
+  "photos": {
+    "dir": "images",
+    "splits": [
+      "holdout"
+    ],
+    "text_says": "The text below is the OCR output of",
+    "photo_says": "The image is a photo of",
+    "lead": "The image is a photo of a shop or restaurant receipt from Indonesia (amounts in rupiah). ",
+    "note": "The CORD v2 photos behind the held-out rows (CC-BY-4.0, NAVER Clova), long side resized to 1280 px. Used by the photo check: does a vision model reading the photo skip the OCR step?"
+  }
 }

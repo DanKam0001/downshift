@@ -49,6 +49,11 @@ CHEAP_RUNGS = RUNGS[:4]
 ULTRA_OFF, ULTRA_ON = RUNGS[4], RUNGS[5]
 THINKING_BUDGET = 4096  # extra max_tokens allowed for reasoning when thinking is on
 
+# Not on the ladder: for tasks whose text came from photos (OCR output), the photo check asks whether a vision
+# model reading the photo itself can skip the OCR step. It runs after the verdict, on the held-out photos.
+PHOTO_RUNG = {"key": "super-vl", "tier": "super-vl", "name": "Nemotron 3.5 Super VL", "model": "nvidia/Nemotron-3.5-Super-VL",
+              "thinking": False, "photo": True, "label": "Nemotron 3.5 Super VL (thinking off, reads the photo)"}
+
 
 def rung_by_key(key: str) -> dict:
     return next(r for r in RUNGS if r["key"] == key)
@@ -59,6 +64,7 @@ FALLBACK_PRICING = {
     "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B": {"prompt": 6e-8, "completion": 2.4e-7, "cache_read": None},
     "nvidia/nemotron-3-super-120b-a12b": {"prompt": 3e-7, "completion": 9e-7, "cache_read": 6e-8},
     "nvidia/Nemotron-3-Ultra-550b-a55b": {"prompt": 1e-6, "completion": 3e-6, "cache_read": 1.2e-7},
+    "nvidia/Nemotron-3.5-Super-VL": {"prompt": 3e-7, "completion": 9e-7, "cache_read": None},
 }
 
 _log_lock = threading.Lock()

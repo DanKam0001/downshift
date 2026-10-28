@@ -125,7 +125,11 @@ Sandboxes and compared with the same cached Ultra reference (Ultra, thinking on,
   where the output keys are defined, and Super VL nested the totals under a `"totals"` key. That run is excluded
   from the table but its cost is in the total below.
 - Reproduce: `python scripts/fetch_cord_images.py` then `python scripts/vision_rung.py --repeats 3` (about US$0.20).
-- Not yet a rung in the app's ladder: the presets carry text inputs. It is the next rung to add.
+- **In the app:** receipt-extract now ships its 86 held-out photos (`presets/receipt-extract/images/`), and a run
+  ends with a photo check: Super VL reads the photos with the verdict's prompt, graded and compared exactly like a
+  ladder rung. Run `2e794b56ae40` (recorded, US$0.106 for the whole run, 700 calls, 238 s): Nano won the ladder
+  again (90.3%, −1.7, CI −4.4 to +1.3, $0.082 per 1k), and the photo check scored **95.2%, +3.2 pts over Ultra
+  (95% CI +0.3 to +6.4)** at $0.591 per 1k. One pass, a different tuned prompt from the table above, same direction.
 
 ### Contract clause classification, 32 clause types (`contract-clauses`, run `7ee9b72d56be`)
 
@@ -206,6 +210,7 @@ quality was not measured. The practical lesson is the queue: a fine-tune is a ne
 | The three runs above (US$0.25 cap, 5-point rule) | 0.447 |
 | Nano re-measured 3 times on receipts with the verdict prompt (2 attempts; the first crashed after its calls) | 0.053 |
 | Super VL on receipt photos (plain + tuned prompt, 3 runs each, plus the 55.7% setup-error run) | 0.429 |
-| **Total** (sum of `runs/usage.jsonl` for this work, excluding the fine-tune job) | **4.52** |
+| Receipts run with the photo check (`2e794b56ae40`) | 0.106 |
+| **Total** (sum of `runs/usage.jsonl` for this work, excluding the fine-tune job) | **4.63** |
 
 With the cached reference, a judge's live run costs US$0.06 to US$0.21 and takes 139 to 182 seconds.

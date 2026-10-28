@@ -14,6 +14,7 @@ held-out score with a 95% confidence interval next to Ultra's, the cost per 1,00
   and US$0.06 to US$0.21 of real calls, or open a recorded run below).
 - **Recorded runs, replayed at 4x with no model calls:**
   [receipts → use Nano](https://downshift-qcuv.onrender.com/?run=45015b6df59e&speed=4) ·
+  [receipt photos → Super VL beats Ultra with no OCR](https://downshift-qcuv.onrender.com/?run=2e794b56ae40&speed=4) ·
   [support triage → turn thinking off](https://downshift-qcuv.onrender.com/?run=de04430645fb&speed=4) ·
   [contract clauses → keep Ultra](https://downshift-qcuv.onrender.com/?run=7ee9b72d56be&speed=4)
 - **Results:** [RESULTS.md](RESULTS.md). Every figure traces to a file in `demo_runs/` or `presets/*/reference.json`.
@@ -36,6 +37,9 @@ And a follow-up: **does the receipt pipeline even need its OCR step?** Nemotron 
 directly scored 93.6% with a plain prompt and **96.0% with Downshift's tuned prompt, +4.0 pts over Ultra reading
 perfect OCR text (95% CI +1.2 to +7.3)**, at $0.72 per 1k calls, 3 runs each
 ([details](RESULTS.md#do-you-even-need-the-ocr-step-nemotron-super-vl-reads-the-photo-demo_runsvision-receipt-extractjson)).
+This is now a step in the app: for a task that ships its photos, a **photo check** runs after the verdict and puts
+Super VL on the ladder as a "reads the photo" rung. In the recorded run above it scored 95.2%, +3.2 pts over Ultra
+(95% CI +0.3 to +6.4), in one pass with that run's own tuned prompt.
 
 A whole ladder run costs cents: the receipts run was 606 model calls, US$0.06 and 139 seconds.
 
