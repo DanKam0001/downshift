@@ -17,13 +17,22 @@ GLOW = """(() => { const st = document.createElement('style'); document.head.app
  window.glow = sel => { vg.textContent += rule(sel); };   // stylesheet rules survive the app re-rendering its HTML
  window.unglow = () => { vg.textContent = ''; };
  window.go = (sel, block = 'start') => document.querySelector(sel).scrollIntoView({behavior: 'smooth', block});
+ window.big = () => { st.textContent += '.wrap{max-width:960px !important}'; document.body.style.zoom = 1.42; };
  document.body.style.zoom = 1.22; })()"""
 RUN = "45015b6df59e"   # the receipt-extract run behind RESULTS.md's headline
 SPEED = 5.5            # shown on screen by the app's replay badge
+# Show only the head of the verdict's code snippet, with the lines that carry the decision marked.
+SNIP = r"""(() => { const pre = document.querySelector('#v-snippet'); const esc = t => t.replace(/[&<>]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'}[c]));
+ pre.innerHTML = pre.textContent.split('\n').slice(0, 9).map(l => /^(client|MODEL|THINKING)/.test(l) ? `<mark style="background:rgba(118,185,0,.25);color:inherit;border-radius:4px;padding:0 4px">${esc(l)}</mark>` : esc(l)).join('\n') + '\n…';
+ pre.style.fontSize = '15px'; })()"""
 SCENES = {
-    "03-demo": (GLOW, [
-        ("pick", "glow('[data-slug=\"receipt-extract\"]'); document.querySelector('[data-slug=\"receipt-extract\"]').click()"),
+    "03-demo": (GLOW + ";big(); document.querySelector('[data-slug=\"receipt-extract\"]').click(); scrollTo(0, 0)", [
+        ("pick", "glow('[data-slug=\"receipt-extract\"]')"),
         ("climbs", f"unglow(); history.pushState(null, '', '/?run={RUN}&speed={SPEED}'); dispatchEvent(new PopStateEvent('popstate')); setTimeout(() => go('#replay-note'), 900)"),
+        ("ultra", "cap('<b>1</b> · Ultra rewrites the prompt from <b>tuning rows</b> only')"),
+        ("best", "cap('<b>2</b> · the best rewrite is picked on <b>validation rows</b>')"),
+        ("scored", "cap('<b>3</b> · only that prompt is scored, <b>once</b>, on <b>held-out rows</b>')"),
+        ("real", "cap('')"),
         ("lightning", "glow('#costs .cost:nth-child(1)')"),
         ("nano", "unglow(); glow('#costs .cost:nth-child(2)')"),
     ]),
@@ -32,8 +41,8 @@ SCENES = {
         ("86", "glow('#v-stats > div:nth-child(1)'); cap('Nano: <b>93.6%</b> on <b>n = 86</b> held-out receipts the optimiser never saw')"),
         ("paired", "glow('#v-stats > div:nth-child(3)'); cap('Nano minus Ultra, paired 95% CI: <b>−1.0 to +4.7 points</b>')"),
         ("rule", "unglow(); glow('#v-headline'); cap('Downshift only if the CI stays above <b>−5 points</b>')"),
-        ("then", "unglow(); cap(''); go('.snippet', 'start')"),
-        ("paste", "glow('#v-snippet')"),
+        ("then", "unglow(); cap(''); " + SNIP + "; go('.snippet', 'center')"),
+        ("paste", "cap('Nemotron 3 Nano · thinking off · Token Factory endpoint')"),
     ]),
 }
 norm = lambda w: re.sub(r"[^a-z0-9%$]", "", w.lower())

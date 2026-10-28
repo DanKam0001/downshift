@@ -76,7 +76,8 @@ for s, _ in segs:
 vprev, aprev = "[0:v]", "[0:a]"
 for i in range(1, len(segs)):
     off += segs[i - 1][1] - XF
-    fc.append(f"{vprev}[{i}:v]xfade=transition=fade:duration={XF}:offset={off:.3f}[v{i}]")
+    rec_edge = any((W / f"rec_{names[j]}.mp4").exists() for j in (i - 1, i))
+    fc.append(f"{vprev}[{i}:v]xfade=transition={'fadeblack' if rec_edge else 'fade'}:duration={XF}:offset={off:.3f}[v{i}]")
     fc.append(f"{aprev}[{i}:a]acrossfade=d={XF}[a{i}]")
     vprev, aprev = f"[v{i}]", f"[a{i}]"
 total = off + segs[-1][1]
