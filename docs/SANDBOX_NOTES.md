@@ -1,6 +1,6 @@
 # Sandboxes grader: verified notes (2026-10-27)
 
-Module: `downshift/sandbox_grader.py`. Tests: `tests/test_sandbox_grader.py` (live tests: `DOWNSHIFT_LIVE=1`).
+Module: `goodenough/sandbox_grader.py`. Tests: `tests/test_sandbox_grader.py` (live tests: `DOWNSHIFT_LIVE=1`).
 
 ## How it calls Sandboxes
 - Plain REST through `httpx` (`https://api.tokenfactory.nebius.com/sandboxes/v1`, headers `Authorization: Bearer`

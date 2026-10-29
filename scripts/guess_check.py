@@ -2,7 +2,7 @@
 
     python scripts/guess_check.py receipt-extract support-triage contract-clauses
 
-The same check runs inside every Downshift run before the ladder (engine.guess_check); this script runs it alone,
+The same check runs inside every Good Enough run before the ladder (engine.guess_check); this script runs it alone,
 with no model calls, so a checker can be tested before any money is spent.
 """
 from __future__ import annotations
@@ -14,10 +14,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from downshift.engine import DEFAULTS, Run, cached_reference, guess_check, max_tokens_for, pick_reference  # noqa: E402
-from downshift.grading import Grader  # noqa: E402
-from downshift.models import LLM, Meter  # noqa: E402
-from downshift.tasks import load_preset, plain_system  # noqa: E402
+from goodenough.engine import DEFAULTS, Run, cached_reference, guess_check, max_tokens_for, pick_reference  # noqa: E402
+from goodenough.grading import Grader  # noqa: E402
+from goodenough.models import LLM, Meter  # noqa: E402
+from goodenough.tasks import load_preset, plain_system  # noqa: E402
 
 
 async def one(slug: str) -> None:

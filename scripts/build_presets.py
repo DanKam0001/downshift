@@ -1,4 +1,4 @@
-"""Regenerate the three Downshift preset tasks from their public source datasets.
+"""Regenerate the three Good Enough preset tasks from their public source datasets.
 
     python scripts/build_presets.py            # downloads sources into presets/_cache/, writes presets/<slug>/
 

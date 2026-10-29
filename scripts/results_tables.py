@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from downshift.stats import paired_diff_ci  # noqa: E402
+from goodenough.stats import paired_diff_ci  # noqa: E402
 
 
 def pct(x):

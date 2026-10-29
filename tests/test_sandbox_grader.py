@@ -1,4 +1,4 @@
-"""Tests for downshift.sandbox_grader.
+"""Tests for goodenough.sandbox_grader.
 
 Offline tests use the local-subprocess fallback (same harness). The live Nebius Sandboxes test runs
 only when DOWNSHIFT_LIVE=1 is set:  DOWNSHIFT_LIVE=1 python -m pytest tests/test_sandbox_grader.py
@@ -8,7 +8,7 @@ import os
 
 import pytest
 
-from downshift import sandbox_grader as sg
+from goodenough import sandbox_grader as sg
 
 CHECKER = '''
 import json

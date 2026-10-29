@@ -1,6 +1,6 @@
-# Downshift: prove a cheaper Nemotron is enough
+# Good Enough: prove the cheaper Nemotron does the job
 
-Give it a task and a few dozen examples. Downshift finds the cheapest NVIDIA Nemotron model on Nebius Token
+Give it a task and a few dozen examples. Good Enough finds the cheapest NVIDIA Nemotron model on Nebius Token
 Factory that does the task as well as Nemotron Ultra, and proves it on held-out data. It measures every step,
 rewrites the prompt where that helps, and recommends fine-tuning only when prompting runs out of room.
 
@@ -10,7 +10,7 @@ held-out score with a 95% confidence interval next to Ultra's, the cost per 1,00
 
 ## For judges: two minutes
 
-- **Live app:** https://downshift-qcuv.onrender.com (pick a preset and press "Downshift it": about 2 to 3 minutes
+- **Live app:** https://downshift-qcuv.onrender.com (pick a preset and press "Prove it": about 2 to 3 minutes
   and US$0.06 to US$0.21 of real calls, or open a recorded run below).
 - **Recorded runs, replayed at 4x with no model calls:**
   [receipts → use Nano, then squeeze: 42x cheaper](https://downshift-qcuv.onrender.com/?run=150a5ad36713&speed=4) ·
@@ -18,7 +18,10 @@ held-out score with a 95% confidence interval next to Ultra's, the cost per 1,00
   [receipts → use Nano (the headline run)](https://downshift-qcuv.onrender.com/?run=45015b6df59e&speed=4) ·
   [receipt photos → Super VL beats Ultra with no OCR](https://downshift-qcuv.onrender.com/?run=2e794b56ae40&speed=4) ·
   [support triage → turn thinking off](https://downshift-qcuv.onrender.com/?run=de04430645fb&speed=4) ·
-  [contract clauses → keep Ultra](https://downshift-qcuv.onrender.com/?run=7ee9b72d56be&speed=4)
+  [contract clauses → no single model, but a chain: 2.5x](https://downshift-qcuv.onrender.com/?run=cf4758c38c24&speed=4) ·
+  [SMS with an audited answer key](https://downshift-qcuv.onrender.com/?run=87cd203cfa2a&speed=4) ·
+  [contract clauses → keep Ultra (before the chain)](https://downshift-qcuv.onrender.com/?run=7ee9b72d56be&speed=4)
+- **Proof certificate** (the one card to share): [https://downshift-qcuv.onrender.com/?run=150a5ad36713&cert=1](https://downshift-qcuv.onrender.com/?run=150a5ad36713&cert=1)
 - **Results:** [RESULTS.md](RESULTS.md). Every figure traces to a file in `demo_runs/` or `presets/*/reference.json`.
 - **Reproduce the headline yourself** (needs a Nebius key, about US$0.03):
   `python scripts/repeat_verdict.py demo_runs/45015b6df59e.json --repeats 3`
@@ -28,23 +31,23 @@ held-out score with a 95% confidence interval next to Ultra's, the cost per 1,00
 | Task (held-out rows) | Verdict | Quality vs Ultra | Cost per 1k calls |
 |---|---|---|---|
 | Receipt OCR to JSON (86) | **Use Nemotron 3 Nano, thinking off** | 92.4% vs 92.0%, both 3-run means; paired diff +0.5 pts (95% CI −2.6 to +3.6) | $0.103 vs $3.693, **36x cheaper** |
-| Bank support triage, 77 intents (150) | **Keep Ultra, turn thinking off** | 71.6% vs 72.2%, −0.7 pts (−4.7 to +3.6) | $0.554 vs $1.319, 2.4x cheaper |
-| Contract clauses, 32 types (150) | **Keep Ultra** | best smaller model −6.2 pts (95% CI −12.4 to +0.0) | none |
+| Bank support triage, 77 intents (150) | **Keep Ultra, turn thinking off** (a 29 Oct re-run found Lightning with thinking on, 4.6x: an edge case, see RESULTS) | 71.6% vs 72.2%, −0.7 pts (−4.7 to +3.6) | $0.554 vs $1.319, 2.4x cheaper |
+| Contract clauses, 32 types (150) | No single cheaper model; **chain: Super + Lightning, Ultra when they disagree** | 81.3% vs 82.2%, −0.9 pts (−4.0 to +2.2) | $0.914 vs $2.301, **2.5x cheaper** |
 
 And one finding we did not expect: **on all three tasks, Ultra's thinking mode cost 2.4x to 6.6x more per call, and
 its accuracy gain was not distinguishable from zero** (paired 95% CIs of on minus off all include zero, 3 runs per
 mode).
 
 **Then I ran it on my own bot.** My hackathon judge bot (Claude Sonnet today) scores lablab submissions to predict
-winners. On 105 real submissions, scored against the real judges, Downshift first said "use Nano, matches Ultra,
+winners. On 105 real submissions, scored against the real judges, Good Enough first said "use Nano, matches Ultra,
 15x cheaper". True, and empty: **a fixed answer of 3 on every criterion beat every model** on that checker (75.4% vs
-Ultra 72.1%, Sonnet 74.1%). So Downshift now runs a **guess check** before spending anything: if Ultra can't
+Ultra 72.1%, Sonnet 74.1%). So Good Enough now runs a **guess check** before spending anything: if Ultra can't
 provably beat a fixed answer, the checker can't tell skill from guessing and there is **no verdict**. On the three
 presets the check passes by 48 to 79 points; on my bot it trips, in 27 s for US$0.00
 ([details](RESULTS.md#customer-test-my-own-hackathon-judge-bot-and-the-guess-check-it-forced)).
 
 And a follow-up: **does the receipt pipeline even need its OCR step?** Nemotron 3.5 Super VL reading the photo
-directly scored 93.6% with a plain prompt and **96.0% with Downshift's tuned prompt, +4.0 pts over Ultra reading
+directly scored 93.6% with a plain prompt and **96.0% with Good Enough's tuned prompt, +4.0 pts over Ultra reading
 perfect OCR text (95% CI +1.2 to +7.3)**, at $0.72 per 1k calls, 3 runs each
 ([details](RESULTS.md#do-you-even-need-the-ocr-step-nemotron-super-vl-reads-the-photo-demo_runsvision-receipt-extractjson)).
 This is now a step in the app: for a task that ships its photos, a **photo check** runs after the verdict and puts
@@ -53,7 +56,7 @@ Super VL on the ladder as a "reads the photo" rung. In the recorded run above it
 
 A whole ladder run costs cents: the receipts run was 606 model calls, US$0.06 and 139 seconds.
 
-**After the verdict, it squeezes.** The model is picked; now Downshift cuts tokens off it, one lever at a time:
+**After the verdict, it squeezes.** The model is picked; now Good Enough cuts tokens off it, one lever at a time:
 shorter answers (minified JSON or label only), fewer worked examples (2, then none) and an Ultra-compressed prompt.
 Each cut is tried on validation rows and kept only if the score holds within 1 point and the cost falls; the final
 setup is then scored once on the held-out rows and must still match Ultra. On receipts, 2 worked examples instead of
@@ -71,12 +74,35 @@ diff +2.4, 95% CI −0.5 to +5.5), run `150a5ad36713`.
 | Python from a one-line spec, graded only by unit tests (150, MBPP) | Nano with thinking **on**: 89.3% vs Ultra 85.3% | 25x |
 
 Same lever, opposite answers: thinking off is free accuracy-wise on photos and fatal on video, and on code the small
-model *needs* thinking while Ultra's thinking added nothing. That is why Downshift measures per task.
+model *needs* thinking while Ultra's thinking added nothing. That is why Good Enough measures per task.
 
 **Your own task, with no answers.** 100 real UCI SMS messages, no labels: Ultra wrote the answers and a checker,
 the checker passed its own test, the guess check passed ("ham" every time scores 55%, Ultra 100%), and Nano matched
-Ultra at 16x cheaper, 17x after the squeeze, for US$0.03 in total (run `091a657f0889`). Ultra's answers agreed with
-the human UCI labels on 98 of 100.
+Ultra at 16x cheaper, 17x after the squeeze, for US$0.03 in total (run `091a657f0889`). With that run's instruction, Ultra's answers
+agreed with the human UCI labels on 98 of 100 (a later run with different wording: 90, see the audit below).
+
+**No single cheap model? Ask two.** When no cheaper rung matches on its own, Good Enough tries an *escalation
+chain*: two cheap rungs answer every row, the task's own checker asks whether their two answers agree, and only
+disagreements go to Ultra. The pair is chosen on validation rows, the rule is fixed before scoring, and every answer
+it uses was already measured on the held-out rows, so the check costs one grading batch and no model calls. On
+contract clauses, where every single model failed (best: Lightning, CI down to −11.1 points), Super and Lightning
+agreed on 114 of 150 held-out clauses; with Ultra on the other 36 the chain scored **81.3% vs Ultra's 82.2% (paired
+CI −4.0 to +2.2) at $0.914 per 1k calls instead of $2.301: 2.5x cheaper**, run `cf4758c38c24`. Escalated rows are
+scored with Ultra's measured per-row scores.
+
+**The answer key audits itself.** When Ultra writes the answers, a second Ultra pass (thinking on) answers every row
+again, and rows where the checker says the two passes disagree are dropped rather than counted against a cheaper
+model. On 100 UCI SMS messages (run `87cd203cfa2a`) it dropped 8. Against the human labels, 6 of those 8 were ones
+Ultra's first pass had wrong, and the answer key went from 90 of 100 right to 88 of 92 (95.7%). The cost: fewer
+held-out rows (37), so one cheap-model mistake decides the proof; in that run only Ultra with thinking off passed.
+
+**Price a mistake.** Next to calls per month, type what one wrong answer costs you. The savings box adds mistakes to
+the token bill and gives the break-even: for the squeezed receipts setup, even at the bad end of its 95% CI (−0.5
+points), it costs less than Ultra unless one wrong receipt costs more than **US$0.78**.
+
+**A proof certificate.** Every run ends with one card: the setup, the evidence (held-out size, CI vs Ultra, guess
+check, Ultra's 3-run wobble, the sealed Sandboxes checkpoint, the audit) and the saving, with a link that opens just
+the certificate (`/?run=<id>&cert=1`).
 
 **Cost levers we checked and do not claim.** Token Factory lists cached prompt tokens 5 to 8x cheaper, but across
 15,000+ logged Nemotron calls, with and without `prompt_cache_key`, we measured **zero cache hits**, so no caching
@@ -85,7 +111,7 @@ claimed. There are no time-of-day prices in the pricing API.
 
 ## Why not a model router?
 
-Routers pick a model per request from heuristics or a learned predictor. Downshift answers a different question,
+Routers pick a model per request from heuristics or a learned predictor. Good Enough answers a different question,
 once per task: *is a cheaper model provably good enough for this job?* It measures that on held-out rows with a
 non-inferiority rule (the 95% CI of the difference must stay within 5 points of Ultra), tunes the prompt for the
 cheaper model first, says "keep Ultra" when the evidence is not there, and hands you the config to ship.
@@ -112,7 +138,7 @@ logged answer (from `response`, `output`, `completion`, or a trailing assistant 
 cheaper models are graded against. Rows without an answer get one from Ultra.
 
 ```bash
-python -m downshift.cli examples/support_logs.jsonl   --instruction "Route the customer email to one queue."   --labels billing,shipping,refund,account --output-format "One label, lowercase"   --cap 0.25 --calls-per-month 1000000 --json verdict.json
+python -m goodenough.cli examples/support_logs.jsonl   --instruction "Route the customer email to one queue."   --labels billing,shipping,refund,account --output-format "One label, lowercase"   --cap 0.25 --calls-per-month 1000000 --json verdict.json
 ```
 
 Progress streams to stderr. The verdict prints the model and thinking flag to use, the held-out score with its 95%
@@ -130,7 +156,7 @@ only 16). A 20-row smoke test on this file cost US$0.009.
 1. **Reference.** If your examples have no expected outputs, Nemotron Ultra writes them.
 2. **Grader.** Each preset ships a `checker.py`. For a custom task, Ultra writes one. Before a checker is trusted it
    is tested: the reference answers must score about 1.0, and deliberately wrong answers must score low. If it fails,
-   Ultra gets one retry with the failure; after that Downshift falls back to exact match. Checker code is model-written,
+   Ultra gets one retry with the failure; after that Good Enough falls back to exact match. Checker code is model-written,
    so it runs in **Nebius Sandboxes** with networking off, not on the web server.
 3. **Three splits.** Tuning rows: the optimiser sees their failures and may use them as few-shot examples.
    Validation rows: used only to choose between prompt candidates, never shown to the optimiser. Held-out rows:
@@ -166,7 +192,12 @@ only 16). A 20-row smoke test on this file cost US$0.009.
    2 then 0 few-shot examples, an Ultra-compressed prompt). A cut is kept only if validation stays within 1 point
    of the current score and the cost per call falls below 0.97x; the result is scored once on held-out rows and is
    used only if it still matches Ultra. Turn it off with the `squeeze` option.
-8. **Fine-tune fallback.** When no rung matches, Downshift can build a chat dataset from the tuning rows' reference
+8. **Escalation chain.** If no cheaper rung matches alone, the two cheap rungs with the best validation scores
+   are paired; on each held-out row the cheap answer is kept when the checker says the two agree, and Ultra's
+   (measured) answer is used otherwise. The chain is used only if it matches Ultra and costs less than the verdict.
+9. **Answer-key audit.** For rows whose references Ultra wrote, Ultra with thinking on answers again; rows where
+   the two passes disagree are dropped from every split before anything is scored.
+10. **Fine-tune fallback.** When no rung matches, Good Enough can build a chat dataset from the tuning rows' reference
    answers and launch a Token Factory fine-tune job (Qwen3-4B by default; Token Factory does not fine-tune
    Nemotron). It is off unless `DOWNSHIFT_ALLOW_FINETUNE=1`, and serving the result needs Token Factory's
    custom-weights access.
@@ -222,7 +253,7 @@ The key is read from the environment or `.env`. It is never logged, saved in run
 
 ```bash
 python -m uvicorn app:app --port 8000
-# open http://localhost:8000, pick a preset, press "Downshift it"
+# open http://localhost:8000, pick a preset, press "Prove it"
 ```
 
 A finished run can be reopened at `/?run=<id>`. Runs are saved to `runs/<id>.json`; runs copied into `demo_runs/`
@@ -255,8 +286,8 @@ python -m pytest -m live    # one live smoke test, costs about US$0.02
 ## Deploy
 
 ```bash
-docker build -t downshift .
-docker run -p 8000:8000 -e NEBIUS_API_KEY=... -e NEBIUS_PROJECT_ID=... downshift
+docker build -t good-enough .
+docker run -p 8000:8000 -e NEBIUS_API_KEY=... -e NEBIUS_PROJECT_ID=... good-enough
 ```
 
 The container listens on `$PORT` (default 8000), so it runs as-is on Render, Fly or similar. Set the two secrets in the
@@ -267,14 +298,14 @@ host's settings. Useful limits for a public demo: `DOWNSHIFT_MAX_ACTIVE_RUNS` (d
 
 ```
 app.py                  FastAPI server and SSE
-downshift/models.py     rungs, pricing, Token Factory client, per-call accounting (runs/usage.jsonl)
-downshift/engine.py     the pipeline, as an async generator of events
-downshift/stats.py      bootstrap CIs and the paired comparison
-downshift/grading.py    Sandboxes grader with labelled local fallback
-downshift/sandbox_grader.py  Nebius Sandboxes harness
-downshift/finetune.py   dataset builder and fine-tune job launcher
-downshift/cli.py        run Downshift on your own logged traffic (JSONL)
-downshift/tasks.py      presets, custom tasks, prompt assembly
+goodenough/models.py     rungs, pricing, Token Factory client, per-call accounting (runs/usage.jsonl)
+goodenough/engine.py     the pipeline, as an async generator of events
+goodenough/stats.py      bootstrap CIs and the paired comparison
+goodenough/grading.py    Sandboxes grader with labelled local fallback
+goodenough/sandbox_grader.py  Nebius Sandboxes harness
+goodenough/finetune.py   dataset builder and fine-tune job launcher
+goodenough/cli.py        run Good Enough on your own logged traffic (JSONL)
+goodenough/tasks.py      presets, custom tasks, prompt assembly
 static/                 single-page UI, no build step
 presets/                three benchmark tasks: splits, checkers, cached Ultra references
 scripts/                build_presets, measure_reference, run_presets, results_tables, repeat_verdict

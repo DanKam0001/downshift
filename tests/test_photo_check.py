@@ -2,8 +2,8 @@
 import base64
 
 from conftest import FakeLLM, collect
-from downshift.engine import photo_system, run_downshift
-from downshift.models import PHOTO_RUNG, CallResult, call_cost
+from goodenough.engine import photo_system, run_good_enough
+from goodenough.models import PHOTO_RUNG, CallResult, call_cost
 
 
 class PhotoLLM(FakeLLM):
@@ -45,7 +45,7 @@ def _by_type(events, t):
 def test_photo_check_runs_after_the_verdict(task, grader, tmp_path):
     t = _with_photos(task, tmp_path)
     llm = PhotoLLM(t)
-    events = collect(run_downshift(t, llm=llm, grader=grader))
+    events = collect(run_good_enough(t, llm=llm, grader=grader))
     types = [e["type"] for e in events]
     assert types.index("verdict") < types.index("photo") < types.index("done")
     assert PHOTO_RUNG["key"] in [x["key"] for x in _by_type(events, "started")[0]["tiers"]]
@@ -60,23 +60,23 @@ def test_photo_check_runs_after_the_verdict(task, grader, tmp_path):
 
 def test_a_bad_photo_reader_is_not_a_match(task, grader, tmp_path):
     t = _with_photos(task, tmp_path)
-    events = collect(run_downshift(t, llm=PhotoLLM(t, photo_right=0.3), grader=grader))
+    events = collect(run_good_enough(t, llm=PhotoLLM(t, photo_right=0.3), grader=grader))
     p = _by_type(events, "photo")[0]
     assert not p["passed"] and not p["beats"]
 
 
 def test_no_photos_no_photo_check(task, grader, tmp_path):
-    events = collect(run_downshift(task, llm=FakeLLM(task), grader=grader))
+    events = collect(run_good_enough(task, llm=FakeLLM(task), grader=grader))
     assert not _by_type(events, "photo")
     t = _with_photos(task, tmp_path)
-    events = collect(run_downshift(t, options={"photo_check": False}, llm=PhotoLLM(t), grader=grader))
+    events = collect(run_good_enough(t, options={"photo_check": False}, llm=PhotoLLM(t), grader=grader))
     assert not _by_type(events, "photo")
 
 
 def test_missing_photos_are_skipped_not_failed(task, grader, tmp_path):
     t = _with_photos(task, tmp_path)
     next((tmp_path / "photos").iterdir()).unlink()
-    events = collect(run_downshift(t, llm=PhotoLLM(t), grader=grader))
+    events = collect(run_good_enough(t, llm=PhotoLLM(t), grader=grader))
     assert not _by_type(events, "photo") and events[-1]["ok"]
     assert any(e["type"] == "skipped" and e["tier_key"] == PHOTO_RUNG["key"] for e in events)
 

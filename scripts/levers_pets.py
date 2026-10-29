@@ -10,7 +10,7 @@ long names mapped to the dataset's label, see ALIASES) and must equal the label 
 
 The top setup is the original photo (Oxford images are ~500 px on the long side), thinking on, with the prompt
 picked on validation. Every other setup runs on the same 111 images and is compared with the paired bootstrap
-from downshift/stats.py; "within 5" means the 95% CI lower bound of (setup - top) is above -5 points.
+from goodenough/stats.py; "within 5" means the 95% CI lower bound of (setup - top) is above -5 points.
 Note: 768/1024/2048 are UPSCALED from ~500 px; they show what a larger photo costs in tokens, not extra detail.
 """
 from __future__ import annotations

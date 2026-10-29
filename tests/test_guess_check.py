@@ -2,7 +2,7 @@
 import json
 
 from conftest import FakeLLM, collect
-from downshift.engine import guess_answers, run_downshift
+from goodenough.engine import guess_answers, run_good_enough
 
 
 def _by_type(events, t):
@@ -10,7 +10,7 @@ def _by_type(events, t):
 
 
 def test_a_checker_that_measures_skill_passes(task, grader):
-    events = collect(run_downshift(task, llm=FakeLLM(task), grader=grader))
+    events = collect(run_good_enough(task, llm=FakeLLM(task), grader=grader))
     g = _by_type(events, "guess")[0]
     assert not g["tripped"] and g["best"]["score"] < g["ultra_score"]
     assert _by_type(events, "verdict")[0]["verdict"]["kind"] == "downshift"
@@ -21,7 +21,7 @@ def test_a_checker_a_guess_can_pass_trips_before_the_ladder(task, grader):
     for split in ("train", "validation", "holdout"):
         t[split] = [dict(r, reference="billing") for r in task[split]]
     llm = FakeLLM(t)
-    events = collect(run_downshift(t, llm=llm, grader=grader))
+    events = collect(run_good_enough(t, llm=llm, grader=grader))
     g = _by_type(events, "guess")[0]
     assert g["tripped"] and g["best"]["answer"] == "billing" and g["best"]["score"] == 1.0
     v = _by_type(events, "verdict")[0]["verdict"]
@@ -32,7 +32,7 @@ def test_a_checker_a_guess_can_pass_trips_before_the_ladder(task, grader):
 
 
 def test_guess_check_can_be_turned_off(task, grader):
-    events = collect(run_downshift(task, options={"guess_check": False}, llm=FakeLLM(task), grader=grader))
+    events = collect(run_good_enough(task, options={"guess_check": False}, llm=FakeLLM(task), grader=grader))
     assert not _by_type(events, "guess")
 
 

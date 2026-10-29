@@ -9,10 +9,10 @@ import pytest
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from downshift import models, stats  # noqa: E402
-from downshift.grading import GradeResult, Grader  # noqa: E402
-from downshift.models import FALLBACK_PRICING, CallResult, Meter, call_cost  # noqa: E402
-from downshift.tasks import load_task_dir  # noqa: E402
+from goodenough import models, stats  # noqa: E402
+from goodenough.grading import GradeResult, Grader  # noqa: E402
+from goodenough.models import FALLBACK_PRICING, CallResult, Meter, call_cost  # noqa: E402
+from goodenough.tasks import load_task_dir  # noqa: E402
 
 FIXTURE = ROOT / "tests" / "fixtures" / "ticket_triage"
 

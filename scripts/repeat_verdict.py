@@ -21,11 +21,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from downshift.engine import max_tokens_for, rung_max_tokens, score_calls  # noqa: E402
-from downshift.grading import Grader  # noqa: E402
-from downshift.models import LLM, Meter, rung_by_key  # noqa: E402
-from downshift.stats import bootstrap_ci, matches, paired_diff_ci  # noqa: E402
-from downshift.tasks import build_messages, load_preset  # noqa: E402
+from goodenough.engine import max_tokens_for, rung_max_tokens, score_calls  # noqa: E402
+from goodenough.grading import Grader  # noqa: E402
+from goodenough.models import LLM, Meter, rung_by_key  # noqa: E402
+from goodenough.stats import bootstrap_ci, matches, paired_diff_ci  # noqa: E402
+from goodenough.tasks import build_messages, load_preset  # noqa: E402
 
 
 async def main(run_path: Path, repeats: int, max_usd: float) -> None:

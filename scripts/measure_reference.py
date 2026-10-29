@@ -29,10 +29,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from downshift.engine import max_tokens_for, prompt_sha, rung_max_tokens, score_calls  # noqa: E402
-from downshift.grading import Grader  # noqa: E402
-from downshift.models import LLM, ULTRA_OFF, ULTRA_ON, Meter, get_pricing  # noqa: E402
-from downshift.tasks import PRESETS_DIR, build_messages, load_preset, plain_system  # noqa: E402
+from goodenough.engine import max_tokens_for, prompt_sha, rung_max_tokens, score_calls  # noqa: E402
+from goodenough.grading import Grader  # noqa: E402
+from goodenough.models import LLM, ULTRA_OFF, ULTRA_ON, Meter, get_pricing  # noqa: E402
+from goodenough.tasks import PRESETS_DIR, build_messages, load_preset, plain_system  # noqa: E402
 
 PROBE_ROWS = 10
 

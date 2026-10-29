@@ -5,9 +5,9 @@ from fastapi.testclient import TestClient
 
 import app as server
 from conftest import FakeLLM, inproc_grade
-from downshift import models
-from downshift.grading import Grader
-from downshift.tasks import load_task_dir
+from goodenough import models
+from goodenough.grading import Grader
+from goodenough.tasks import load_task_dir
 from conftest import FIXTURE
 
 

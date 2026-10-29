@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Downshift</title>
+  <title>Good Enough</title>
   <meta name="description" content="Find the cheapest NVIDIA Nemotron model on Nebius Token Factory that does your task as well as Nemotron Ultra.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2376b900'/%3E%3Cpath d='M9 10h6l8 6-8 6H9l8-6z' fill='white'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2376b900'/%3E%3Cpath d='M8.5 16.5l5 5 10-11' fill='none' stroke='white' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="/static/app.css">
   <script>
     try { const t = localStorage.getItem("ds-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
@@ -16,9 +16,9 @@
   <header class="top">
     <div class="wrap top-inner">
       <div class="brand">
-        <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><path d="M9 10h6l8 6-8 6H9l8-6z"/></svg>
+        <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8"/><path d="M8.5 16.5l5 5 10-11" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <div>
-          <h1>Downshift</h1>
+          <h1>Good Enough</h1>
           <p class="tagline">Finds the cheapest Nemotron model that does your task as well as Ultra.</p>
         </div>
       </div>
@@ -82,7 +82,7 @@
             <label class="check"><input id="opt-think-rungs" type="checkbox" checked> Try Lightning with thinking on as its own rung</label>
           </div>
         </details>
-        <button id="run-btn" class="primary" type="button" disabled>Downshift it</button>
+        <button id="run-btn" class="primary" type="button" disabled>Prove it</button>
       </div>
       <p class="error" id="start-error" role="alert" hidden></p>
       <p class="recorded">Or watch a recorded run replay at 4x speed (no model calls, free):
@@ -91,7 +91,9 @@
         <a href="/?run=45015b6df59e&amp;speed=4">Receipts → use Nano, 36x cheaper</a> ·
         <a href="/?run=2e794b56ae40&amp;speed=4">Receipt photos → Super VL beats Ultra, no OCR</a> ·
         <a href="/?run=de04430645fb&amp;speed=4">Support triage → turn thinking off</a> ·
-        <a href="/?run=7ee9b72d56be&amp;speed=4">Contract clauses → keep Ultra</a></p>
+        <a href="/?run=cf4758c38c24&amp;speed=4">Contract clauses → no single model, a chain: 2.5x</a> ·
+        <a href="/?run=87cd203cfa2a&amp;speed=4">SMS → the answer key audits itself</a> ·
+        <a href="/?run=7ee9b72d56be&amp;speed=4">Contract clauses → keep Ultra (before the chain)</a></p>
     </section>
 
     <section class="panel" id="ladder-panel" aria-labelledby="ladder-h" hidden>
@@ -139,16 +141,21 @@
         <h2 id="verdict-h"><span class="step">4</span> Verdict</h2>
         <a class="share" id="share-link" href="#">Link to this run</a>
       </div>
+      <div class="cert" id="v-cert" hidden></div>
       <p class="headline" id="v-headline"></p>
       <p class="sentence" id="v-sentence"></p>
       <div class="guess-check" id="v-guess" hidden></div>
+      <div class="guess-check" id="v-audit" hidden aria-live="polite"></div>
       <dl class="stats" id="v-stats"></dl>
       <div class="savings" id="v-savings" hidden>
         <label for="calls-month">Calls per month
           <input id="calls-month" type="text" inputmode="numeric" autocomplete="off" value="1,000,000"></label>
+        <label for="err-cost">Cost of one wrong answer (US$)
+          <input id="err-cost" type="text" inputmode="decimal" autocomplete="off" value="0"></label>
         <p class="sav-out" id="sav-out" aria-live="polite"></p>
       </div>
       <div class="squeeze" id="v-squeeze" hidden aria-live="polite"></div>
+      <div class="squeeze chain" id="v-chain" hidden aria-live="polite"></div>
       <div class="photo-check" id="v-photo" hidden aria-live="polite"></div>
       <div class="ft" id="v-finetune" hidden></div>
       <details class="prompt-box" id="v-prompt-box">

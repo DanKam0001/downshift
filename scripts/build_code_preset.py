@@ -88,7 +88,7 @@ def main() -> None:
         "business_story": ("Coding assistants, ticket-to-patch bots and spreadsheet-formula helpers turn a short "
                            "request into a small function, at high volume. There is no single right answer to "
                            "compare against, but there is a way to check one: run the code against tests. "
-                           "Downshift grades every reply by executing it in a Nebius Sandbox with networking off."),
+                           "Good Enough grades every reply by executing it in a Nebius Sandbox with networking off."),
         "instruction": INSTRUCTION,
         "output_format": "One ```python code block that defines the function named in the example test.",
         "max_answer_tokens": 1024,

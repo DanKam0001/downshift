@@ -2,11 +2,11 @@ import json
 from types import SimpleNamespace
 
 from conftest import BAD_CHECKER, GOOD_CHECKER, FakeLLM, collect, inproc_grade
-from downshift import finetune
-from downshift.engine import run_downshift
-from downshift.grading import Grader, grade_batch_local_stub
-from downshift.models import call_cost, clean_answer
-from downshift.tasks import build_messages, custom_task
+from goodenough import finetune
+from goodenough.engine import run_good_enough
+from goodenough.grading import Grader, grade_batch_local_stub
+from goodenough.models import call_cost, clean_answer
+from goodenough.tasks import build_messages, custom_task
 
 
 def _by_type(events, t):
@@ -28,7 +28,7 @@ def test_call_cost_uses_cache_price():
 
 def test_downshift_to_lightning(task, grader):
     llm = FakeLLM(task)
-    events = collect(run_downshift(task, llm=llm, grader=grader, run_id="t1"))
+    events = collect(run_good_enough(task, llm=llm, grader=grader, run_id="t1"))
     assert events[-1] == {**events[-1], "type": "done", "ok": True}
     v = _by_type(events, "verdict")[0]["verdict"]
     assert v["kind"] == "downshift"
@@ -58,7 +58,7 @@ def test_downshift_to_lightning(task, grader):
 
 def test_fewshot_rows_not_scored_on_train(task, grader):
     llm = FakeLLM(task)
-    events = collect(run_downshift(task, llm=llm, grader=grader))
+    events = collect(run_good_enough(task, llm=llm, grader=grader))
     n_train = _by_type(events, "started")[0]["n_train"]
     cand = [c for r in _by_type(events, "round") for c in r["candidates"] if c["fewshot_ids"]]
     assert cand
@@ -76,7 +76,7 @@ def test_validation_rows_never_reach_the_optimiser(task, grader):
     t = _three_splits(task)
     val_ids = [r["id"] for r in t["validation"]]
     llm = FakeLLM(t, fewshot_ids=(val_ids[0], "t7"), skill={"lightning": 0.0, "nano": 0.0, "super": 0.0, "ultra": 1.0})
-    events = collect(run_downshift(t, llm=llm, grader=grader))
+    events = collect(run_good_enough(t, llm=llm, grader=grader))
     assert llm.prompts
     for prompt in llm.prompts:
         assert not any(r["input"][:60] in prompt for r in t["validation"] + t["holdout"])
@@ -90,7 +90,7 @@ def test_winner_is_picked_on_validation_not_tuning(task, grader):
                   proposals=[{"system": "MEMORISED answers", "fewshot_ids": [], "note": "overfits"},
                              {"system": "GENERAL rules", "fewshot_ids": [], "note": "general"}])
     llm.memorised = {r["input"] for r in t["train"]}
-    events = collect(run_downshift(t, options={"rounds": 1, "thinking_rungs": False}, llm=llm, grader=grader))
+    events = collect(run_good_enough(t, options={"rounds": 1, "thinking_rungs": False}, llm=llm, grader=grader))
     rnd = _by_type(events, "round")[0]
     by_label = {c["label"]: c for c in rnd["candidates"]}
     assert by_label["r1c1"]["score"] > by_label["r1c2"]["score"]  # MEMORISED wins on tuning rows...
@@ -107,7 +107,7 @@ def test_winner_is_picked_on_validation_not_tuning(task, grader):
 def test_prompting_tops_out_gives_finetune(task, grader):
     llm = FakeLLM(task, rules_fix=(), skill={"lightning": 0.2, "nano": 0.3, "super": 0.5, "ultra": 0.6,
                                              "ultra-think": 1.0})
-    events = collect(run_downshift(task, options={"rounds": 2}, llm=llm, grader=grader))
+    events = collect(run_good_enough(task, options={"rounds": 2}, llm=llm, grader=grader))
     v = _by_type(events, "verdict")[0]["verdict"]
     assert v["kind"] == "finetune" and v["finetune_offer"]
     assert v["model"] == "nvidia/Nemotron-3-Ultra-550b-a55b"
@@ -118,7 +118,7 @@ def test_prompting_tops_out_gives_finetune(task, grader):
 
 def test_plain_prompt_good_enough_skips_rewrites(task, grader):
     llm = FakeLLM(task, skill={"lightning": 1.0, "nano": 1.0, "super": 1.0, "ultra": 1.0})
-    events = collect(run_downshift(task, llm=llm, grader=grader))
+    events = collect(run_good_enough(task, llm=llm, grader=grader))
     assert not _by_type(events, "round")
     v = _by_type(events, "verdict")[0]["verdict"]
     assert v["model"] == "nvidia/Nemotron-3_5-Lightning" and "plain prompt" in v["sentence"]
@@ -129,7 +129,7 @@ def test_plain_prompt_good_enough_skips_rewrites(task, grader):
 
 def test_spend_cap_aborts_cleanly(task, grader):
     llm = FakeLLM(task, cap=0.0005)
-    events = collect(run_downshift(task, llm=llm, grader=grader))
+    events = collect(run_good_enough(task, llm=llm, grader=grader))
     assert events[-1]["type"] == "done"
     verdicts = _by_type(events, "verdict")
     # Either the hard cap aborted the run, or the budget guard stopped tuning and still gave a verdict.
@@ -139,7 +139,7 @@ def test_spend_cap_aborts_cleanly(task, grader):
 
 def test_hard_cap_aborts_cleanly(task, grader):
     llm = FakeLLM(task, cap=0.0)
-    events = collect(run_downshift(task, llm=llm, grader=grader))
+    events = collect(run_good_enough(task, llm=llm, grader=grader))
     assert _by_type(events, "aborted")
     assert events[-1]["type"] == "done" and events[-1]["ok"] is False
 
@@ -151,7 +151,7 @@ def test_custom_task_regenerates_bad_checker(task, grader):
     ct = custom_task(spec)
     assert all(r["reference"] is None for r in ct["train"])
     llm = FakeLLM(task, checkers=[BAD_CHECKER, GOOD_CHECKER])
-    events = collect(run_downshift(ct, llm=llm, grader=grader))
+    events = collect(run_good_enough(ct, llm=llm, grader=grader))
     assert _by_type(events, "references")
     attempts = _by_type(events, "checker_attempt")
     assert [a["validation"]["ok"] for a in attempts] == [False, True]
@@ -166,7 +166,7 @@ def test_checker_falls_back_to_exact_match(task, grader):
     spec = {"instruction": "x", "examples": [{"input": r["input"], "reference": r["reference"]}
                                              for r in task["train"]]}
     llm = FakeLLM(task, checkers=[BAD_CHECKER])
-    events = collect(run_downshift(custom_task(spec), llm=llm, grader=grader))
+    events = collect(run_good_enough(custom_task(spec), llm=llm, grader=grader))
     g = _by_type(events, "grader")[0]
     assert g["source"] == "builtin_exact" and g["validation"]["ok"]
 
@@ -175,7 +175,7 @@ def test_sandbox_failure_falls_back_to_local(task):
     def broken(*a, **k):
         raise RuntimeError("sandbox down")
     g = Grader(sandbox_fn=broken, local_fn=inproc_grade)
-    events = collect(run_downshift(task, llm=FakeLLM(task), grader=g))
+    events = collect(run_good_enough(task, llm=FakeLLM(task), grader=g))
     assert any("fell back" in e.get("message", "") for e in _by_type(events, "notice"))
     assert _by_type(events, "verdict")[0]["verdict"]["graded_by"] == ["local"]
 
@@ -223,10 +223,10 @@ def test_finetune_launch_with_mock_client(task):
 
 
 def test_budget_guard_stops_tuning_but_still_gives_verdict(task, grader):
-    first = collect(run_downshift(task, llm=FakeLLM(task), grader=grader))
+    first = collect(run_good_enough(task, llm=FakeLLM(task), grader=grader))
     after_bar = next(e for e in first if e["type"] == "bar")["spend_usd"]
     llm = FakeLLM(task, cap=after_bar * 1.02)
-    events = collect(run_downshift(task, options={"spend_cap_usd": after_bar * 1.02}, llm=llm, grader=grader))
+    events = collect(run_good_enough(task, options={"spend_cap_usd": after_bar * 1.02}, llm=llm, grader=grader))
     assert not _by_type(events, "aborted")
     v = _by_type(events, "verdict")[0]["verdict"]
     assert v["budget_stop"] and v["kind"] == "finetune"
@@ -235,28 +235,28 @@ def test_budget_guard_stops_tuning_but_still_gives_verdict(task, grader):
 
 def test_ultra_off_wins_reference_when_it_scores_higher(task, grader):
     llm = FakeLLM(task, skill={"lightning": 1.0, "nano": 1.0, "super": 1.0, "ultra": 1.0, "ultra-think": 0.5})
-    events = collect(run_downshift(task, llm=llm, grader=grader))
+    events = collect(run_good_enough(task, llm=llm, grader=grader))
     assert _by_type(events, "bar")[0]["reference"] == "ultra"
 
 
 def test_ultra_thinking_off_can_be_the_downshift(task, grader):
     llm = FakeLLM(task, rules_fix=(), skill={"lightning": 0.1, "nano": 0.1, "super": 0.1, "ultra": 1.0,
                                              "ultra-think": 1.0})
-    v = _by_type(collect(run_downshift(task, options={"rounds": 0}, llm=llm, grader=grader)), "verdict")[0]["verdict"]
+    v = _by_type(collect(run_good_enough(task, options={"rounds": 0}, llm=llm, grader=grader)), "verdict")[0]["verdict"]
     assert v["kind"] == "downshift" and v["rung"] == "ultra" and v["reference"]["rung"] == "ultra-think"
     assert v["thinking_off_only"] and v["sentence"].startswith("Turn thinking off:")
     assert "THINKING = False" in v["snippet"]
 
 
 def test_default_tolerance_is_five_points():
-    from downshift.engine import DEFAULTS
-    from downshift.stats import matches
+    from goodenough.engine import DEFAULTS
+    from goodenough.stats import matches
     assert DEFAULTS["tolerance"] == 0.05 and DEFAULTS["spend_cap_usd"] == 0.25
     assert matches({"lo": -0.047}, DEFAULTS["tolerance"]) and not matches({"lo": -0.056}, DEFAULTS["tolerance"])
 
 
 def _append_many(path, tag, n):
-    from downshift.models import append_line
+    from goodenough.models import append_line
     for i in range(n):
         append_line(path, '{"tag": "%s", "i": %d, "pad": "%s"}' % (tag, i, "x" * 300))
 
@@ -275,7 +275,7 @@ def test_usage_log_appends_do_not_interleave_across_processes(tmp_path):
 
 
 def test_wording_follows_the_ci():
-    from downshift.engine import compare_sentence
+    from goodenough.engine import compare_sentence
     assert compare_sentence({"diff": 0.02, "lo": 0.005, "hi": 0.04}, 0.03).startswith("better than Ultra")
     s = compare_sentence({"diff": 0.02, "lo": -0.01, "hi": 0.05}, 0.03)
     assert s.startswith("matches Ultra within 3 points (95% CI") and "better" not in s
@@ -283,7 +283,7 @@ def test_wording_follows_the_ci():
 
 
 def test_bootstrap_is_seeded_and_paired():
-    from downshift.stats import bootstrap_ci, matches, paired_diff_ci
+    from goodenough.stats import bootstrap_ci, matches, paired_diff_ci
     a = [1.0] * 70 + [0.0] * 30
     assert bootstrap_ci(a) == bootstrap_ci(a)
     ci = bootstrap_ci(a)
@@ -302,8 +302,8 @@ def test_bootstrap_is_seeded_and_paired():
 
 
 def _fake_reference(task, scores_off, scores_on):
-    from downshift.engine import prompt_sha
-    from downshift.tasks import plain_system
+    from goodenough.engine import prompt_sha
+    from goodenough.tasks import plain_system
     ids = [str(r["id"]) for r in task["holdout"]]
 
     def mode(key, scores, cost):
@@ -321,7 +321,7 @@ def test_cached_reference_is_used_and_ultra_is_not_called_for_scoring(task, grad
     t["cached_reference"] = _fake_reference(t, {i: [1.0, 1.0, 0.0 if k == 0 else 1.0] for k, i in enumerate(ids)},
                                             {i: [1.0, 1.0, 1.0] for i in ids})
     llm = FakeLLM(t)
-    events = collect(run_downshift(t, llm=llm, grader=grader))
+    events = collect(run_good_enough(t, llm=llm, grader=grader))
     bar = _by_type(events, "bar")[0]
     assert bar["reference_source"] == "cached" and bar["repeats"] == 3 and bar["measured_on"] == "2026-10-27"
     assert bar["reference"] == "ultra-think"
@@ -339,7 +339,7 @@ def test_stale_cached_reference_falls_back_to_live(task, grader):
                           {str(r["id"]): [1.0] * 3 for r in t["holdout"]})
     ref["plain_prompt_sha"] = "different"
     t["cached_reference"] = ref
-    events = collect(run_downshift(t, llm=FakeLLM(t), grader=grader))
+    events = collect(run_good_enough(t, llm=FakeLLM(t), grader=grader))
     assert _by_type(events, "bar")[0]["reference_source"] == "live"
     assert any("different prompt" in e.get("message", "") for e in _by_type(events, "stage"))
 
@@ -349,7 +349,7 @@ def test_live_option_remeasures_even_with_a_cache(task, grader):
     t["cached_reference"] = _fake_reference(t, {str(r["id"]): [1.0] * 3 for r in t["holdout"]},
                                             {str(r["id"]): [1.0] * 3 for r in t["holdout"]})
     llm = FakeLLM(t)
-    events = collect(run_downshift(t, options={"reference": "live"}, llm=llm, grader=grader))
+    events = collect(run_good_enough(t, options={"reference": "live"}, llm=llm, grader=grader))
     assert _by_type(events, "bar")[0]["reference_source"] == "live"
     assert any("Ultra" in m and p.startswith("eval:holdout") for m, p, _t in llm.calls)
 
@@ -363,8 +363,8 @@ def test_custom_task_has_three_disjoint_splits():
 
 
 def test_presets_have_three_disjoint_splits():
-    from downshift.engine import prompt_sha
-    from downshift.tasks import list_presets, load_preset, plain_system
+    from goodenough.engine import prompt_sha
+    from goodenough.tasks import list_presets, load_preset, plain_system
     for p in list_presets():
         if p["source"] != "preset":
             continue
@@ -380,7 +380,7 @@ def test_presets_have_three_disjoint_splits():
 
 
 def test_truncated_thinking_counts_as_failure(task, grader):
-    from downshift.models import CallResult
+    from goodenough.models import CallResult
 
     class Trunc(FakeLLM):
         async def chat(self, model, messages, max_tokens=512, temperature=0.0, purpose="", thinking=False):
@@ -389,7 +389,7 @@ def test_truncated_thinking_counts_as_failure(task, grader):
                 return CallResult(model, "", r.prompt_tokens, max_tokens, r.cost_usd, r.latency_ms, truncated=True)
             return r
 
-    events = collect(run_downshift(task, options={"rounds": 0}, llm=Trunc(task), grader=grader))
+    events = collect(run_good_enough(task, options={"rounds": 0}, llm=Trunc(task), grader=grader))
     lt = [e for e in _by_type(events, "eval") if e["tier_key"] == "lightning-think"]
     if lt:
         assert lt[0]["truncated"] == lt[0]["n"] and lt[0]["score"] == 0.0

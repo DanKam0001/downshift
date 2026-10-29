@@ -56,7 +56,7 @@ code, .mono { font-family: var(--mono); font-size: 13px; }
 html, body { overflow-x: hidden; }
 .logo { width: 36px; height: 36px; flex: none; }
 .logo rect { fill: var(--accent-bright); }
-.logo path { fill: #fff; }
+.logo path { fill: none; }
 h1 { margin: 0; font-size: 22px; letter-spacing: -.01em; }
 .tagline { margin: 0; color: var(--muted); font-size: 14px; }
 .top-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
@@ -110,7 +110,7 @@ textarea.mono { font-family: var(--mono); font-size: 13px; }
 .opts-grid { display: grid; grid-template-columns: repeat(3, minmax(160px, 1fr)); gap: 12px; padding-top: 6px; }
 button.primary { background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 10px; padding: 12px 22px; font: inherit; font-weight: 700; font-size: 16px; cursor: pointer; }
 button.primary:disabled { opacity: .55; cursor: not-allowed; }
-button.ghost { background: transparent; border: 1px solid var(--line); color: var(--text); border-radius: 8px; padding: 6px 12px; font: inherit; cursor: pointer; }
+button.ghost, a.ghost { text-decoration: none; display: inline-block; background: transparent; border: 1px solid var(--line); color: var(--text); border-radius: 8px; padding: 6px 12px; font: inherit; cursor: pointer; }
 .error { color: var(--bad); margin: 10px 0 0; }
 .recorded { margin: 12px 0 0; font-size: 13.5px; color: var(--muted); }
 
@@ -223,7 +223,7 @@ details > summary { list-style-position: inside; }
 .guess-check h3 { margin: 0 0 4px; font-size: 15px; }
 .guess-check.fail h3 { color: var(--bad); }
 .guess-check p { margin: 4px 0; }
-.savings[hidden], .squeeze[hidden], .photo-check[hidden], .guess-check[hidden], .snippet[hidden], .prompt-box[hidden] { display: none; }
+.savings[hidden], .squeeze[hidden], .cert[hidden], .photo-check[hidden], .guess-check[hidden], .snippet[hidden], .prompt-box[hidden] { display: none; }
 
 .squeeze { background: var(--panel-2); border: 1px solid var(--line); border-left: 4px solid var(--good); border-radius: 10px; padding: 12px 14px; margin: 0 0 16px; }
 .squeeze.fail { border-left-color: var(--warn); }
@@ -237,3 +237,32 @@ details > summary { list-style-position: inside; }
 .squeeze li .sq-l { font-weight: 600; }
 .squeeze li .sq-c { font-variant-numeric: tabular-nums; text-align: right; }
 .squeeze li .sq-t { grid-column: 1 / -1; font-size: 12px; color: var(--muted); }
+
+/* escalation chain: share of rows the cheap pair settles vs sends to Ultra */
+.chain .split { display: flex; height: 14px; border-radius: 4px; overflow: hidden; margin: 8px 0 4px; background: var(--bar-bg); }
+.chain .split .ag { background: var(--good); }
+.chain .split .es { background: var(--warn); }
+.chain .key { font-size: 12px; color: var(--muted); }
+.audit-ex { font-size: 12.5px; margin: 6px 0 0; padding-left: 18px; }
+.audit-ex li { margin: 2px 0; }
+.audit-ex code { font-size: 12px; }
+
+/* proof certificate: the one card to share */
+.cert { border: 2px solid var(--good); border-radius: 12px; padding: 16px 18px; margin: 0 0 18px; background: var(--panel); }
+.cert.keep { border-color: var(--warn); }
+.cert.none { border-color: var(--bad); }
+.cert .c-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.cert .c-kick { font: 700 12px var(--mono); letter-spacing: .12em; color: var(--muted); text-transform: uppercase; }
+.cert .c-call { font-size: 24px; font-weight: 800; margin: 4px 0 12px; line-height: 1.2; }
+.cert.pass .c-call { color: var(--good); }
+.cert.keep .c-call { color: var(--warn); }
+.cert .c-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) minmax(0, 1fr); gap: 14px; }
+.cert .c-col { background: var(--panel-2); border-radius: 8px; padding: 10px 12px; min-width: 0; }
+.cert .c-col h4 { margin: 0 0 6px; font: 700 11.5px var(--mono); letter-spacing: .1em; color: var(--muted); text-transform: uppercase; }
+.cert .c-big { font-size: 26px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--good); }
+.cert ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; font-size: 13.5px; }
+.cert li::before { content: "✓ "; color: var(--good); font-weight: 700; }
+.cert li.x::before { content: "✗ "; color: var(--bad); }
+.cert .c-actions { margin-top: 12px; display: flex; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 760px) { .cert .c-grid { grid-template-columns: 1fr; } }
+body.cert-only main > section:not(#verdict-panel), body.cert-only #verdict-panel > :not(.cert):not(.panel-head) { display: none !important; }

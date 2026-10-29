@@ -1,6 +1,6 @@
 """Shared bits for the input-side lever measurements on Nemotron 3.5 Super VL (photos and video frames).
 
-Own thin client (not downshift.models.LLM) because these runs need the cached-token split and the raw reasoning
+Own thin client (not goodenough.models.LLM) because these runs need the cached-token split and the raw reasoning
 length per call. Costs are computed from `usage` with the published Super VL prices; spend is capped across a whole
 script run and appended to runs/levers_spend.json so separate runs share one budget.
 """
@@ -21,8 +21,8 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from downshift.models import api_key, clean_answer  # noqa: E402
-from downshift.stats import bootstrap_ci, beats, matches, paired_diff_ci  # noqa: E402
+from goodenough.models import api_key, clean_answer  # noqa: E402
+from goodenough.stats import bootstrap_ci, beats, matches, paired_diff_ci  # noqa: E402
 
 MODEL = "nvidia/Nemotron-3.5-Super-VL"
 BASE_URL = "https://api.tokenfactory.nebius.com/v1"

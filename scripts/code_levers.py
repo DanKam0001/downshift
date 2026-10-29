@@ -4,10 +4,10 @@
     python scripts/code_levers.py run ultra-think ultra-off  # model calls on the 150 held-out rows, then grading
     python scripts/code_levers.py report                     # table vs Ultra (thinking on), paired 95% CIs
 
-Self-contained client (does not touch downshift/models.py) so the lever experiments can vary the prompt and
+Self-contained client (does not touch goodenough/models.py) so the lever experiments can vary the prompt and
 max_tokens freely. Every call's usage and cost goes to demo_runs/code-mbpp/<config>.jsonl and the running total to
 demo_runs/code-mbpp/spend.json; a run refuses to start, and stops issuing calls, once the cap would be passed.
-Grading uses only the public downshift.sandbox_grader.grade_batch_with_meta (one sandbox operation per batch).
+Grading uses only the public goodenough.sandbox_grader.grade_batch_with_meta (one sandbox operation per batch).
 """
 from __future__ import annotations
 
@@ -22,9 +22,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from downshift import sandbox_grader  # noqa: E402
-from downshift.stats import matches, beats, paired_diff_ci  # noqa: E402
-from downshift.tasks import load_preset  # noqa: E402
+from goodenough import sandbox_grader  # noqa: E402
+from goodenough.stats import matches, beats, paired_diff_ci  # noqa: E402
+from goodenough.tasks import load_preset  # noqa: E402
 
 OUT = ROOT / "demo_runs" / "code-mbpp"
 SPEND = OUT / "spend.json"
@@ -160,7 +160,7 @@ async def call(client, sem, budget: Budget, mk: str, thinking: bool, system: str
                 out = strip_think(raw)
                 truncated = ch.finish_reason == "length"
                 if truncated and thinking:
-                    out = ""  # ran out of tokens while reasoning: no answer (same rule as downshift/models.py)
+                    out = ""  # ran out of tokens while reasoning: no answer (same rule as goodenough/models.py)
                 return {"ok": True, "output": out, "pt": pt, "cached": cached, "ct": ct, "cost": c,
                         "finish": ch.finish_reason, "reasoning_chars": len(reasoning) + (len(raw) - len(out)),
                         "latency_ms": round((time.perf_counter() - t0) * 1000), "attempts": attempt + 1}

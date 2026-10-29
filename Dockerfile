@@ -6,7 +6,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY downshift ./downshift
+COPY goodenough ./goodenough
 COPY presets ./presets
 COPY static ./static
 COPY demo_runs ./demo_runs

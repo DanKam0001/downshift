@@ -1,6 +1,6 @@
-"""The Downshift pipeline (PLAN.md "How it works").
+"""The Good Enough pipeline (PLAN.md "How it works").
 
-run_downshift() is an async generator of progress events (plain dicts) so the server can stream them.
+run_good_enough() is an async generator of progress events (plain dicts) so the server can stream them.
 
 Three splits, each with one job:
   tuning (train.jsonl)   the optimiser sees these: plain-prompt failures to fix, few-shot examples to pick
@@ -49,6 +49,8 @@ DEFAULTS = {
     "photo_check": True,     # tasks that ship photos: after the verdict, try Super VL reading the photo (no OCR)
     "guess_check": True,     # stop with no verdict if Ultra cannot provably beat a fixed guess on this checker
     "squeeze": True,         # after a cheaper verdict: cut prompt and answer tokens while validation holds
+    "chain": True,           # no cheap rung matched: try "two cheap rungs, Ultra only when they disagree"
+    "audit": True,           # Ultra wrote the answers: a second Ultra pass flags rows it is unsure of, dropped
     "train_limit": None,
     "validation_limit": None,
     "holdout_limit": None,
@@ -704,9 +706,112 @@ async def _squeeze(run: Run, verdict: dict, chosen: dict, ref: dict, ho_ids: lis
     yield run.ev("squeeze", **out)
 
 
+# --------------------------------------------------------------------------------------------- chain
+
+def chain_snippet(a: dict, b: dict, fallback: dict) -> str:
+    return (
+        "# Ask two cheap setups in parallel; pay for the expensive one only when they disagree.\n"
+        "# check() is this task's checker, used here to ask 'is answer A as good as answer B?'.\n"
+        "import asyncio\n\n"
+        f"CHEAP_A = {{'model': {a['model']!r}, 'thinking': {a['thinking']!r}}}  # + its tuned prompt\n"
+        f"CHEAP_B = {{'model': {b['model']!r}, 'thinking': {b['thinking']!r}}}  # + its tuned prompt\n"
+        f"FALLBACK = {{'model': {fallback['model']!r}, 'thinking': {fallback['thinking']!r}}}\n\n\n"
+        "async def run(text: str) -> str:\n"
+        "    a, b = await asyncio.gather(ask(CHEAP_A, text), ask(CHEAP_B, text))\n"
+        "    score, _ = check(a, b, text)\n"
+        "    return a if score >= 0.999 else await ask(FALLBACK, text)\n"
+    )
+
+
+def _holdout_eval(run: Run, rung_key: str, prompt_label: str) -> dict | None:
+    for e in reversed(run.evals):
+        if e["split"] == "holdout" and e["tier_key"] == rung_key and e["label"] == prompt_label:
+            return e
+    return None
+
+
+async def _chain(run: Run, verdict: dict, rungs: dict, ref_info: dict, ref_key: str, ref: dict, ho_ids: list[str]):
+    """When no cheap rung matches alone: two cheap rungs answer every row and the task's own checker asks whether
+    their answers agree; rows where they agree keep the cheap answer, the rest go to the verdict's setup (Ultra).
+    The rule is fixed in advance and every input to it is already measured on the held-out rows, so scoring it there
+    once is a fair test and costs one grading batch, no model calls."""
+    tol = verdict["tolerance"]
+    cands = [r for k, r in rungs.items() if k in {c["key"] for c in CHEAP_RUNGS} and _holdout_eval(run, k, r["prompt_label"])]
+    if len(cands) < 2:
+        return
+    # The pair is picked on validation (and price), never on held-out scores.
+    cands.sort(key=lambda r: (-(r["validation_score"] or 0), r["cost_per_1k_usd"] or 9e9))
+    a, b = cands[0], cands[1]
+    ea, eb = _holdout_eval(run, a["rung"], a["prompt_label"]), _holdout_eval(run, b["rung"], b["prompt_label"])
+    yield run.ev("stage", stage="chain", tier_key=a["rung"],
+                 message=f"Chain: {rung_by_key(a['rung'])['label']} and {rung_by_key(b['rung'])['label']} answer every "
+                         f"row; Ultra only where the two disagree")
+    rows_by_id = {r["id"]: r for r in run.task["holdout"]}
+    items = [{"id": i, "input": rows_by_id[i]["input"], "output": ea["outputs"][i], "reference": eb["outputs"][i]}
+             for i in ho_ids]
+    grades, _batch = await run.grader.grade(run.checker_code, items)
+    agree_by = {g.item_id: g.score >= 0.999 for g in grades}
+    fb_key = verdict.get("rung") if verdict.get("rung") == ULTRA_OFF["key"] else ref_key
+    fb = ref_info["modes"][fb_key]
+    fb_rows = dict(zip(ho_ids, fb["rows"]))
+    agreed = [i for i in ho_ids if agree_by.get(i)]
+    chain_rows = [ea["row_scores"][i] if agree_by.get(i) else fb_rows[i] for i in ho_ids]
+    esc = 1 - len(agreed) / max(1, len(ho_ids))
+    cost = (ea["cost_per_1k_usd"] or 0) + (eb["cost_per_1k_usd"] or 0) + esc * (fb["cost_per_1k_usd"] or 0)
+    diff = paired_diff_ci(chain_rows, ref["rows"])
+    verdict_cost = verdict.get("cost_per_1k_usd") or ref["cost_per_1k_usd"] or 0
+    passed = matches(diff, tol) and cost < verdict_cost
+    x = (ref["cost_per_1k_usd"] or 0) / cost if cost else None
+    ra, rb, rf = rung_by_key(a["rung"]), rung_by_key(b["rung"]), rung_by_key(fb_key)
+    score = sum(chain_rows) / len(chain_rows)
+    acc_agree = sum(ea["row_scores"][i] for i in agreed) / len(agreed) if agreed else None
+    out = {"rungs": [a["rung"], b["rung"]], "labels": [ra["label"], rb["label"]], "fallback": fb_key,
+           "fallback_label": rf["label"], "n": len(ho_ids), "agreed": len(agreed), "escalated": len(ho_ids) - len(agreed),
+           "escalate_rate": round(esc, 4), "score_when_agreed": round(acc_agree, 4) if acc_agree is not None else None,
+           "holdout_score": round(score, 4), "ci": bootstrap_ci(chain_rows), "diff": diff, "tolerance": tol,
+           "passed": passed, "cost_per_1k_usd": round(cost, 4), "x_cheaper": round(x, 1) if x else None,
+           "verdict_cost_per_1k_usd": verdict_cost, "reference_cost_per_1k_usd": ref["cost_per_1k_usd"],
+           "snippet": chain_snippet(ra, rb, rf)}
+    if passed:
+        out["message"] = (f"Chain: the two agreed on {len(agreed)} of {len(ho_ids)} held-out rows; with Ultra on the "
+                          f"other {out['escalated']}, it scores {_pct(score)} at ${cost:.4f} per 1k calls "
+                          f"({out['x_cheaper']}x cheaper than Ultra), {compare_sentence(diff, tol)}")
+    elif not matches(diff, tol):
+        out["message"] = (f"Chain: {_pct(score)} on held-out rows, not shown to match Ultra: when the two cheap "
+                          f"models agree they are still wrong too often, so the verdict stands")
+    else:
+        out["message"] = (f"Chain: matches Ultra, but at ${cost:.4f} per 1k calls it costs more than the verdict's "
+                          f"setup (${verdict_cost:.4f}), so the verdict stands")
+    yield run.ev("chain", **out)
+
+
+# --------------------------------------------------------------------------------------------- answer-key audit
+
+async def _audit(run: Run, plain: str, missing: list[dict]) -> dict:
+    """Ultra wrote these answers. A second Ultra pass, with thinking on, answers the same rows; rows where the
+    checker says the two passes disagree are ones the answer key is unsure of, so they are dropped rather than
+    counted against a cheaper model."""
+    calls = await run.outputs(ULTRA_ON, plain, [], missing, purpose="reference:audit")
+    items = [{"id": r["id"], "input": r["input"], "output": c.text, "reference": r["reference"]}
+             for r, c in zip(missing, calls)]
+    grades, _batch = await run.grader.grade(run.checker_code, items)
+    by_id = {g.item_id: g.score for g in grades}
+    flagged = [it for it in items if by_id.get(str(it["id"]), 0) < 0.999]
+    drop = {str(it["id"]) for it in flagged}
+    for split in ("train", "validation", "holdout"):
+        run.task[split] = [r for r in run.task[split] if str(r["id"]) not in drop]
+    return {"n": len(items), "flagged": len(flagged), "ids": sorted(drop),
+            "examples": [{"id": it["id"], "input": as_text(it["input"])[:240], "first": as_text(it["reference"])[:120],
+                          "second": as_text(it["output"])[:120]} for it in flagged[:20]],
+            # The whole answer key Ultra wrote, so it can be checked against human labels later.
+            "answers": {str(it["id"]): as_text(it["reference"])[:80] for it in items},
+            "cost_usd": round(sum(c.cost_usd for c in calls), 6),
+            "left": {s: len(run.task[s]) for s in ("train", "validation", "holdout")}}
+
+
 # --------------------------------------------------------------------------------------------- pipeline
 
-async def run_downshift(task: dict, options: dict | None = None, llm: LLM | None = None,
+async def run_good_enough(task: dict, options: dict | None = None, llm: LLM | None = None,
                         grader: Grader | None = None, run_id: str | None = None):
     started = time.time()
     opts = {**DEFAULTS, **{k: v for k, v in (options or {}).items() if v is not None}}
@@ -743,7 +848,7 @@ async def run_downshift(task: dict, options: dict | None = None, llm: LLM | None
                         for r in cheap_rungs + [ULTRA_OFF, ULTRA_ON] + ([PHOTO_RUNG] if photo else [])],
                  pricing_source=pricing["_source"])
     if len(task["holdout"]) < MIN_ROWS:
-        yield run.ev("notice", message=f"Only {len(task['holdout'])} held-out rows: Downshift needs at least {MIN_ROWS} "
+        yield run.ev("notice", message=f"Only {len(task['holdout'])} held-out rows: Good Enough needs at least {MIN_ROWS} "
                                        f"to call a match, so this run can only say keep Ultra. Add more examples "
                                        f"(held out = 40% of them).")
     try:
@@ -780,6 +885,20 @@ async def run_downshift(task: dict, options: dict | None = None, llm: LLM | None
                 v2 = await _validate_checker(run, run.checker_code)
                 yield run.ev("grader", source="builtin_exact", validation=v2,
                              message="Ultra's checker failed validation twice; using exact match instead")
+        # 2b. Answer-key audit: where Ultra wrote the answers, a second Ultra pass (thinking on) flags rows it is
+        # unsure of, and those rows are dropped instead of being counted against cheaper models.
+        if missing and opts["audit"] and run.checker_code != BUILTIN_EXACT_CHECKER and len(missing) >= MIN_ROWS:
+            yield run.ev("stage", stage="audit", message=f"Answer-key audit: Ultra answers the {len(missing)} rows again, "
+                                                         f"thinking on, to find answers it is unsure of")
+            try:
+                a = await _audit(run, plain, missing)
+                ho_ids[:] = [r["id"] for r in task["holdout"]]
+                a["message"] = (f"Answer-key audit: the two Ultra passes disagree on {a['flagged']} of {a['n']} rows, so "
+                                f"those rows are dropped; {a['left']['holdout']} held-out rows remain" if a["flagged"] else
+                                f"Answer-key audit: both Ultra passes agree on all {a['n']} rows")
+                yield run.ev("audit", **a)
+            except BudgetExceeded as e:
+                yield run.ev("skipped", tier_key=ULTRA_ON["key"], message=f"Answer-key audit stopped at the spend cap: {e}")
         if run.grader.last_error:
             yield run.ev("notice", message=f"Sandbox grading fell back to local: {run.grader.last_error}")
 
@@ -845,7 +964,7 @@ async def run_downshift(task: dict, options: dict | None = None, llm: LLM | None
                              seconds=round(time.time() - started, 1))
                 return
 
-        # 4. Downshift loop, cheapest rung first. Each rung is measured only when we reach it.
+        # 4. Good Enough loop, cheapest rung first. Each rung is measured only when we reach it.
         rungs: dict = {}
         chosen_key, carry, budget_stop = None, None, None
         meter = llm.meter
@@ -970,6 +1089,11 @@ async def run_downshift(task: dict, options: dict | None = None, llm: LLM | None
                     yield ev
             except BudgetExceeded as e:
                 yield run.ev("skipped", tier_key=chosen_key, message=f"Squeeze stopped at the spend cap: {e}")
+
+        # 5c. No cheap rung matched on its own: try two of them with Ultra as the tie-breaker.
+        if opts["chain"] and chosen_key not in {r["key"] for r in CHEAP_RUNGS} and verdict.get("kind") != "no_verdict":
+            async for ev in _chain(run, verdict, rungs, ref_info, ref_key, ref, ho_ids):
+                yield ev
 
         # 6. Photo check, for tasks whose text came from photos.
         if photo:

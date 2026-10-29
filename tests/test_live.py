@@ -5,10 +5,10 @@
 import pytest
 
 from conftest import FIXTURE, collect
-from downshift import models
-from downshift.engine import run_downshift
-from downshift.models import LLM, Meter, TIERS, api_key
-from downshift.tasks import load_task_dir
+from goodenough import models
+from goodenough.engine import run_good_enough
+from goodenough.models import LLM, Meter, TIERS, api_key
+from goodenough.tasks import load_task_dir
 
 pytestmark = pytest.mark.live
 
@@ -32,7 +32,7 @@ def test_live_pricing_and_one_call():
 
 def test_live_engine_tiny():
     task = load_task_dir(FIXTURE)
-    events = collect(run_downshift(task, options={"rounds": 1, "train_limit": 6, "holdout_limit": 6,
+    events = collect(run_good_enough(task, options={"rounds": 1, "train_limit": 6, "holdout_limit": 6,
                                                   "spend_cap_usd": 0.03}))
     assert events[-1]["type"] == "done"
     assert any(e["type"] in ("verdict", "aborted") for e in events)

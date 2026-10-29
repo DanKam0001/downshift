@@ -1,0 +1,41 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:120px;top:70px;font:800 58px Inter;letter-spacing:-1px}
+  .t small{display:block;margin-top:10px;font:600 22px 'JetBrains Mono';color:var(--acc2);letter-spacing:2px}
+  .two{position:absolute;left:120px;right:120px;top:240px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  .p{padding:26px 32px}
+  .p .k{font:600 20px 'JetBrains Mono';color:var(--mute);letter-spacing:1.5px}
+  .p .h{font:800 36px Inter;margin-top:8px}
+  .ex{position:absolute;left:120px;right:120px;top:440px;padding:26px 32px}
+  .ex .k{font:600 20px 'JetBrains Mono';color:var(--mute);letter-spacing:1.5px;margin-bottom:10px}
+  .ex table{border-collapse:collapse;width:100%;font:500 25px Inter}
+  .ex td{padding:10px 8px;border-bottom:1px solid var(--line)}
+  .ex td.m2{font-family:'JetBrains Mono';text-align:center;width:150px}
+  .stats{position:absolute;left:120px;right:120px;top:790px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  .s{padding:24px 32px}
+  .s .v{font:800 64px Inter;color:var(--good);letter-spacing:-1px}
+  .s .d{font:500 24px Inter;color:var(--mute)}
+</style></head>
+<body>
+  <div class="t" data-cue="when">The answer key audits itself<small>SMS SPAM · 100 MESSAGES, NO ANSWERS GIVEN · RUN 87cd203cfa2a</small></div>
+  <div class="two">
+    <div class="card p" data-cue="audits" data-fx="rise"><div class="k">PASS 1 · ULTRA, THINKING OFF</div><div class="h">writes the answer key</div></div>
+    <div class="card p" data-cue="second" data-fx="rise"><div class="k">PASS 2 · ULTRA, THINKING ON</div><div class="h">answers every message again</div></div>
+  </div>
+  <div class="card ex" data-cue="disagree" data-fx="rise">
+    <div class="k">WHERE THE TWO PASSES DISAGREE, THE ROW IS DROPPED (8 OF 100)</div>
+    <table>
+      <tr><td></td><td class="m2 m">pass 1</td><td class="m2 m">pass 2</td><td class="m2 m">human</td></tr>
+      <tr><td>"House-Maid is the murderer, coz the man was murdered on …"</td><td class="m2 w">spam</td><td class="m2">ham</td><td class="m2 g">ham</td></tr>
+      <tr><td>"Hey no I ad a crap nite was borin without ya …"</td><td class="m2 w">spam</td><td class="m2">ham</td><td class="m2 g">ham</td></tr>
+      <tr><td>"Customer place i will call you."</td><td class="m2">ham</td><td class="m2 w">spam</td><td class="m2 g">ham</td></tr>
+    </table>
+  </div>
+  <div class="stats">
+    <div class="card s" data-cue="6" data-fx="rise"><div class="v">6 of 8</div><div class="d">dropped rows were ones pass 1 had wrong, by the human labels</div></div>
+    <div class="card s" data-cue="6" data-fx="rise"><div class="v">90% → 95.7%</div><div class="d">answer key matching the human labels, before → after the audit</div></div>
+  </div>
+</body></html>

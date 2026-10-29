@@ -1,6 +1,6 @@
-"""Run Downshift on your own logged traffic.
+"""Run Good Enough on your own logged traffic.
 
-    python -m downshift.cli logs.jsonl --instruction "Classify the email into one of the labels." \\
+    python -m goodenough.cli logs.jsonl --instruction "Classify the email into one of the labels." \\
         --labels billing,shipping,refund --cap 0.25 --json verdict.json
 
 Each line of the JSONL file is either a plain example, {"input": ..., "reference"?: ...}, or an OpenAI-style chat log,
@@ -16,8 +16,8 @@ import json
 import sys
 from pathlib import Path
 
-from downshift.engine import DEFAULTS, run_downshift
-from downshift.tasks import as_text, custom_task
+from goodenough.engine import DEFAULTS, run_good_enough
+from goodenough.tasks import as_text, custom_task
 
 ANSWER_KEYS = ("reference", "response", "output", "completion", "answer")
 
@@ -142,7 +142,7 @@ async def run(args) -> int:
           file=sys.stderr)
     opts = dict(DEFAULTS, spend_cap_usd=args.cap, tolerance=args.tolerance / 100, reference="live")
     verdict, spent = None, 0.0
-    async for ev in run_downshift(task, options=opts):
+    async for ev in run_good_enough(task, options=opts):
         spent = ev.get("spend_usd", spent)
         msg = describe(ev)
         if msg:
@@ -160,7 +160,7 @@ async def run(args) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(prog="python -m downshift.cli", description=__doc__.split("\n")[0])
+    ap = argparse.ArgumentParser(prog="python -m goodenough.cli", description=__doc__.split("\n")[0])
     ap.add_argument("logs", help="JSONL file of examples or chat logs (8 to 200 lines)")
     ap.add_argument("--instruction", required=True, help="what the model is asked to do")
     ap.add_argument("--title", default="Logged traffic")

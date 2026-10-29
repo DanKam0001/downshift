@@ -16,7 +16,7 @@ different rewritten prompt scored 90.8%. Read it as "Nano is in Ultra's range on
 
 **Across all three tasks, turning Ultra's thinking on cost 2.4x to 6.6x more per call, and the accuracy gain was
 not distinguishable from zero on any of them.** On two of the three (support-triage and receipt-extract) Ultra with
-thinking off passes the 5-point rule against Ultra with thinking on, so "turn thinking off" is a valid downshift on
+thinking off passes the 5-point rule against Ultra with thinking on, so "turn thinking off" is a valid cheaper setup on
 its own.
 
 | Task | Held-out rows | Ultra thinking off: 3 runs (mean) | Ultra thinking on: 3 runs (mean) | On minus off, paired 95% CI | Cost per 1k calls, off → on | p50, off → on | Rows that changed between repeats, off / on |
@@ -35,7 +35,7 @@ The verdicts, with a 5-point tolerance and a US$0.25 cap per run:
 
 ## Squeeze: cutting tokens after the verdict (run `150a5ad36713`)
 
-Once a rung is chosen, Downshift tries to cut its tokens, one lever at a time, on the 40 validation receipts. A cut is
+Once a rung is chosen, Good Enough tries to cut its tokens, one lever at a time, on the 40 validation receipts. A cut is
 kept only if the validation score stays within 1 point of the current one and the cost per call falls below 0.97x.
 
 | Step | Validation | Tokens in / out | $ / 1k calls | Kept? |
@@ -62,7 +62,7 @@ setup runs on the same held-out rows and is compared with the most expensive set
   price, because an image costs at least ~300 tokens below ~450 px. Listing the 37 labels in the prompt was worth ~9
   points.
 - **Action from a video clip** (KTH human actions, 162 fresh clips, 6 actions; 8 frames at 768 px). Top setup, thinking
-  on: 80.2% at $1.70 / 1k. Thinking off lost 13 to 16 points; 4 frames instead of 8 lost 7.4. **No downshift**: telling
+  on: 80.2% at $1.70 / 1k. Thinking off lost 13 to 16 points; 4 frames instead of 8 lost 7.4. **No cheaper setup holds**: telling
   jogging from running needs the model to compare frames.
 - **Python from a one-line spec** (MBPP sanitized, CC-BY-4.0, 150 held out), graded only by running every assert in a
   sandbox. Canonical solutions score 100%, every fixed or stub answer 0%. Ultra thinking on 85.3% at $3.705 / 1k;
@@ -77,10 +77,61 @@ checker; the checker was tested before use (references 100%, wrong answers 0%) a
 guess check passed: "ham" on every row scores 55%, Ultra 100%. Nano (thinking off) matched Ultra on the 40 held-out
 rows at 16.3x cheaper, 17.4x ($0.0058 / 1k) after the squeeze. The run cost US$0.032 and took 402 s, graded in
 branches of sealed answer-key checkpoints. As a check on "Ultra wrote the answers": Ultra's labels agreed with the
-human UCI labels on 98 of 100 messages (US$0.0099).
+human UCI labels on 98 of 100 messages (US$0.0099). With the instruction worded differently, the audit run below
+measured 90 of 100: the answer key depends on the prompt, which is why it is now audited.
 
 This run also found a real bug: Ultra's checker handled ``` fences itself, and our fence-stripping regex cut its code
 short, so it failed to compile. The extractor is now greedy to the last fence, with a test.
+
+## Escalation chain: contract clauses (run `cf4758c38c24`)
+
+No single cheaper rung matched Ultra (thinking on, 82.2%, $2.301 / 1k) on the 150 held-out clauses:
+
+| Rung | Held out | Diff vs Ultra, 95% CI | $ / 1k |
+|---|---|---|---|
+| Lightning, thinking off | 77.3% | −4.9 (−11.1 to +1.1) | 0.074 |
+| Super 120B, thinking off | 71.3% | −10.9 (−17.3 to −4.4) | 0.288 |
+| Nano 30B, thinking off | 66.7% | −15.6 (−22.9 to −8.7) | 0.074 |
+
+The chain pairs the two rungs with the best validation scores (Super and Lightning). On each held-out clause the
+task's checker compares the two answers; if they agree the cheap answer is used, otherwise Ultra's. They agreed on
+114 of 150 clauses (and were right 86% of the time when they did); 36 went to Ultra. **Chain: 81.3% (95% CI 75.1 to
+87.3), −0.9 points vs Ultra (paired CI −4.0 to +2.2), $0.914 per 1k calls (both cheap models on every row + Ultra on
+24%): 2.5x cheaper.** No model calls were needed to score it: every answer was already measured. Escalated rows use
+Ultra's measured per-row scores (the 3-run mean), so they carry Ultra's average, not one fresh Ultra call. Run cost
+US$0.325, 307 s. The earlier contracts run (`7ee9b72d56be`, before the chain existed) said keep Ultra.
+
+## Bank support, run again (run `77e16757989e`)
+
+The same preset run again on 29 Oct found **Lightning with thinking on** matches: 73.3% vs Ultra 72.2%, +1.1 (CI −3.1
+to +5.6), $0.288 per 1k calls, 4.6x cheaper. The 27 Oct run (`de04430645fb`) had found no cheaper rung and
+recommended turning Ultra's thinking off (2.4x). Both are honest single runs at the edge of the 5-point rule;
+the prompt Ultra proposes differs run to run. Read support as "Lightning with thinking on is close enough some runs";
+a production decision should repeat the run.
+
+## Answer-key audit: SMS spam (run `87cd203cfa2a`)
+
+100 UCI SMS messages, no labels given. Ultra (thinking off) wrote the answer key; Ultra (thinking on) answered again;
+the 8 rows where the checker said they disagreed were dropped. Scored afterwards against the human UCI labels:
+
+| | Answer key right, by the human labels |
+|---|---|
+| Ultra's first pass, all 100 rows | 90 of 100 |
+| The 8 rows the audit dropped | 2 of 8 (6 were wrong) |
+| The 92 rows kept | **88 of 92 (95.7%)** |
+
+The audit caught 6 of the 10 wrong answers and dropped 2 right ones, for US$0.05. The cost of the audit is power:
+37 held-out rows remained, every cheaper rung scored 97.3% (one row wrong) and the CI (down to −8.1) failed the rule,
+so this run's verdict is Ultra with thinking off (5.7x cheaper). The earlier SMS run without an audit (`091a657f0889`,
+40 held-out rows, different instruction wording) passed Nano. Run cost US$0.19.
+
+## Price of a mistake
+
+The savings box takes a price per wrong answer (a wrong answer = one point of score lost; for receipts, one of eight
+fields wrong is an eighth of a mistake). It adds mistakes to the token bill on both sides and reports a break-even
+from the bad end of the paired CI. Squeezed receipts setup: per-call saving $0.0036, worst-case extra mistakes 0.5
+points per call, so it wins unless one wrong receipt costs more than **$0.78**. Its point estimate is +2.4 points,
+i.e. fewer mistakes than Ultra.
 
 ## Cost levers checked and not claimed
 
@@ -174,7 +225,7 @@ Sandboxes and compared with the same cached Ultra reference (Ultra, thinking on,
 | Verdict prompt + its 4 text few-shots | 96.0% / 96.0% / 96.0% | **96.0%** | **+4.0 (+1.2 to +7.3): better than Ultra** | 0.720 | 1.88 s |
 
 - Reading the photo directly is as good as Ultra reading perfect OCR text with the plain prompt, and **measurably
-  better** with the prompt Downshift had already tuned for Nano, at 5x to 8x cheaper than Ultra. A receipt image is
+  better** with the prompt Good Enough had already tuned for Nano, at 5x to 8x cheaper than Ultra. A receipt image is
   about 1,082 input tokens, which is why it costs more than Nano on text ($0.103).
 - Caveats: one dataset; the comparison is photo vs perfect text, not photo vs a real OCR engine (which would make the
   text side worse, not better); the few-shots are text, only the final turn is an image.
@@ -210,7 +261,7 @@ Sandboxes and compared with the same cached Ultra reference (Ultra, thinking on,
 
 ## Customer test: my own hackathon judge bot (and the guess check it forced)
 
-The presets are public datasets. To test Downshift on a real workload, I ran it on one of my own bots:
+The presets are public datasets. To test Good Enough on a real workload, I ran it on one of my own bots:
 hackathon_scout's judge, which scores every lablab.ai submission 1-5 on the event's 4 criteria to predict winners.
 It runs once per submission (100 to 1,100 per event) on Claude Sonnet today. Task: the bot's exact prompt on 105
 IBM Bob Hackathon (May 2026) submissions, demo and repo links removed; correct answer = the real judges' average
@@ -222,12 +273,12 @@ scores. The data stays private (not in this repo): only the aggregate numbers be
 | Claude Sonnet (the bot today; cached verdicts) | 74.1% | 0.33 | (Claude plan) |
 | Nemotron 3 Ultra, thinking off (3 runs) | 72.1% | 0.36 to 0.37 | 2.10 |
 | Nemotron 3 Ultra, thinking on (3 runs) | 71.7% | 0.37 to 0.38 | about 4.06 |
-| Nemotron 3 Nano, Downshift's rewritten prompt (3 runs) | 71.6% | 0.31 to 0.34 | 0.14 |
+| Nemotron 3 Nano, Good Enough's rewritten prompt (3 runs) | 71.6% | 0.31 to 0.34 | 0.14 |
 
 - **The first ladder run said "use Nano: matches Ultra, 15x cheaper"** (one run 72.3%; 3 runs 71.6%, −0.5 pts,
   95% CI −3.2 to +2.0). Statistically true, and empty: a fixed answer of 3 on every criterion beats every model on
   this checker, because the real judges' averages sit near 3. A verdict on a checker that a guess passes means nothing.
-- **So Downshift now runs a guess check before the ladder** (`engine.guess_check`, `scripts/guess_check.py`): it
+- **So Good Enough now runs a guess check before the ladder** (`engine.guess_check`, `scripts/guess_check.py`): it
   scores fixed answers taken from the tuning rows (the most common answer, and the typical value of every JSON field)
   and stops with **no verdict** unless Ultra is provably better than the best guess (paired 95% CI above zero). It
   costs no model calls. On the judge task it trips (Ultra minus the guess: −3.3 pts, CI −7.2 to +0.7) and the run
@@ -287,7 +338,7 @@ time: LoRA (r=8) on Qwen3-0.6B, 60 chat rows, 1 epoch (`ftjob-e31dcdd634894b8c92
 Serving the trained weights on Token Factory needs its custom-weights access, which is granted on request. We asked,
 then withdrew the request because the contest rules bar preferential support. So this job proves the pipeline runs end to end, but its
 quality was not measured. The practical lesson is the queue: a fine-tune is a next-day step, not part of a
-3-minute run, which is why Downshift exhausts prompting on Nemotron first and only then offers the job.
+3-minute run, which is why Good Enough exhausts prompting on Nemotron first and only then offers the job.
 
 ## Cost of this work
 

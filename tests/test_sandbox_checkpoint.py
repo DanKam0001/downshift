@@ -1,4 +1,4 @@
-"""Sealed answer-key checkpoints + branching (downshift.sandbox_grader.grade_batch_sealed_with_meta).
+"""Sealed answer-key checkpoints + branching (goodenough.sandbox_grader.grade_batch_sealed_with_meta).
 
 Offline tests replace the HTTP client with FakeSandboxes, which really runs the seal script and the sealed
 harness in a local subprocess and snapshots "images" as file dicts, so the code under test is the code that
@@ -19,8 +19,8 @@ from pathlib import Path
 
 import pytest
 
-from downshift import sandbox_grader as sg
-from downshift.grading import Grader
+from goodenough import sandbox_grader as sg
+from goodenough.grading import Grader
 
 CHECKER = '''
 def check(output, reference, input):

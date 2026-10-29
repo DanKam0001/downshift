@@ -1,8 +1,8 @@
 """A paired CI on too few rows must never be read as a match."""
 import pytest
 
-from downshift import stats
-from downshift.stats import beats, matches, paired_diff_ci
+from goodenough import stats
+from goodenough.stats import beats, matches, paired_diff_ci
 
 
 @pytest.fixture(autouse=True)

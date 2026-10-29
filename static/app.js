@@ -74,7 +74,7 @@
   function updateRunBtn() {
     const running = es !== null;
     $("#run-btn").disabled = running || (!customMode() && !selected);
-    $("#run-btn").textContent = running ? "Running…" : "Downshift it";
+    $("#run-btn").textContent = running ? "Running…" : "Prove it";
   }
 
   /* ---------- start a run ---------- */
@@ -130,7 +130,7 @@
     }
     es = new EventSource(`/api/run/${encodeURIComponent(runId)}/events${speed ? `?speed=${speed}` : ""}`);
     updateRunBtn();
-    const types = ["started", "stage", "references", "checker_attempt", "grader", "notice", "skipped", "eval", "bar", "round", "tier_done", "verdict", "photo", "guess", "squeeze", "aborted", "error", "done"];
+    const types = ["started", "stage", "references", "checker_attempt", "grader", "notice", "skipped", "eval", "bar", "round", "tier_done", "verdict", "photo", "guess", "squeeze", "chain", "audit", "aborted", "error", "done"];
     types.forEach((t) => es.addEventListener(t, (m) => handle(JSON.parse(m.data))));
     es.addEventListener("end", () => { es.close(); es = null; updateRunBtn(); });
     es.onerror = () => { if (es && es.readyState === EventSource.CLOSED) { es = null; updateRunBtn(); } };
@@ -175,6 +175,7 @@
       case "skipped": row(e.tier_key).status = "capped"; log(e.message); break;
       case "eval": {
         noteGrader(e.grader);
+        if (e.grade_batch && e.grade_batch.branched && e.grade_batch.checkpoint) S.checkpoint = e.grade_batch.checkpoint;
         const r = row(e.tier_key);
         if (e.split === "train" && e.label === "plain") { r.plain = e; if (!e.tier_key.startsWith("ultra")) r.status = "tuning"; }
         if (e.split === "holdout") { r.holdout = e; }
@@ -217,9 +218,17 @@
         break;
       case "squeeze":
         if (S.verdict) row(e.tier_key).status = S.verdict.kind === "downshift" ? "passed" : "measured";
-        S.squeeze = e; renderSqueeze();
+        S.squeeze = e; renderSqueeze(); renderSavings(); renderCert();
         if (S.barText) $("#bar-line").textContent = S.barText;
         log(e.message);
+        break;
+      case "chain":
+        S.chain = e; renderChain(); renderSavings(); renderCert();
+        if (S.barText) $("#bar-line").textContent = S.barText;
+        log(e.message);
+        break;
+      case "audit":
+        S.audit = e; renderAudit(); log(e.message);
         break;
       case "photo":
         row(e.tier_key).done = e;
@@ -363,7 +372,7 @@
       stat("p50 latency", ms(v.p50_latency_ms), `Ultra ${ms(v.ultra_p50_latency_ms)}`) +
       stat("Thinking", v.thinking ? "On" : "Off", "set by enable_thinking in the snippet") +
       stat("This run cost", usd(v.run_spend_usd), `${v.run_seconds != null ? Math.round(v.run_seconds) + " s · " : ""}graded by ${v.graded_by.map((g) => (g === "sandbox" ? "Nebius Sandboxes" : "local subprocess")).join(" + ")}`);
-    renderSavings(); renderSqueeze(); renderPhoto(); renderGuess();
+    renderSavings(); renderSqueeze(); renderChain(); renderPhoto(); renderGuess(); renderAudit(); renderCert();
     $("#v-prompt").textContent = v.system_prompt + (v.fewshots.length ? `\n\n+ ${v.fewshots.length} example pair(s): ${v.fewshots.map((f) => f.id).join(", ")}` : "");
     $("#v-snippet").textContent = v.snippet;
     $("#share-link").href = `/?run=${S.runId}`;
@@ -377,7 +386,7 @@
       const b = $("#ft-btn");
       if (b) b.addEventListener("click", startFinetune);
     } else ft.hidden = true;
-    p.focus({ preventScroll: true });
+    if (!document.body.classList.contains("cert-only")) p.focus({ preventScroll: true });
   }
 
   /* ---------- guess check: does the checker reward skill, or would a fixed answer do as well? ---------- */
@@ -429,26 +438,123 @@
       <p class="sav-note">One pass in this run. The text side is the dataset's annotated OCR, i.e. perfect OCR; a real OCR engine would only make the text side worse.</p>`;
   }
 
+  // "Nemotron 3.5 Lightning (thinking off)" -> "Lightning"; "Nemotron 3 Super 120B" -> "Super 120B"
+  const shortName = (n) => String(n).replace(/^Nemotron\s*[\d.]+\s*/, "").replace(/\s*\(thinking (on|off)\)/, (m, x) => (x === "on" ? " (thinking on)" : ""));
+
+  /* ---------- the cheapest setup this run proved, whichever stage found it ---------- */
+  function best() {
+    const v = S && S.verdict;
+    if (!v || v.kind === "no_verdict") return null;
+    const short = shortName(v.tier_name) + (v.thinking ? ", thinking on" : ", thinking off");
+    const q = S.squeeze, c = S.chain;
+    if (q && q.applied) return { name: `${short}, squeezed`, score: q.holdout_score, ci: q.ci, diff: q.diff, cost: q.cost_per_1k_usd, x: q.x_cheaper, n: q.ci.n, cheaper: true };
+    if (c && c.passed) return { name: `${shortName(c.labels[0])} + ${shortName(c.labels[1])}, Ultra breaks ties`, score: c.holdout_score, ci: c.ci, diff: c.diff, cost: c.cost_per_1k_usd, x: c.x_cheaper, n: c.n, cheaper: true };
+    if (v.kind === "downshift") return { name: v.thinking_off_only ? "Ultra, thinking off" : short, score: v.holdout_score, ci: v.holdout_ci, diff: v.diff_vs_reference, cost: v.cost_per_1k_usd, x: v.savings_multiple, n: v.holdout_n, cheaper: true };
+    return { name: `Ultra, thinking ${v.reference.thinking ? "on" : "off"}`, score: v.reference.mean, cost: v.ultra_cost_per_1k_usd, n: v.holdout_n, cheaper: false };
+  }
+
+  /* ---------- escalation chain: two cheap models answer, Ultra only settles their disagreements ---------- */
+  function renderChain() {
+    const e = S && S.chain, box = $("#v-chain");
+    box.hidden = !e || !S.verdict;
+    if (box.hidden) return;
+    const ag = (100 * e.agreed) / e.n;
+    box.className = "squeeze chain " + (e.passed ? "pass" : "fail");
+    box.innerHTML = `<h3>Escalation chain: no cheap model matched alone, so try two, with Ultra as the tie-breaker</h3>
+      <p class="sq-call">${e.passed ? `${usd(e.cost_per_1k_usd, 4)} per 1k calls: ${e.x_cheaper}x cheaper than Ultra, and it matches` : "Not shown to match, or not cheaper: the verdict stands"}</p>
+      <p>${esc(e.labels[0])} and ${esc(e.labels[1])} answer every row. Where this task's own checker says their two answers agree, the cheap answer is used; otherwise ${esc(e.fallback_label)} answers.</p>
+      <div class="split" role="img" aria-label="${e.agreed} of ${e.n} rows settled by the cheap pair"><span class="ag" style="width:${ag}%"></span><span class="es" style="width:${100 - ag}%"></span></div>
+      <p class="key">${e.agreed} of ${e.n} held-out rows settled by the cheap pair${e.score_when_agreed != null ? ` (right ${pct(e.score_when_agreed)} of the time when they agreed)` : ""} · ${e.escalated} sent to ${esc(e.fallback_label)}</p>
+      <p>The chain on the ${e.n} held-out rows: <strong>${pct(e.holdout_score)}</strong> (95% CI ${ciTxt(e.ci)}), ${pts(e.diff.diff)} pts vs Ultra (CI ${pts(e.diff.lo)} to ${pts(e.diff.hi)}). Cost per 1k calls: both cheap models on every row, plus ${esc(e.fallback_label)} on ${pct(e.escalate_rate)} of rows, = ${usd(e.cost_per_1k_usd, 4)}, against ${usd(e.verdict_cost_per_1k_usd, 4)} for the verdict's setup.</p>
+      <p class="sav-note">The rule (agree: cheap answer; disagree: Ultra) is fixed before it is scored, and the pair is chosen on validation rows. Every answer it uses was already measured on the held-out rows, so this check costs no model calls, only one grading batch. Run the two cheap models in parallel to keep latency down.</p>`;
+    if (e.passed && e.snippet) $("#v-snippet").textContent = e.snippet;
+  }
+
+  /* ---------- answer-key audit: where Ultra wrote the answers, drop rows it isn't sure of ---------- */
+  function renderAudit() {
+    const a = S && S.audit, box = $("#v-audit");
+    box.hidden = !a;
+    if (!a) return;
+    box.className = "guess-check pass";
+    box.innerHTML = `<h3>Answer-key audit: ${a.flagged ? `${a.flagged} of ${a.n} answers were unsure, and dropped` : `Ultra agreed with itself on all ${a.n} answers`}</h3>
+      <p>No answers were given, so Ultra wrote them. A second Ultra pass, with thinking on, answered every row again. Where the checker says the two passes disagree, the row has no trustworthy answer, so it is dropped instead of being counted against a cheaper model. ${a.left.holdout} held-out rows remain. Cost ${usd(a.cost_usd, 4)}.</p>
+      ${a.examples && a.examples.length ? `<ul class="audit-ex">${a.examples.slice(0, 5).map((x) => `<li>${esc(x.input.slice(0, 110))}${x.input.length > 110 ? "…" : ""} · first <code>${esc(x.first)}</code>, second <code>${esc(x.second)}</code></li>`).join("")}</ul>` : ""}`;
+  }
+
+  /* ---------- proof certificate: the setup, the evidence and the saving on one card ---------- */
+  function renderCert() {
+    const v = S && S.verdict, box = $("#v-cert");
+    box.hidden = !v;
+    if (!v) return;
+    if (v.kind === "no_verdict") {
+      box.className = "cert none";
+      box.innerHTML = `<div class="c-kick">Proof certificate</div><p class="c-call">No certificate: a fixed guess scores like Ultra, so this checker can't tell skill from luck</p>`;
+      return;
+    }
+    const b = best(), tol = Math.round(v.tolerance * 100), g = S.guess, proof = [];
+    proof.push(["ok", `Scored once on <b>${b.n}</b> locked-away examples, never used for tuning or choosing a prompt`]);
+    if (b.cheaper && b.diff) proof.push(["ok", `As good as Ultra: ${pts(b.diff.diff)} pts, 95% CI ${pts(b.diff.lo)} to ${pts(b.diff.hi)}, inside the −${tol}-point rule`]);
+    if (!b.cheaper) proof.push(["x", `No cheaper setup stayed inside the −${tol}-point rule${S.chain ? ", alone or as a chain" : ""}`]);
+    if (g && g.best && !g.tripped) proof.push(["ok", `The check measures skill: a fixed guess scores ${pct(g.best.score)}, Ultra ${pct(g.ultra_score)}`]);
+    if (S.refInfo && S.refInfo.repeats > 1) proof.push(["ok", `Ultra measured ${S.refInfo.repeats} times (${(S.refInfo.repeat_scores || []).map(pct).join(", ")}), so its own wobble is in the reference`]);
+    if (S.checkpoint) proof.push(["ok", `Answer key sealed in Nebius Sandboxes (checkpoint ${esc(S.checkpoint.slice(0, 8))}); every model graded in its own branch, networking off`]);
+    if (S.audit) proof.push(["ok", `Answer key audited: ${S.audit.flagged ? `${S.audit.flagged} unsure answers dropped` : "Ultra agreed with itself on every answer"}`]);
+    const n = callsPerMonth() || 1e6;
+    const yr = b.cheaper ? ((v.ultra_cost_per_1k_usd - b.cost) * n * 12) / 1000 : 0;
+    const title = ($("#task-story").textContent || "").split(". ")[0];
+    box.className = "cert " + (b.cheaper ? "pass" : "keep");
+    box.innerHTML = `<div class="c-top"><span class="c-kick">Proof certificate · ${esc(title)}</span><span class="c-kick">run ${esc(S.runId || "")}</span></div>
+      <p class="c-call">${b.cheaper ? `${esc(b.name)} is good enough: ${b.x}x cheaper than Ultra` : `Keep ${esc(b.name)}: nothing cheaper is provably good enough`}</p>
+      <div class="c-grid">
+        <div class="c-col"><h4>The setup</h4><div><b>${esc(b.name)}</b></div><div class="muted">${pct(b.score)} on the locked-away examples${b.ci ? ` (95% CI ${ciTxt(b.ci)})` : ""}</div><div class="muted">${usd(b.cost, 4)} per 1k calls</div></div>
+        <div class="c-col"><h4>The proof</h4><ul>${proof.map(([k, x]) => `<li${k === "x" ? ' class="x"' : ""}>${x}</li>`).join("")}</ul></div>
+        <div class="c-col"><h4>The saving</h4>${b.cheaper ? `<div class="c-big">${money(yr)}</div><div class="muted">a year at ${n.toLocaleString("en-US")} calls a month (${usd(v.ultra_cost_per_1k_usd, 3)} → ${usd(b.cost, 4)} per 1k)</div>` : `<div class="muted">None: Ultra stays. A tool that only ever says "use the cheap one" would be a coin, not a test.</div>`}</div>
+      </div>
+      <div class="c-actions"><button type="button" class="ghost" id="cert-link">Copy certificate link</button><a class="ghost" href="#v-snippet-box">Code to paste ↓</a></div>`;
+    $("#cert-link").addEventListener("click", async () => {
+      const url = `${location.origin}/?run=${S.runId}&cert=1`, btn = $("#cert-link");
+      try { await navigator.clipboard.writeText(url); btn.textContent = "Copied"; } catch (e) { btn.textContent = url; }
+      setTimeout(() => (btn.textContent = "Copy certificate link"), 2000);
+    });
+  }
+
   /* ---------- monthly savings, from the verdict's measured cost per 1k calls ---------- */
   const money = (x) => "US$" + Math.round(x).toLocaleString("en-US");
   function callsPerMonth() {
     const n = Number(String($("#calls-month").value).replace(/[^\d.]/g, ""));
     return Number.isFinite(n) && n > 0 ? n : null;
   }
+  function errCost() {
+    const n = Number(String($("#err-cost").value).replace(/[^\d.]/g, ""));
+    return Number.isFinite(n) && n >= 0 ? n : 0;
+  }
   function renderSavings() {
-    const v = S && S.verdict, box = $("#v-savings");
-    const ok = v && v.kind === "downshift" && v.cost_per_1k_usd != null && v.ultra_cost_per_1k_usd != null;
+    const v = S && S.verdict, b = best(), box = $("#v-savings");
+    const ok = b && b.cheaper && v.ultra_cost_per_1k_usd != null;
     box.hidden = !ok;
     if (!ok) return;
     const n = callsPerMonth(), out = $("#sav-out");
     if (!n) { out.textContent = "Enter a number of calls."; return; }
-    const now = (v.ultra_cost_per_1k_usd * n) / 1000, next = (v.cost_per_1k_usd * n) / 1000;
-    const who = v.thinking_off_only ? "Ultra with thinking off" : v.tier_name;
-    out.innerHTML = `Ultra (thinking ${v.reference.thinking ? "on" : "off"}): <strong>${money(now)}</strong> a month →
-      ${esc(who)}: <strong>${money(next)}</strong> a month.
-      <span class="sav-big">You save ${money(now - next)} a month, ${money((now - next) * 12)} a year.</span>
-      <span class="sav-note">From this run's measured cost per call; your token mix may differ.</span>`;
+    const e = errCost();
+    const now = (v.ultra_cost_per_1k_usd * n) / 1000, next = (b.cost * n) / 1000;
+    // A wrong answer = one point of score lost (a receipt with 1 of 8 fields wrong counts as 1/8 of a mistake).
+    const errNow = n * (1 - v.reference.mean) * e, errNext = n * (1 - b.score) * e;
+    const worst = b.diff ? Math.max(0, -b.diff.lo) : 0;   // extra mistakes per call at the bad end of the 95% CI
+    const breakEven = worst > 0 ? (v.ultra_cost_per_1k_usd - b.cost) / 1000 / worst : null;
+    let html = `Ultra (thinking ${v.reference.thinking ? "on" : "off"}): <strong>${money(now)}</strong> a month →
+      ${esc(b.name)}: <strong>${money(next)}</strong> a month.
+      <span class="sav-big">You save ${money(now - next)} a month, ${money((now - next) * 12)} a year, in tokens.</span>`;
+    if (e > 0) {
+      const tNow = now + errNow, tNext = next + errNext, win = tNext <= tNow;
+      html += `<span class="sav-big" style="color:var(${win ? "--good" : "--bad"})">Counting mistakes at ${usd(e, 2)} each: ${money(tNow)} → ${money(tNext)} a month, ${win ? "still saves " + money(tNow - tNext) : "costs " + money(tNext - tNow) + " more"}.</span>`;
+    }
+    html += `<span class="sav-note">${breakEven == null
+      ? "Even at the bad end of the 95% CI it makes no more mistakes than Ultra, so it wins at any price per mistake."
+      : `Even at the bad end of the 95% CI (${pts(b.diff.lo)} pts) it costs less than Ultra unless one wrong answer costs you more than <strong>${usd(breakEven, 2)}</strong>.`}
+      A wrong answer counts as one point of score lost. From this run's measured cost per call; your token mix may differ.</span>`;
+    out.innerHTML = html;
   }
+  $("#err-cost").addEventListener("input", () => { renderSavings(); });
   try { const saved = localStorage.getItem("ds-calls-month"); if (saved) $("#calls-month").value = saved; } catch (e) {}
   $("#calls-month").addEventListener("input", () => {
     try { localStorage.setItem("ds-calls-month", $("#calls-month").value); } catch (e) {}
@@ -493,7 +599,8 @@
       if (!selected && presets.length) selected = presets[0].slug;
     } catch (e) { presets = []; }
     renderPresets(); updateRunBtn();
-    const runId = new URLSearchParams(location.search).get("run");
+    const q = new URLSearchParams(location.search), runId = q.get("run");
+    if (q.get("cert") === "1") document.body.classList.add("cert-only");
     if (runId) openRun(runId);
   }
   window.addEventListener("popstate", () => { const id = new URLSearchParams(location.search).get("run"); if (id) openRun(id); });

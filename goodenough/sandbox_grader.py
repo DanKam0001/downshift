@@ -746,5 +746,5 @@ def sandbox_info() -> dict:
     return info
 
 
-if __name__ == "__main__":  # quick manual check: python -m downshift.sandbox_grader
+if __name__ == "__main__":  # quick manual check: python -m goodenough.sandbox_grader
     print(json.dumps(sandbox_info(), indent=1))

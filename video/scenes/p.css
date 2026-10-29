@@ -8,7 +8,7 @@ body{margin:0;width:1920px;height:1080px;overflow:hidden;position:relative;backg
 .chip{display:inline-block;font:700 18px 'JetBrains Mono',monospace;letter-spacing:1px;padding:6px 14px;border-radius:999px;border:1px solid var(--line);color:var(--mute)}
 .chip.ok{border-color:var(--good);color:var(--good)}.chip.warn{border-color:var(--warn);color:var(--warn)}.chip.acc{background:var(--acc);border-color:var(--acc);color:#0d1200}
 .logo{display:inline-block;width:1em;height:1em;vertical-align:-.12em}
-.logo rect{fill:var(--acc)}.logo path{fill:#fff}
+.logo rect{fill:var(--acc)}.logo path{fill:none}
 .foot{position:absolute;left:120px;right:120px;bottom:40px;display:flex;justify-content:space-between;font:500 18px 'JetBrains Mono',monospace;color:#6b737b;letter-spacing:1px}
 .g{color:var(--good)}.w{color:var(--warn)}.a{color:var(--acc2)}.m{color:var(--mute)}
 span[data-cue]{display:inline-block}

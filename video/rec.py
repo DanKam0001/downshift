@@ -1,4 +1,4 @@
-"""Record the Downshift site, each action on a narration word."""
+"""Record the Good Enough site, each action on a narration word."""
 import json, re, shutil, subprocess, sys, time
 from pathlib import Path
 from playwright.sync_api import sync_playwright
@@ -17,7 +17,7 @@ GLOW = """(() => { const st = document.createElement('style'); document.head.app
  window.glow = sel => { vg.textContent += rule(sel); };   // stylesheet rules survive the app re-rendering its HTML
  window.unglow = () => { vg.textContent = ''; };
  window.go = (sel, block = 'start') => document.querySelector(sel).scrollIntoView({behavior: 'smooth', block});
- window.big = () => { st.textContent += '.wrap{max-width:960px !important}'; document.body.style.zoom = 1.42; };
+ window.big = () => { st.textContent += '.wrap{max-width:860px !important}'; document.body.style.zoom = 1.6; };
  document.body.style.zoom = 1.22; })()"""
 RUN = "150a5ad36713"   # receipts, with the squeeze and photo check (demo_runs/)
 OWN = "091a657f0889"   # the custom SMS spam task: 100 rows, no answers
@@ -38,7 +38,7 @@ SCENES = {
         ("lightning", "cap(''); glow('#costs .cost:nth-child(1)')"),
         ("nano", "unglow(); glow('#costs .cost:nth-child(2)')"),
     ]),
-    "09-squeeze": (GLOW + f";(() => {{ history.replaceState(null, '', '/?run={RUN}'); dispatchEvent(new PopStateEvent('popstate')); setTimeout(() => go('#v-squeeze'), 500); }})()", [
+    "09-squeeze": (GLOW + f";big(); (() => {{ history.replaceState(null, '', '/?run={RUN}'); dispatchEvent(new PopStateEvent('popstate')); setTimeout(() => go('#v-squeeze'), 500); }})()", [
         ("squeezes", "go('#v-squeeze'); glow('#v-squeeze h3')"),
         ("cuts", f"unglow(); glow('{SQ}(2)'); cap('Nano as the verdict picked it: <b>4</b> worked examples, <b>1,261</b> tokens in')"),
         ("2", f"unglow(); glow('{SQ}(4)'); cap('<b>2</b> worked examples: 93.5% on validation, <b>920</b> tokens in. <b>Kept</b>')"),
@@ -56,6 +56,13 @@ SCENES = {
         ("nano", "cap(''); go('#verdict-panel'); glow('#v-headline')"),
         ("17", "unglow(); go('#v-squeeze', 'center'); glow('#v-squeeze .sq-call')"),
         ("whole", "unglow(); cap('the whole run, every model and the answer key: <b>US$0.032</b>')"),
+    ]),
+    "15b-cert": (GLOW + f";big(); document.body.classList.add('cert-only'); history.pushState(null, '', '/?run={RUN}&cert=1'); dispatchEvent(new PopStateEvent('popstate')); scrollTo(0, 0)", [
+        ("certificate", "glow('#v-cert .c-call')"),
+        ("setup", "unglow(); glow('#v-cert .c-col:nth-child(1)')"),
+        ("evidence", "unglow(); glow('#v-cert .c-col:nth-child(2)')"),
+        ("saving", "unglow(); glow('#v-cert .c-col:nth-child(3)')"),
+        ("link", "unglow(); glow('#cert-link')"),
     ]),
 }
 norm = lambda w: re.sub(r"[^a-z0-9%$]", "", w.lower())

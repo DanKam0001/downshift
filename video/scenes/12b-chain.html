@@ -1,0 +1,47 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:120px;top:70px;font:800 58px Inter;letter-spacing:-1px}
+  .t small{display:block;margin-top:10px;font:600 22px 'JetBrains Mono';color:var(--acc2);letter-spacing:2px}
+  .flow{position:absolute;left:120px;top:240px;width:1000px;height:600px;padding:30px}
+  svg.f{position:absolute;left:0;top:0;width:1000px;height:600px}
+  svg.f text{font:700 26px Inter;fill:var(--ink)}
+  svg.f .sm{font:500 20px 'JetBrains Mono';fill:var(--mute)}
+  svg.f .g{fill:var(--good)} svg.f .w{fill:var(--warn)}
+  .res{position:absolute;left:1160px;right:120px;top:240px;padding:32px 36px;display:grid;gap:18px;border:2px solid var(--good)}
+  .res .k{font:600 20px 'JetBrains Mono';color:var(--mute);letter-spacing:1.5px}
+  .res .big{font:800 76px Inter;white-space:nowrap;color:var(--good);letter-spacing:-2px;line-height:1}
+  .res .row{display:flex;justify-content:space-between;font:500 26px Inter;border-bottom:1px solid var(--line);padding:8px 0}
+  .res .row b{font-family:'JetBrains Mono'}
+  .note{position:absolute;left:120px;right:120px;top:900px;font:500 24px 'JetBrains Mono';color:var(--mute);text-align:center}
+</style></head>
+<body>
+  <div class="t" data-cue="deeper">No single model? Ask two<small>THE ESCALATION CHAIN · CONTRACT CLAUSES · RUN cf4758c38c24</small></div>
+  <div class="card flow" data-cue="2" data-fx="rise">
+    <svg class="f" viewBox="0 0 1000 600">
+      <rect x="30" y="250" width="170" height="90" rx="14" fill="#1e2226" stroke="#2b3035" stroke-width="2"/><text x="62" y="305">a clause</text>
+      <path d="M200 295 C 250 295, 250 160, 300 160" stroke="#8fd11a" stroke-width="3" fill="none"/>
+      <path d="M200 295 C 250 295, 250 430, 300 430" stroke="#8fd11a" stroke-width="3" fill="none"/>
+      <rect x="300" y="115" width="220" height="90" rx="14" fill="#1e2226" stroke="#8fd11a" stroke-width="2"/><text x="330" y="158">Super 120B</text><text class="sm" x="330" y="188">$0.29 / 1k</text>
+      <rect x="300" y="385" width="220" height="90" rx="14" fill="#1e2226" stroke="#8fd11a" stroke-width="2"/><text x="330" y="428">Lightning</text><text class="sm" x="330" y="458">$0.07 / 1k</text>
+      <path d="M520 160 C 570 160, 570 295, 610 295" stroke="#8fd11a" stroke-width="3" fill="none"/>
+      <path d="M520 430 C 570 430, 570 295, 610 295" stroke="#8fd11a" stroke-width="3" fill="none"/>
+      <g data-cue="agree" data-fx="fade"><polygon points="690,225 770,295 690,365 610,295" fill="#1e2226" stroke="#e9ecef" stroke-width="2"/><text x="650" y="304">agree?</text></g>
+      <g data-cue="agree" data-fx="fade"><path d="M770 295 C 800 295, 800 140, 820 140" stroke="#6cc56f" stroke-width="4" fill="none"/>
+        <text class="g" x="760" y="110">yes · 114 of 150</text><text x="828" y="148" style="font-size:22px">cheap answer</text></g>
+      <g data-cue="not" data-fx="fade"><path d="M770 295 C 800 295, 800 450, 820 450" stroke="#e3a63a" stroke-width="4" fill="none"/>
+        <text class="w" x="760" y="510">no · 36 of 150</text><text x="828" y="458" style="font-size:22px">Ultra</text></g>
+    </svg>
+  </div>
+  <div class="card res" data-cue="matches" data-fx="rise">
+    <div class="k">THE CHAIN ON 150 LOCKED-AWAY CLAUSES</div>
+    <div class="row"><span>Chain</span><b>81.3%</b></div>
+    <div class="row"><span>Ultra</span><b>82.2%</b></div>
+    <div class="row"><span>Difference, 95% CI</span><b>−4.0 to +2.2</b></div>
+    <div class="row"><span>Cost per 1k calls</span><b>$0.91 vs $2.30</b></div>
+    <div class="big" data-cue="25" data-fx="pop">2.5x cheaper</div>
+  </div>
+  <div class="note" data-cue="proven" data-fx="fade">pair chosen on validation · rule fixed before scoring · every answer already measured: 0 extra model calls</div>
+</body></html>

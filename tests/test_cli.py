@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from downshift.cli import load_examples, monthly, parse_record, verdict_text
+from goodenough.cli import load_examples, monthly, parse_record, verdict_text
 
 ROOT = Path(__file__).resolve().parent.parent
 

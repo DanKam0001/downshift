@@ -31,11 +31,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from downshift.engine import max_tokens_for, score_calls  # noqa: E402
-from downshift.grading import Grader  # noqa: E402
-from downshift.models import LLM, Meter  # noqa: E402
-from downshift.stats import bootstrap_ci, matches, paired_diff_ci  # noqa: E402
-from downshift.tasks import as_text, load_preset, plain_system  # noqa: E402
+from goodenough.engine import max_tokens_for, score_calls  # noqa: E402
+from goodenough.grading import Grader  # noqa: E402
+from goodenough.models import LLM, Meter  # noqa: E402
+from goodenough.stats import bootstrap_ci, matches, paired_diff_ci  # noqa: E402
+from goodenough.tasks import as_text, load_preset, plain_system  # noqa: E402
 
 MODEL = "nvidia/Nemotron-3.5-Super-VL"
 IMAGES = ROOT / "presets" / "_cache" / "cord-v2" / "images"

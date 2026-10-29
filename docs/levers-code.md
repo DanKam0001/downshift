@@ -12,7 +12,7 @@ off)** against all the asserts. It scores 1 only if every assert passes.
   `sanitized`). There are 150 held-out rows from the test id range, plus 30 validation and 30 tuning rows from the
   validation and train ranges.
 - **Preset:** `presets/code-mbpp/` (task.json, checker.py, train/validation/holdout.jsonl). It is built by
-  `scripts/build_code_preset.py` and loads with `downshift.tasks.load_preset("code-mbpp")`.
+  `scripts/build_code_preset.py` and loads with `goodenough.tasks.load_preset("code-mbpp")`.
 - **Measurement:** `scripts/code_levers.py` (calibrate / run / report). Per-row outputs, tokens, cost, score,
   checker reason and sandbox op id for every config are saved in `demo_runs/code-mbpp/`.
 - **Settings:** temperature 0, concurrency 8. With thinking on, max_tokens is 1024 + 4096, the engine's budget. A

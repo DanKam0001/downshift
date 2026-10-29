@@ -1,6 +1,6 @@
 """Grader front door.
 
-Model-written checker code runs in Nebius Sandboxes via downshift.sandbox_grader (built separately).
+Model-written checker code runs in Nebius Sandboxes via goodenough.sandbox_grader (built separately).
 If that module is missing or the sandbox call fails, we fall back to a local subprocess and say so
 in the events, so the UI never claims Sandboxes when it did not use them.
 """
@@ -69,7 +69,7 @@ def _sandbox_module():
     if os.environ.get("DOWNSHIFT_FORCE_LOCAL_GRADER") == "1":
         return None
     try:
-        from downshift import sandbox_grader  # type: ignore
+        from goodenough import sandbox_grader  # type: ignore
         return sandbox_grader
     except Exception:  # noqa: BLE001
         return None

@@ -1,7 +1,7 @@
 [
 [
 "01-why",
-"Every AI call is a bill for three choices: which model, how hard it thinks, and how many words go in and out. Downshift makes all three as cheap as they can be, without losing quality, using NVIDIA Nemmo-tron models on Nebius Token Factory."
+"Every AI call is a bill for three choices: which model, how hard it thinks, and how many words go in and out. Good Enough makes all three as cheap as they can be, without losing quality, using NVIDIA Nemmo-tron models on Neb-ee-us Token Factory."
 ],
 [
 "02-problem",
@@ -9,7 +9,7 @@
 ],
 [
 "03-check",
-"The way out: checking an answer is much easier than writing one. Think of a sudoku: hard to solve, easy to check. So Downshift only needs a check. A labelled answer, like a receipt's real total. A test, like code that must pass. Or, with neither, Ultra's own answer, which matched human labels on ninety-eight messages out of a hundred."
+"The way out: checking an answer is much easier than writing one. Think of a sudoku: hard to solve, easy to check. So Good Enough only needs a check. A labelled answer, like a receipt's real total. A test, like code that must pass. Or, with neither, Ultra's own answer, which it then audits."
 ],
 [
 "04-percent",
@@ -25,7 +25,7 @@
 ],
 [
 "07-demo",
-"Here's the app. Pick receipts, and Downshift climbs down a ladder of Nemotron models, cheapest first. On each rung, Ultra rewrites the prompt from the tuning examples, the best rewrite is picked on separate validation examples, and only that one is scored on the locked-away receipts. Lightning gets rejected. Nano holds up."
+"Here's the app. Pick receipts, and Good Enough climbs down a ladder of Nemotron models, cheapest first. On each rung, Ultra rewrites the prompt from the tuning examples, the best rewrite is picked on separate validation examples, and only that one is scored on the locked-away receipts. Lightning gets rejected. Nano holds up."
 ],
 [
 "08-prompt",
@@ -45,7 +45,11 @@
 ],
 [
 "12-honest",
-"And it says keep Ultra when it should. On contracts, every smaller model fell six to ten points short. On support tickets, keep Ultra, but turn its thinking off, for two point four times cheaper."
+"And it says keep Ultra when it should. On contracts, no smaller model held up alone. The best, Lightning, could be eleven points worse."
+],
+[
+"12b-chain",
+"So we went deeper. Ask two cheap models. If they agree, use their answer. If not, Ultra decides. On contracts, Super and Lightning agreed on three clauses in four. With Ultra settling the rest, the chain matches Ultra, at two and a half times cheaper. Proven the same way, on the locked-away clauses, with no extra model calls."
 ],
 [
 "13-customer",
@@ -56,11 +60,19 @@
 "Bring your own task. I pasted a hundred text messages, with no answers. Ultra wrote the answers and a checker, the checker passed its own test, and Nano does the job seventeen times cheaper. The whole run cost three cents."
 ],
 [
+"14b-audit",
+"And when Ultra writes the answers, it audits itself. A second pass, thinking on, answers every message again. Where the two passes disagree, the message is dropped, not counted. Of the eight it dropped, six were ones it had wrong."
+],
+[
 "15-impact",
-"For an expense app reading a million receipts a month, that's about forty-four thousand dollars a year, down to about a thousand."
+"For an expense app reading a million receipts a month, that's about forty-four thousand dollars a year, down to about a thousand. Price your mistakes, and it gives the break-even: even in the worst case, Nano wins unless a wrong receipt costs more than seventy-eight cents."
+],
+[
+"15b-cert",
+"Every run ends with a proof certificate: the setup, the evidence, and the saving, in one link you can share."
 ],
 [
 "16-close",
-"Downshift. The cheapest setup that provably does your job. Open source, and running now on Neb-ee-us Token Factory and Sandboxes."
+"Good Enough. Prove the cheaper model does the job. Open source, and running now on Neb-ee-us Token Factory and Sandboxes."
 ]
 ]

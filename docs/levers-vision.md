@@ -3,7 +3,7 @@
 One model (`nvidia/Nemotron-3.5-Super-VL`, the only NVIDIA vision model on Token Factory), temperature 0. Costs come
 from `usage` at $0.30/M prompt tokens, $0.06/M cached and $0.90/M completion (images are billed as prompt tokens; no
 call reported cached tokens). Each setup runs on the same held-out rows and is compared with the most expensive
-setup using the paired bootstrap in `downshift/stats.py`. "Within 5" means the 95% CI lower bound of (setup minus top)
+setup using the paired bootstrap in `goodenough/stats.py`. "Within 5" means the 95% CI lower bound of (setup minus top)
 is above -5 points. Prompts were chosen on separate validation rows before the held-out runs.
 Total Nebius spend: **$2.64** of the $3.00 cap.
 

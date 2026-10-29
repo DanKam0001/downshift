@@ -1,6 +1,6 @@
 """The squeeze: after a cheaper verdict, cut tokens while validation holds, then re-prove on held-out rows."""
 from conftest import FakeLLM, collect
-from downshift.engine import _minify, run_downshift
+from goodenough.engine import _minify, run_good_enough
 
 
 def _by_type(events, t):
@@ -8,7 +8,7 @@ def _by_type(events, t):
 
 
 def test_squeeze_keeps_only_cuts_that_hold_and_reproves_on_holdout(task, grader):
-    events = collect(run_downshift(task, llm=FakeLLM(task), grader=grader))
+    events = collect(run_good_enough(task, llm=FakeLLM(task), grader=grader))
     v = _by_type(events, "verdict")[0]["verdict"]
     s = _by_type(events, "squeeze")[0]
     kept = {x["lever"] for x in s["steps"] if x["kept"]}
@@ -24,7 +24,7 @@ def test_squeeze_keeps_only_cuts_that_hold_and_reproves_on_holdout(task, grader)
 
 
 def test_squeeze_can_be_turned_off(task, grader):
-    events = collect(run_downshift(task, options={"squeeze": False}, llm=FakeLLM(task), grader=grader))
+    events = collect(run_good_enough(task, options={"squeeze": False}, llm=FakeLLM(task), grader=grader))
     assert not _by_type(events, "squeeze")
 
 
@@ -34,7 +34,7 @@ def test_minify_json_example():
 
 
 def test_checker_code_that_handles_fences_is_extracted_whole():
-    from downshift.engine import _extract_code
+    from goodenough.engine import _extract_code
     reply = "```python\nimport re\ndef check(output, reference, input):\n    out = re.sub(r'^```\w*|```$', '', output)\n    return 1.0, 'ok'\n```"
     code = _extract_code(reply)
     compile(code, "checker", "exec")

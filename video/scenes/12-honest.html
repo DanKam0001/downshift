@@ -5,30 +5,26 @@
 <style>
   .t{position:absolute;left:120px;top:90px;font:800 60px Inter;letter-spacing:-1px}
   .t small{display:block;margin-top:10px;font:600 22px 'JetBrains Mono';color:var(--warn);letter-spacing:2px}
-  .cards{position:absolute;left:120px;right:120px;top:260px;display:grid;grid-template-columns:1fr 1fr;gap:34px}
-  .v{padding:36px 40px;display:grid;gap:18px;min-height:420px;align-content:start}
-  .v .task{font:600 22px 'JetBrains Mono';color:var(--mute);letter-spacing:1px;text-transform:uppercase}
-  .v .call{font:800 52px/1.1 Inter}
-  .v .why{font:500 27px/1.45 Inter;color:var(--mute)}
-  .v .why b{color:var(--ink)}
-  .v.keep{border:2px solid var(--warn)}.v.keep .call{color:var(--warn)}
-  .v.mid{border:2px solid var(--blue)}.v.mid .call{color:var(--blue)}
-  .foot2{position:absolute;left:120px;right:120px;top:780px;font:600 30px/1.45 Inter;color:var(--mute)}
+  .box{position:absolute;left:120px;right:120px;top:270px;padding:36px 44px;border:2px solid var(--warn)}
+  .box .task{font:600 22px 'JetBrains Mono';color:var(--mute);letter-spacing:1px}
+  table{border-collapse:collapse;width:100%;margin-top:22px;font:500 30px Inter}
+  td{padding:16px 8px;border-bottom:1px solid var(--line)}
+  td.n{text-align:right;font-family:'JetBrains Mono'}
+  tr.ref td{color:var(--mute)}
+  tr.best td{color:var(--warn);font-weight:700}
+  .foot2{position:absolute;left:120px;right:120px;top:860px;font:600 34px/1.45 Inter;color:var(--mute)}
   .foot2 b{color:var(--ink)}
 </style></head>
 <body>
-  <div class="t" data-cue="keep">It says "keep Ultra" when it should<small>NOT EVERY TASK DOWNSHIFTS</small></div>
-  <div class="cards">
-    <div class="card v keep" data-cue="contracts" data-fx="rise">
-      <div class="task">Contract clauses · 32 types · 150 held out</div>
-      <div class="call">Keep Ultra</div>
-      <div class="why">Every smaller model fell <b>6 to 10 points</b> short on clauses it never saw.</div>
-    </div>
-    <div class="card v mid" data-cue="support" data-fx="rise">
-      <div class="task">Bank support · 77 intents · 150 held out</div>
-      <div class="call">Keep Ultra, thinking off</div>
-      <div class="why">Smaller models were close, but not <b>provably</b> close. Thinking off matched: <b data-cue="24" data-fx="fade">2.4x cheaper</b>.</div>
-    </div>
+  <div class="t" data-cue="keep">It says "keep Ultra" when it should<small>NOT EVERY TASK DOWNSHIFTS ON ONE MODEL</small></div>
+  <div class="card box" data-cue="contracts" data-fx="rise">
+    <div class="task">CONTRACT CLAUSES · 32 TYPES · 150 LOCKED-AWAY CLAUSES · RUN cf4758c38c24</div>
+    <table>
+      <tr class="ref"><td>Ultra, thinking on (the reference)</td><td class="n">82.2%</td><td class="n">$2.30 / 1k</td><td class="n"></td></tr>
+      <tr class="best" data-cue="lightning" data-fx="fade"><td>Lightning, best smaller model</td><td class="n">77.3%</td><td class="n">CI −11.1 to +1.1</td><td class="n">✗</td></tr>
+      <tr data-cue="alone" data-fx="fade"><td>Super 120B</td><td class="n">71.3%</td><td class="n">CI −17.3 to −4.4</td><td class="n">✗</td></tr>
+      <tr data-cue="alone" data-fx="fade"><td>Nano 30B</td><td class="n">66.7%</td><td class="n">CI −22.9 to −8.7</td><td class="n">✗</td></tr>
+    </table>
   </div>
-  <div class="foot2" data-cue="cheaper" data-fx="fade">A tool that only ever says "use the cheap one" is a coin, not a test.</div>
+  <div class="foot2" data-cue="11" data-fx="fade">Lightning <b>could be 11 points worse</b> than Ultra: outside the −5-point rule, so no single cheap model passes.</div>
 </body></html>

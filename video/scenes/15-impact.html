@@ -12,7 +12,9 @@
   .m .s{font:500 22px 'JetBrains Mono';color:var(--mute)}
   .m.lo{border:2px solid var(--good)}.m.lo .v{color:var(--good)}
   .ar{text-align:center;font:800 70px Inter;color:var(--mute)}
-  .note{position:absolute;left:220px;right:220px;top:790px;text-align:center;font:500 24px/1.5 'JetBrains Mono';color:var(--mute)}
+  .be{position:absolute;left:220px;right:220px;top:820px;padding:24px 34px;font:600 32px/1.4 Inter;text-align:center;border:2px solid var(--warn)}
+  .be b{color:var(--warn);font-size:44px;display:inline-block}
+  .note{position:absolute;left:220px;right:220px;top:300px;text-align:center;font:500 24px/1.5 'JetBrains Mono';color:var(--mute)}
 </style></head>
 <body>
   <div class="k2" data-cue="expense" data-fx="fade">WHO IT'S FOR</div>
@@ -22,5 +24,6 @@
     <div class="ar">→</div>
     <div class="card m lo"><div class="k">NANO, TUNED + SQUEEZED</div><div class="v" data-cue="$1000" data-fx="pop">$1,050</div><div class="s">a year · $0.087 per 1k calls</div></div>
   </div>
-  <div class="note" data-cue="$1000" data-fx="fade">same accuracy on the locked-away receipts · from the measured cost per call · any team running one task at volume gets the same math</div>
+  <div class="be card" data-cue="price" data-fx="rise">Count the mistakes too: even at the worst end of the 95% CI, Nano wins unless one wrong receipt costs more than <b data-cue="78" data-fx="pop">$0.78</b></div>
+  <div class="note" data-cue="$1000" data-fx="fade">same accuracy on the locked-away receipts · from the measured cost per call</div>
 </body></html>

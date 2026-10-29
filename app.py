@@ -1,4 +1,4 @@
-"""Downshift web server: static UI, presets, runs streamed over server-sent events."""
+"""Good Enough web server: static UI, presets, runs streamed over server-sent events."""
 from __future__ import annotations
 
 import asyncio
@@ -14,11 +14,11 @@ from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
-from downshift import finetune, models
-from downshift.engine import DEFAULTS, run_downshift
-from downshift.grading import Grader, backend_info
-from downshift.models import RUNGS, TIERS, LLM, Meter, api_key, get_pricing
-from downshift.tasks import custom_task, list_presets, load_preset
+from goodenough import finetune, models
+from goodenough.engine import DEFAULTS, run_good_enough
+from goodenough.grading import Grader, backend_info
+from goodenough.models import RUNGS, TIERS, LLM, Meter, api_key, get_pricing
+from goodenough.tasks import custom_task, list_presets, load_preset
 
 ROOT = Path(__file__).resolve().parent
 STATIC = ROOT / "static"
@@ -29,7 +29,7 @@ MAX_RUN_CAP_USD = float(os.environ.get("DOWNSHIFT_MAX_RUN_CAP_USD", "0.50"))
 ALLOW_FINETUNE = os.environ.get("DOWNSHIFT_ALLOW_FINETUNE") == "1"
 RUN_ID_RE = re.compile(r"^[a-f0-9]{6,32}$")
 
-app = FastAPI(title="Downshift")
+app = FastAPI(title="Good Enough")
 app.mount("/static", StaticFiles(directory=STATIC), name="static")
 
 # Hooks so tests can inject fakes without touching the network.
@@ -80,14 +80,14 @@ async def _drive(state: RunState, task: dict, options: dict) -> None:
     cap = float(options["spend_cap_usd"])
     llm = app.state.llm_factory(state.run_id, cap)
     try:
-        async for ev in run_downshift(task, options=options, llm=llm, grader=app.state.grader_factory(),
+        async for ev in run_good_enough(task, options=options, llm=llm, grader=app.state.grader_factory(),
                                       run_id=state.run_id):
             async with state.cond:
                 state.events.append(ev)
                 if ev["type"] == "done":
                     state.done = True
                 state.cond.notify_all()
-            if ev["type"] in ("eval", "round", "verdict", "photo", "guess", "squeeze", "done", "grader", "aborted", "error"):
+            if ev["type"] in ("eval", "round", "verdict", "photo", "guess", "squeeze", "chain", "audit", "done", "grader", "aborted", "error"):
                 _save(state)
     except Exception as e:  # noqa: BLE001 - never leave a run hanging
         async with state.cond:
@@ -157,7 +157,7 @@ async def start_run(req: RunRequest):
     for k, v in (req.options or {}).items():
         if k in ("tolerance", "rounds", "candidates", "spend_cap_usd") and v is not None:
             opts[k] = v
-        if k in ("ultra_thinking", "thinking_rungs", "photo_check", "guess_check", "squeeze") and v is not None:
+        if k in ("ultra_thinking", "thinking_rungs", "photo_check", "guess_check", "squeeze", "chain", "audit") and v is not None:
             opts[k] = bool(v)
         if k == "reference" and v in ("cached", "live"):
             opts[k] = v
