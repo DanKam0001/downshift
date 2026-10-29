@@ -1,5 +1,7 @@
 # Good Enough: prove the cheaper Nemotron does the job
 
+*Formerly Downshift, which is why the live app still lives at downshift-qcuv.onrender.com.*
+
 Give it a task and a few dozen examples. Good Enough finds the cheapest NVIDIA Nemotron model on Nebius Token
 Factory that does the task as well as Nemotron Ultra, and proves it on held-out data. It measures every step,
 rewrites the prompt where that helps, and recommends fine-tuning only when prompting runs out of room.
