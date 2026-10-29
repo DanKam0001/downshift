@@ -1,0 +1,29 @@
+{
+ "config": "nano-think+short",
+ "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+ "thinking": true,
+ "prompt": "short",
+ "system": "Write this Python function. Reply with a ```python block.",
+ "max_tokens": 5120,
+ "n": 150,
+ "pass_rate": 0.8733333333333333,
+ "call_errors": 0,
+ "truncated": 2,
+ "mean_in": 79.75333333333333,
+ "mean_out": 609.6,
+ "usd_total": 0.022663379999999997,
+ "usd_per_1k": 0.15108919999999998,
+ "wall_s": 87.8,
+ "sandbox": {
+  "backend": "Nebius Sandboxes",
+  "operation_id": "01a184e7-9c64-70a2-991a-d1a8b45da9f2",
+  "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+  "networking": false,
+  "wall_s": 5.187,
+  "guest_elapsed_s": 0.447871,
+  "harness_s": 0.121,
+  "workers": 8,
+  "mode": "fork",
+  "attempts": 1
+ }
+}

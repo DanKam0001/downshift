@@ -1,9 +1,9 @@
-"""Record the LIVE Downshift site (Render), each action on a narration word."""
+"""Record the Downshift site, each action on a narration word."""
 import json, re, shutil, subprocess, sys, time
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 HERE = Path(__file__).resolve().parent
-URL = "https://downshift-qcuv.onrender.com/"
+URL = "http://localhost:8011/"   # local: has the squeeze; Render gets it on the next push
 VO, W, OFF = HERE / "vo", HERE / "work", 0.45
 SCALE = float(sys.argv[1]) if len(sys.argv) > 1 and sys.argv[1].replace(".", "").isdigit() else 4 / 3
 OUTW, OUTH = int(1440 * SCALE), int(810 * SCALE)
@@ -19,31 +19,43 @@ GLOW = """(() => { const st = document.createElement('style'); document.head.app
  window.go = (sel, block = 'start') => document.querySelector(sel).scrollIntoView({behavior: 'smooth', block});
  window.big = () => { st.textContent += '.wrap{max-width:960px !important}'; document.body.style.zoom = 1.42; };
  document.body.style.zoom = 1.22; })()"""
-RUN = "45015b6df59e"   # the receipt-extract run behind RESULTS.md's headline
-HOLD = {"05-verdict": 1.5}  # extra seconds on screen after the narration (the code snippet)
-SPEED = 5.5            # shown on screen by the app's replay badge
-# Show only the head of the verdict's code snippet, with the lines that carry the decision marked.
-SNIP = r"""(() => { const pre = document.querySelector('#v-snippet'); const esc = t => t.replace(/[&<>]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;'}[c]));
- pre.innerHTML = pre.textContent.split('\n').slice(0, 9).map(l => /^(client|MODEL|THINKING)/.test(l) ? `<mark style="background:rgba(118,185,0,.25);color:inherit;border-radius:4px;padding:0 4px">${esc(l)}</mark>` : esc(l)).join('\n') + '\n…';
- pre.style.fontSize = '15px'; })()"""
+RUN = "150a5ad36713"   # receipts, with the squeeze and photo check (demo_runs/)
+OWN = "091a657f0889"   # the custom SMS spam task: 100 rows, no answers
+HOLD = {}              # extra seconds on screen after the narration
+SPEED = 10             # shown on screen by the app's replay badge
+SMS = W / "sms_examples.jsonl"   # 100 UCI SMS messages, inputs only
+OWN_FILL = "(() => { const f = document.querySelector('#custom-form'); const set = (n, v) => { const el = f.elements[n]; el.value = v; el.dispatchEvent(new Event('input', {bubbles: true})); };" + \
+    " set('title', 'SMS spam filter'); set('instruction', 'Is this text message spam or a normal message (ham)?'); set('output_format', 'One label, lowercase'); set('label_set', 'spam, ham');" + \
+    " set('examples', " + json.dumps(SMS.read_text(encoding='utf-8').strip()) + "); })()"
+SQ = "#v-squeeze ol li:nth-child"
 SCENES = {
-    "03-demo": (GLOW + ";big(); document.querySelector('[data-slug=\"receipt-extract\"]').click(); scrollTo(0, 0)", [
+    "07-demo": (GLOW + ";big(); document.querySelector('[data-slug=\"receipt-extract\"]').click(); scrollTo(0, 0)", [
         ("pick", "glow('[data-slug=\"receipt-extract\"]')"),
         ("climbs", f"unglow(); history.pushState(null, '', '/?run={RUN}&speed={SPEED}'); dispatchEvent(new PopStateEvent('popstate')); setTimeout(() => go('#replay-note'), 900)"),
-        ("ultra", "cap('<b>1</b> · Ultra rewrites the prompt from <b>tuning rows</b> only')"),
-        ("best", "cap('<b>2</b> · the best rewrite is picked on <b>validation rows</b>')"),
-        ("scored", "cap('<b>3</b> · only that prompt is scored, <b>once</b>, on <b>held-out rows</b>')"),
-        ("real", "cap('')"),
-        ("lightning", "glow('#costs .cost:nth-child(1)')"),
+        ("ultra", "cap('<b>1</b> · Ultra rewrites the prompt from <b>tuning examples</b> only')"),
+        ("best", "cap('<b>2</b> · the best rewrite is picked on <b>validation examples</b>')"),
+        ("only", "cap('<b>3</b> · only that prompt is scored, <b>once</b>, on <b>locked-away receipts</b>')"),
+        ("lightning", "cap(''); glow('#costs .cost:nth-child(1)')"),
         ("nano", "unglow(); glow('#costs .cost:nth-child(2)')"),
     ]),
-    "05-verdict": (GLOW + f";(() => {{ history.replaceState(null, '', '/?run={RUN}'); dispatchEvent(new PopStateEvent('popstate')); setTimeout(() => document.querySelector('#verdict-panel').scrollIntoView({{block: 'start'}}), 400); }})()", [
-        ("verdict", "document.querySelector('#verdict-panel').scrollIntoView({block: 'start'})"),
-        ("86", "glow('#v-stats > div:nth-child(1)'); cap('Nano: <b>93.6%</b> on <b>n = 86</b> held-out receipts the optimiser never saw')"),
-        ("paired", "glow('#v-stats > div:nth-child(3)'); cap('Nano minus Ultra, paired 95% CI: <b>−1.0 to +4.7 points</b>')"),
-        ("rule", "unglow(); glow('#v-headline'); cap('Downshift only if the CI stays above <b>−5 points</b>')"),
-        ("then", "unglow(); cap(''); " + SNIP + "; go('.snippet', 'center')"),
-        ("paste", "cap('Nemotron 3 Nano · thinking off · Token Factory endpoint')"),
+    "09-squeeze": (GLOW + f";(() => {{ history.replaceState(null, '', '/?run={RUN}'); dispatchEvent(new PopStateEvent('popstate')); setTimeout(() => go('#v-squeeze'), 500); }})()", [
+        ("squeezes", "go('#v-squeeze'); glow('#v-squeeze h3')"),
+        ("cuts", f"unglow(); glow('{SQ}(2)'); cap('Nano as the verdict picked it: <b>4</b> worked examples, <b>1,261</b> tokens in')"),
+        ("2", f"unglow(); glow('{SQ}(4)'); cap('<b>2</b> worked examples: 93.5% on validation, <b>920</b> tokens in. <b>Kept</b>')"),
+        ("no", f"unglow(); glow('{SQ}(5)'); glow('{SQ}(3)'); cap('no examples: 88.7% · one-line answers: 90.7%. <b>Dropped</b>')"),
+        ("result", "unglow(); cap(''); glow('#v-squeeze .sq-call')"),
+        ("rechecked", "unglow(); glow('#v-squeeze > p:nth-of-type(2)'); cap('<b>94.3%</b> on the 86 locked-away receipts · still matches Ultra')"),
+    ]),
+    "14-own": (GLOW + ";big(); document.querySelector('#tab-custom').click(); scrollTo(0, 0)", [
+        ("own", "glow('#tab-custom')"),
+        ("pasted", "unglow(); " + OWN_FILL + "; glow('#custom-form textarea[name=examples]'); go('#custom-form textarea[name=examples]', 'center')"),
+        ("answers", "cap('<b>100</b> real text messages · <b>no</b> answers given')"),
+        ("ultra", f"unglow(); cap(''); history.pushState(null, '', '/?run={OWN}'); dispatchEvent(new PopStateEvent('popstate')); setTimeout(() => {{ document.querySelector('#log-panel details').open = true; go('#log-panel'); }}, 600)"),
+        ("checker", "cap('Ultra wrote the <b>answers</b> and a <b>checker</b>')"),
+        ("passed", "cap('the checker passed its own test before any model was graded')"),
+        ("nano", "cap(''); go('#verdict-panel'); glow('#v-headline')"),
+        ("17", "unglow(); go('#v-squeeze', 'center'); glow('#v-squeeze .sq-call')"),
+        ("whole", "unglow(); cap('the whole run, every model and the answer key: <b>US$0.032</b>')"),
     ]),
 }
 norm = lambda w: re.sub(r"[^a-z0-9%$]", "", w.lower())

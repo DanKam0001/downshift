@@ -1,6 +1,6 @@
 # Results
 
-Measured 2026-10-27 on Nebius Token Factory. Three public datasets, each with a held-out split the prompt
+Measured 2026-10-27 to 29 on Nebius Token Factory. Three public text datasets, each with a held-out split the prompt
 optimiser never saw and never used to choose a prompt. Every number below can be traced to a file in this repo:
 the Ultra reference comes from `presets/<slug>/reference.json` and the ladder runs from `demo_runs/<run id>.json`
 (open `/?run=<id>` in the app). The tables are printed by `python scripts/results_tables.py demo_runs/*.json`.
@@ -32,6 +32,63 @@ The verdicts, with a 5-point tolerance and a US$0.25 cap per run:
 | support-triage | **Turn thinking off** (Ultra) | 71.6% vs 72.2%, −0.7 (−4.7 to +3.6) | $0.554 vs $1.319, 2.4x cheaper | $0.175, 182 s |
 | receipt-extract | **Use Nano, thinking off, rewritten prompt** | 93.6% vs 92.0%, +1.7 (−1.0 to +4.7) | $0.103 vs $3.693, 35.8x cheaper | $0.060, 139 s |
 | contract-clauses | **Keep Ultra** (thinking on) | best cheaper rung: Lightning 76.0%, −6.2 (−12.4 to +0.0) | – | $0.212, 169 s |
+
+## Squeeze: cutting tokens after the verdict (run `150a5ad36713`)
+
+Once a rung is chosen, Downshift tries to cut its tokens, one lever at a time, on the 40 validation receipts. A cut is
+kept only if the validation score stays within 1 point of the current one and the cost per call falls below 0.97x.
+
+| Step | Validation | Tokens in / out | $ / 1k calls | Kept? |
+|---|---|---|---|---|
+| Ultra, thinking on (the reference) | | | 3.693 | |
+| Nano, thinking off, as the verdict chose it (4 worked examples) | 92.2% | 1261 / 117 | 0.1037 | start |
+| One-line (minified) JSON answers | 90.7% | 1214 / 97 | 0.0960 | dropped, score fell |
+| 2 worked examples instead of 4 | 93.5% | 920 / 119 | 0.0836 | **kept** |
+| No worked examples | 88.7% | 603 / 144 | 0.0707 | dropped, score fell |
+| Ultra rewrites the prompt in half the words | | | | skipped: the rewrite was under 15% shorter |
+
+The squeezed setup, scored once on the 86 held-out receipts: **94.3% (95% CI 92.2 to 96.3), +2.4 points vs Ultra
+(paired CI −0.5 to +5.5), US$0.0874 per 1k calls, 42.3x cheaper than Ultra** (the verdict alone was 34.6x in this run).
+The same run's photo check: Super VL reading the photo, 93.9%, matches Ultra. Whole run US$0.133, 227 s.
+
+## Beyond text: photos, video and code (measured 2026-10-29)
+
+Full tables: [docs/levers-vision.md](docs/levers-vision.md) and [docs/levers-code.md](docs/levers-code.md). Each
+setup runs on the same held-out rows and is compared with the most expensive setup by the same paired bootstrap.
+
+- **Pet breed from a photo** (Oxford-IIIT Pet, CC BY-SA 4.0, 111 held out, 37 breeds; Nemotron 3.5 Super VL, the only
+  NVIDIA vision model on Token Factory). Top setup (labels prompt, thinking on): 83.8% at $0.943 / 1k. **Thinking off:
+  83.8% at $0.145 / 1k, 6.5x cheaper**, within 5 points (CI −4.5 to +4.5). Shrinking the photo to 256 px: 86.5%, same
+  price, because an image costs at least ~300 tokens below ~450 px. Listing the 37 labels in the prompt was worth ~9
+  points.
+- **Action from a video clip** (KTH human actions, 162 fresh clips, 6 actions; 8 frames at 768 px). Top setup, thinking
+  on: 80.2% at $1.70 / 1k. Thinking off lost 13 to 16 points; 4 frames instead of 8 lost 7.4. **No downshift**: telling
+  jogging from running needs the model to compare frames.
+- **Python from a one-line spec** (MBPP sanitized, CC-BY-4.0, 150 held out), graded only by running every assert in a
+  sandbox. Canonical solutions score 100%, every fixed or stub answer 0%. Ultra thinking on 85.3% at $3.705 / 1k;
+  Ultra thinking off 85.3% at $0.392; Nano thinking off 74.7%; **Nano thinking on 89.3% at $0.148 / 1k, 25x cheaper,
+  +4.0 points (CI +0.0 to +8.7)**; a second run gave 90.0%. A 34x setup (answer only, 2048-token cap) was found by
+  trying levers on the held-out rows themselves, so it is exploratory and not claimed.
+
+## Your own task with no answers: SMS spam (run `091a657f0889`)
+
+100 messages from the UCI SMS Spam Collection, pasted with **no labels**. Ultra wrote the reference answers and a
+checker; the checker was tested before use (references 100%, wrong answers 0%) and accepted on the first attempt. The
+guess check passed: "ham" on every row scores 55%, Ultra 100%. Nano (thinking off) matched Ultra on the 40 held-out
+rows at 16.3x cheaper, 17.4x ($0.0058 / 1k) after the squeeze. The run cost US$0.032 and took 402 s, graded in
+branches of sealed answer-key checkpoints. As a check on "Ultra wrote the answers": Ultra's labels agreed with the
+human UCI labels on 98 of 100 messages (US$0.0099).
+
+This run also found a real bug: Ultra's checker handled ``` fences itself, and our fence-stripping regex cut its code
+short, so it failed to compile. The extractor is now greedy to the last fence, with a test.
+
+## Cost levers checked and not claimed
+
+- **Cached prompt tokens.** Token Factory lists them 5 to 8x cheaper. We measured **zero cache hits** on serverless
+  Nemotron: with and without `prompt_cache_key`, with long shared prefixes, and across the 15,000+ logged calls in
+  this work. No caching saving is assumed anywhere.
+- **Batch API.** `/v1/batches` answers, but we found no published batch discount to verify, so none is claimed.
+- **Time-of-day prices.** The pricing API (`/v1/models?verbose=true`) has none.
 
 ## How these numbers were measured
 

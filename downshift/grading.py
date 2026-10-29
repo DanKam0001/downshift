@@ -106,7 +106,9 @@ class Grader:
         if sandbox_fn is not None:
             self.sandbox_fn = sandbox_fn
         elif mod is not None:
-            self.sandbox_fn = mod.grade_batch_with_meta if self.with_meta else mod.grade_batch
+            # Prefer branching from a sealed answer-key checkpoint; it falls back to one-shot by itself.
+            self.sandbox_fn = (getattr(mod, "grade_batch_sealed_with_meta", None) or mod.grade_batch_with_meta
+                               if self.with_meta else mod.grade_batch)
         else:
             self.sandbox_fn = None
         self.local_fns = [local_fn] if local_fn is not None else (
@@ -117,7 +119,9 @@ class Grader:
         self.last_error: str | None = None
 
     async def grade(self, checker_code: str, items: list[dict], timeout_s: int = 120) -> tuple[list[GradeResult], dict]:
-        """Returns (results, batch) where batch = {backend: 'sandbox'|'local', label, operation_id?, wall_s?}."""
+        """Returns (results, batch) where batch = {backend: 'sandbox'|'local', label, operation_id?, wall_s?,
+        checkpoint?, branched, seal_operation_id?, fallback_reason?}. branched=True means the batch ran in a
+        disposable branch of the sealed answer-key image `checkpoint` (see sandbox_grader)."""
         if not items:
             return [], {"backend": "none", "label": "nothing to grade", "n": 0}
         items = [{"id": str(i["id"]), "input": i.get("input"), "output": i.get("output", ""),
@@ -145,13 +149,19 @@ class Grader:
                 err = e
         raise RuntimeError(f"no grader could run this batch: {err!r}")
 
-    def _record(self, backend: str, n: int, meta) -> None:
+    def _record(self, backend: str, n: int, meta) -> dict:
         self.backends_used.append(backend)
-        rec = {"backend": backend, "n": n}
+        rec = {"backend": backend, "n": n, "branched": False, "checkpoint": None, "seal_operation_id": None}
         if meta is not None:
-            rec.update({"label": getattr(meta, "backend", None), "operation_id": getattr(meta, "operation_id", None),
-                        "wall_s": getattr(meta, "wall_s", None)})
+            rec.update({"label": getattr(meta, "label", None) or getattr(meta, "backend", None),
+                        "operation_id": getattr(meta, "operation_id", None), "wall_s": getattr(meta, "wall_s", None)})
+            for k in ("checkpoint", "branched", "seal_operation_id", "sealed_now", "seal_s", "key_sha256",
+                      "fallback_reason"):
+                if getattr(meta, k, None) is not None:
+                    rec[k] = getattr(meta, k)
         else:
             rec["label"] = "Nebius Sandboxes" if backend == "sandbox" else "graded locally"
+            if backend == "local" and self.last_error:
+                rec["fallback_reason"] = self.last_error
         self.batches.append(rec)
         return rec

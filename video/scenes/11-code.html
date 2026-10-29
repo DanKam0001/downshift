@@ -1,0 +1,52 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:120px;top:70px;font:800 58px Inter;letter-spacing:-1px}
+  .t small{display:block;margin-top:10px;font:600 22px 'JetBrains Mono';color:var(--acc2);letter-spacing:2px}
+  .ex{position:absolute;left:120px;top:230px;width:760px;padding:28px 32px;display:grid;gap:14px}
+  .ex .k{font:600 20px 'JetBrains Mono';color:var(--mute);letter-spacing:1.5px}
+  .ex .q{font:600 24px/1.45 Inter}
+  .ex pre{margin:0;font:500 19px/1.5 'JetBrains Mono';color:var(--acc2);white-space:pre-wrap}
+  .ex .tests{font:500 19px/1.6 'JetBrains Mono'}
+  .ex .tests span{color:var(--good)}
+  .tbl{position:absolute;left:940px;right:120px;top:230px;padding:28px 32px}
+  .tbl .k{font:600 20px 'JetBrains Mono';color:var(--mute);letter-spacing:1.5px;margin-bottom:12px}
+  table{border-collapse:collapse;width:100%;font:500 23px Inter}
+  td{padding:12px 6px;border-bottom:1px solid var(--line)}
+  td.n{text-align:right;font-family:'JetBrains Mono'}
+  tr.win td{color:var(--good);font-weight:700}
+  tr.ref td{color:var(--warn)}
+  .x{position:absolute;left:940px;right:120px;top:760px;font:800 46px/1.2 Inter;color:var(--good)}
+  .x small{display:block;font:500 22px 'JetBrains Mono';color:var(--mute);margin-top:10px}
+</style></head>
+<body>
+  <div class="t" data-cue="code">Code, graded only by unit tests<small>MBPP · 150 HELD-OUT PROBLEMS · TESTS RUN IN NEBIUS SANDBOXES</small></div>
+  <div class="card ex" data-cue="unit" data-fx="rise">
+    <div class="k">A HELD-OUT PROBLEM (mbpp-283)</div>
+    <div class="q">"Check whether the frequency of each digit is less than or equal to the digit itself."</div>
+    <div class="k">NANO'S ANSWER (THINKING ON), COMMENTS TRIMMED</div>
+    <pre>def validate(n: int) -> bool:
+    s = str(abs(n))
+    from collections import Counter
+    freq = Counter(s)
+    for digit_char, count in freq.items():
+        d = int(digit_char)
+        if count > d:
+            return False
+    return True</pre>
+    <div class="tests">assert validate(1234) == True  <span>✓</span><br>assert validate(51241) == False <span>✓</span><br>assert validate(321) == True   <span>✓</span></div>
+    <div class="k" style="margin-top:6px">the right function name returning None scores 0% · no reference answer needed</div>
+  </div>
+  <div class="card tbl" data-cue="nano" data-fx="rise">
+    <div class="k">SHARE OF PROBLEMS WHOSE CODE PASSES ALL ITS TESTS</div>
+    <table>
+      <tr class="ref"><td>Ultra, thinking on</td><td class="n">85.3%</td><td class="n">$3.71 / 1k</td></tr>
+      <tr data-cue="added" data-fx="fade"><td>Ultra, thinking off</td><td class="n">85.3%</td><td class="n">$0.39 / 1k</td></tr>
+      <tr><td>Nano, thinking off</td><td class="n">74.7%</td><td class="n">$0.02 / 1k</td></tr>
+      <tr class="win" data-cue="89" data-fx="fade"><td>Nano, thinking on</td><td class="n">89.3%</td><td class="n">$0.15 / 1k</td></tr>
+    </table>
+  </div>
+  <div class="x" data-cue="25" data-fx="pop">25x cheaper than Ultra<small>Nano − Ultra: +4.0 pts, 95% CI +0.0 to +8.7</small></div>
+</body></html>

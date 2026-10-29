@@ -1,0 +1,29 @@
+{
+ "config": "super-off+answer-only",
+ "model": "nvidia/nemotron-3-super-120b-a12b",
+ "thinking": false,
+ "prompt": "answer-only",
+ "system": "Write a Python function that solves the task below. The example test shows the function's name and how it is called: use exactly that name and argument order. Standard library only. Put the code in one ```python block. Reply with the code block only: no explanation, no example usage, no tests.",
+ "max_tokens": 1024,
+ "n": 150,
+ "pass_rate": 0.78,
+ "call_errors": 0,
+ "truncated": 0,
+ "mean_in": 129.75333333333333,
+ "mean_out": 60.00666666666667,
+ "usd_total": 0.013939800000000004,
+ "usd_per_1k": 0.09293200000000003,
+ "wall_s": 30.4,
+ "sandbox": {
+  "backend": "Nebius Sandboxes",
+  "operation_id": "01a184f0-6f3f-7070-b7c2-f36f9ecb8038",
+  "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+  "networking": false,
+  "wall_s": 6.891,
+  "guest_elapsed_s": 3.040248,
+  "harness_s": 2.73,
+  "workers": 8,
+  "mode": "fork",
+  "attempts": 1
+ }
+}

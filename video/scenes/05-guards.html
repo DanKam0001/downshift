@@ -1,0 +1,44 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:120px;top:80px;font:800 60px Inter;letter-spacing:-1px}
+  .t small{display:block;margin-top:12px;font:600 22px 'JetBrains Mono';color:var(--acc2);letter-spacing:2px}
+  .seal{position:absolute;left:120px;top:250px;width:980px;height:560px;padding:30px 36px}
+  .seal .k{font:600 20px 'JetBrains Mono';color:var(--acc2);letter-spacing:2px}
+  .seal .h{font:800 36px Inter;margin:8px 0 0}
+  svg.tree{position:absolute;left:36px;top:150px;width:900px;height:380px}
+  svg.tree text{font:600 20px 'JetBrains Mono';fill:var(--ink)}
+  svg.tree .sm{font:500 17px 'JetBrains Mono';fill:var(--mute)}
+  .side{position:absolute;left:1140px;right:120px;top:250px;display:grid;gap:26px}
+  .g{padding:28px 32px;display:grid;gap:10px;min-height:267px;align-content:start}
+  .g .k{font:600 20px 'JetBrains Mono';color:var(--acc2);letter-spacing:2px}
+  .g .h{font:800 32px/1.15 Inter}
+  .g .d{font:500 22px/1.45 Inter;color:var(--mute)}
+  .g .d b{color:var(--ink)}
+</style></head>
+<body>
+  <div class="t" data-cue="guardrails">Three guard rails<small>SO "AS GOOD AS ULTRA" MEANS SOMETHING</small></div>
+  <div class="card seal" data-cue="sealed" data-fx="rise">
+    <div class="k">1 · NEBIUS SANDBOXES CHECKPOINT + BRANCHES</div>
+    <div class="h">The answer key is sealed once. Every model is marked in its own branch.</div>
+    <svg class="tree" viewBox="0 0 900 380">
+      <rect x="20" y="140" width="250" height="100" rx="14" fill="#1e2226" stroke="#76b900" stroke-width="3"/>
+      <text x="40" y="180">sealed answer key</text><text class="sm" x="40" y="210">checker + answers</text>
+      <g data-cue="branch" data-fx="fade">
+        <path d="M270 190 C 380 190, 380 50, 480 50" stroke="#6cc56f" stroke-width="3" fill="none"/>
+        <path d="M270 190 C 380 190, 380 190, 480 190" stroke="#6cc56f" stroke-width="3" fill="none"/>
+        <path d="M270 190 C 380 190, 380 330, 480 330" stroke="#6cc56f" stroke-width="3" fill="none"/>
+        <rect x="480" y="15" width="380" height="70" rx="12" fill="#171a1d" stroke="#2b3035"/><text x="500" y="58">branch: grade Lightning</text>
+        <rect x="480" y="155" width="380" height="70" rx="12" fill="#171a1d" stroke="#2b3035"/><text x="500" y="198">branch: grade Nano</text>
+        <rect x="480" y="295" width="380" height="70" rx="12" fill="#171a1d" stroke="#2b3035"/><text x="500" y="338">branch: grade Ultra</text>
+      </g>
+      <text class="sm" x="40" y="290" data-cue="identical" data-fx="fade">same image id, same hash, networking off</text>
+    </svg>
+  </div>
+  <div class="side">
+    <div class="card g" data-cue="ultra" data-fx="rise"><div class="k">2 · ULTRA'S OWN WOBBLE</div><div class="h">Ultra runs 3 times</div><div class="d">receipts: <b>93.7%, 90.7%, 91.4%</b>. So "as good" means the 95% confidence interval stays within <b>5 points</b>.</div></div>
+    <div class="card g" data-cue="guess" data-fx="rise"><div class="k">3 · THE GUESS CHECK</div><div class="h">A fixed answer must fail</div><div class="d">If "always say the most common answer" scores like Ultra, the check is broken: <b>no verdict</b>.</div></div>
+  </div>
+</body></html>

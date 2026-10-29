@@ -10,7 +10,7 @@ HERE = Path(__file__).resolve().parent
 S, VO, W = HERE / "scenes", HERE / "vo", HERE / "work"
 W.mkdir(exist_ok=True)
 FPS, OFF, XF = 30, 0.45, 0.35
-HOLD = {"05-verdict": 1.5}  # keep in step with rec.py
+HOLD = {}  # keep in step with rec.py
 OUT = HERE / "demo.mp4"
 
 
@@ -71,19 +71,25 @@ with sync_playwright() as p:
         segs.append((seg, d)); print(f"  {name:12} {d:5.2f}s")
     b.close()
 
-inputs, fc, off = [], [], 0.0
-for s, _ in segs:
-    inputs += ["-i", str(s)]
-vprev, aprev = "[0:v]", "[0:a]"
-for i in range(1, len(segs)):
-    off += segs[i - 1][1] - XF
-    rec_edge = any((W / f"rec_{names[j]}.mp4").exists() for j in (i - 1, i))
-    fc.append(f"{vprev}[{i}:v]xfade=transition={'fadeblack' if rec_edge else 'fade'}:duration={XF}:offset={off:.3f}[v{i}]")
-    fc.append(f"{aprev}[{i}:a]acrossfade=d={XF}[a{i}]")
-    vprev, aprev = f"[v{i}]", f"[a{i}]"
-total = off + segs[-1][1]
-fc.append(f"{vprev}fade=t=out:st={total - 0.6:.3f}:d=0.6[v]")
-fc.append(f"{aprev}afade=t=out:st={total - 0.6:.3f}:d=0.6,loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000[a]")
-run([*inputs, "-filter_complex", ";".join(fc), "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "slow",
-     "-crf", "18", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", str(OUT)])
-print(f"-> {OUT} ({total:.1f}s)")
+
+
+def build(segs, names, out):
+    inputs, fc, off = [], [], 0.0
+    for s, _ in segs:
+        inputs += ["-i", str(s)]
+    vprev, aprev = "[0:v]", "[0:a]"
+    for i in range(1, len(segs)):
+        off += segs[i - 1][1] - XF
+        rec_edge = any((W / f"rec_{names[j]}.mp4").exists() for j in (i - 1, i))
+        fc.append(f"{vprev}[{i}:v]xfade=transition={'fadeblack' if rec_edge else 'fade'}:duration={XF}:offset={off:.3f}[v{i}]")
+        fc.append(f"{aprev}[{i}:a]acrossfade=d={XF}[a{i}]")
+        vprev, aprev = f"[v{i}]", f"[a{i}]"
+    total = off + segs[-1][1]
+    fc.append(f"{vprev}fade=t=out:st={total - 0.6:.3f}:d=0.6[v]")
+    fc.append(f"{aprev}afade=t=out:st={total - 0.6:.3f}:d=0.6,loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000[a]")
+    run([*inputs, "-filter_complex", ";".join(fc), "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-preset", "slow",
+         "-crf", "18", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-movflags", "+faststart", str(out)])
+    print(f"-> {out} ({total:.1f}s)")
+
+
+build(segs, names, OUT)

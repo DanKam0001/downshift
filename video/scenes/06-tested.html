@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:120px;top:70px;font:800 60px Inter;letter-spacing:-1px}
+  .t small{display:block;margin-top:10px;font:600 22px 'JetBrains Mono';color:var(--acc2);letter-spacing:2px}
+  .jobs{position:absolute;left:120px;right:120px;top:230px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .j{padding:20px 24px;display:grid;gap:8px;align-content:start;min-height:330px}
+  .j .k{font:600 17px 'JetBrains Mono';color:var(--mute);letter-spacing:1px}
+  .j .h{font:800 28px Inter}
+  .j .in{font:500 17px/1.4 'JetBrains Mono';color:var(--ink);white-space:pre-line}
+  .j .out{font:600 17px/1.4 'JetBrains Mono';color:var(--acc2)}
+  .j img{width:100%;height:150px;object-fit:cover;border-radius:10px}
+  .j.mine{border:2px solid var(--blue)}.j.mine .h{color:var(--blue)}
+</style></head>
+<body>
+  <div class="t" data-cue="tested">Seven jobs, plus my own bot<small>REAL DATA, REAL CHECKS</small></div>
+  <div class="jobs">
+    <div class="card j" data-cue="receipts" data-fx="rise"><div class="k">CORD v2 · 86 held out</div><div class="h">Receipts → JSON</div><div class="in">6 TWIST DONUT 54,000
+TOTAL 63,000</div><div class="out">{"items":[…],"total":63000}</div></div>
+    <div class="card j" data-cue="bank" data-fx="rise"><div class="k">Banking77 · 150 held out</div><div class="h">Bank support</div><div class="in">"My passcode doesn't seem to be working"</div><div class="out">passcode_forgotten (1 of 77)</div></div>
+    <div class="card j" data-cue="contracts" data-fx="rise"><div class="k">CUAD · 150 held out</div><div class="h">Contract clauses</div><div class="in">"… shall have the right … to inspect and audit …"</div><div class="out">audit_rights (1 of 32)</div></div>
+    <div class="card j" data-cue="code" data-fx="rise"><div class="k">MBPP · graded by unit tests</div><div class="h">Write code</div><div class="in">"Write a function to find the shared elements of two lists."</div><div class="out">def similar_elements(a, b): …<br>✓ passes 3 tests</div></div>
+    <div class="card j" data-cue="pet" data-fx="rise"><div class="k">Oxford-IIIT Pet · 111 held out</div><div class="h">Pet photos</div><img src="pet.jpg" alt=""><div class="out">beagle (1 of 37 breeds)</div></div>
+    <div class="card j" data-cue="video" data-fx="rise"><div class="k">KTH actions · 54 + 162 clips</div><div class="h">Video</div><img src="kth.png" alt="" style="object-fit:contain;background:#000"><div class="out">jogging (1 of 6 actions)</div></div>
+    <div class="card j" data-cue="spam" data-fx="rise"><div class="k">UCI SMS · 100 rows, no answers</div><div class="h">Spam filter</div><div class="in">"WINNER!! You have been selected to receive a £900 prize …"</div><div class="out">spam / ham</div></div>
+    <div class="card j mine" data-cue="judge" data-fx="rise"><div class="k">my hackathon_scout · 105 entries</div><div class="h">My judge bot</div><div class="in">an entry's write-up and slides</div><div class="out">4 scores, 1 to 5, + reasons</div></div>
+  </div>
+</body></html>

@@ -1,0 +1,14 @@
+nano-think+answer-only: pass 90.7%  in 130 out 477  $0.1223/1k  errors 0 trunc 2  op 01a184e6-440c-7061-9128-7cd758e1e05f  total spend $0.8378
+nano-think+short: pass 87.3%  in 80 out 610  $0.1511/1k  errors 0 trunc 2  op 01a184e7-9c64-70a2-991a-d1a8b45da9f2  total spend $0.8604
+nano-think+long: pass 90.7%  in 244 out 749  $0.1944/1k  errors 0 trunc 3  op 01a184e9-3155-7069-80a8-d00f14ef523c  total spend $0.8896
+nano-think+total1024: pass 80.7%  in 113 out 448  $0.1144/1k  errors 0 trunc 19  op 01a184ea-3bf4-76db-a3e6-5e919981b2d5  total spend $0.9067
+nano-think+total2048: pass 89.3%  in 113 out 505  $0.1279/1k  errors 0 trunc 4  op 01a184eb-96ae-7080-8c49-dbe268fb49ba  total spend $0.9259
+nano-think+answer-only+total2048: pass 88.7%  in 130 out 418  $0.1082/1k  errors 0 trunc 4  op 01a184ed-2ead-7012-bb39-085985addfaf  total spend $0.9422
+lightning-off+answer-only: pass 80.0%  in 130 out 59  $0.0219/1k  errors 0 trunc 0  op 01a184ed-860a-7147-b7d1-db435ae5ea09  total spend $0.9455
+lightning-off+short: pass 82.7%  in 80 out 125  $0.0347/1k  errors 0 trunc 0  op 01a184ed-faf7-7596-b32f-6e8fa5d66584  total spend $0.9507
+lightning-off+long: pass 83.3%  in 244 out 100  $0.0386/1k  errors 0 trunc 0  op 01a184ee-6d0a-763e-a7dc-19ebc1e4d74d  total spend $0.9564
+lightning-off+cap256: pass 77.3%  in 113 out 105  $0.0320/1k  errors 0 trunc 18  op 01a184ee-e1e6-7414-a98d-c19d0b30c836  total spend $0.9612
+nano-off+answer-only: pass 76.0%  in 130 out 54  $0.0208/1k  errors 0 trunc 1  op 01a184ef-72de-7732-a1f3-9522fee49fbc  total spend $0.9644
+nano-off+long: pass 74.7%  in 244 out 51  $0.0269/1k  errors 0 trunc 0  op 01a184ef-fe49-713d-8efd-93ba7032b191  total spend $0.9684
+super-off+answer-only: pass 78.0%  in 130 out 60  $0.0929/1k  errors 0 trunc 0  op 01a184f0-6f3f-7070-b7c2-f36f9ecb8038  total spend $0.9823
+lightning-think+total2048: pass 80.0%  in 113 out 1029  $0.2537/1k  errors 0 trunc 22  op 01a184f3-1247-73c8-a1ca-1c6f3891ef1b  total spend $1.0204

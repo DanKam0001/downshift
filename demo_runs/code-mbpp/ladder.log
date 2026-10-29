@@ -1,0 +1,7 @@
+ultra-think: pass 85.3%  in 113 out 1198  $3.7053/1k  errors 0 trunc 14  op 01a184d7-9bb4-77b0-aadb-da0a9d252f4d  total spend $0.6282
+ultra-off: pass 85.3%  in 113 out 93  $0.3921/1k  errors 0 trunc 0  op 01a184d7-f633-72e3-80bb-fc6615981a96  total spend $0.6870
+super-off: pass 81.3%  in 113 out 355  $0.3536/1k  errors 0 trunc 15  op 01a184d9-2019-71b0-96c9-23b833005229  total spend $0.7401
+nano-off: pass 74.7%  in 113 out 72  $0.0239/1k  errors 0 trunc 2  op 01a184df-153f-7578-ac89-1a691016a0f5  total spend $0.7437
+nano-think: pass 89.3%  in 113 out 590  $0.1483/1k  errors 0 trunc 3  op 01a184e1-885f-721e-b4bf-1f97eab2dcbc  total spend $0.7659
+lightning-off: pass 81.3%  in 113 out 119  $0.0354/1k  errors 0 trunc 0  op 01a184e1-f4a4-7364-89e7-ffa629292420  total spend $0.7712
+lightning-think: pass 87.3%  in 113 out 1311  $0.3213/1k  errors 0 trunc 12  op 01a184e4-bc26-76ef-a3d6-c07ba95e3004  total spend $0.8194

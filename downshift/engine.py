@@ -46,8 +46,9 @@ DEFAULTS = {
     "reference": "cached",   # "cached": presets/<slug>/reference.json; "live": re-measure Ultra in this run
     "ultra_thinking": True,  # live reference only: also measure Ultra with thinking on, if it fits the cap
     "thinking_rungs": True,  # include Lightning with thinking on as a rung
-    "photo_check": True,
-    "guess_check": True,     # stop with no verdict if Ultra cannot provably beat a fixed guess on this checker     # tasks that ship photos: after the verdict, try Super VL reading the photo (no OCR)
+    "photo_check": True,     # tasks that ship photos: after the verdict, try Super VL reading the photo (no OCR)
+    "guess_check": True,     # stop with no verdict if Ultra cannot provably beat a fixed guess on this checker
+    "squeeze": True,         # after a cheaper verdict: cut prompt and answer tokens while validation holds
     "train_limit": None,
     "validation_limit": None,
     "holdout_limit": None,
@@ -115,7 +116,8 @@ def _extract_json(text: str):
 
 
 def _extract_code(text: str) -> str:
-    m = re.search(r"```(?:python)?\s*(.*?)```", text, re.S)
+    # Greedy to the LAST fence: a checker often handles ``` fences itself, so its code contains them.
+    m = re.search(r"```(?:python)?[ \t]*\n(.*)```", text, re.S)
     return (m.group(1) if m else text).strip() + "\n"
 
 
@@ -166,7 +168,7 @@ class Run:
         return self.llm.meter.cap_usd - self.llm.meter.spent_usd
 
     async def outputs(self, rung: dict, system: str, fewshots: list[dict], rows: list[dict], purpose: str):
-        shot_key = tuple(str(f["id"]) for f in fewshots)
+        shot_key = tuple((str(f["id"]), prompt_sha(as_text(f["reference"]))) for f in fewshots)
 
         async def one(row):
             key = (rung["model"], rung["thinking"], system, shot_key, str(row["id"]))
@@ -223,6 +225,7 @@ async def score_calls(grader: Grader, checker_code: str, rung: dict, rows: list[
         "cost_usd": round(cost, 6),
         "cost_per_1k_usd": round(1000 * cost / len(ok_calls), 4) if ok_calls else None,
         "p50_ms": _p50([c.latency_ms for c in ok_calls]),
+        "mean_in_tokens": round(sum(c.prompt_tokens for c in ok_calls) / len(ok_calls), 1) if ok_calls else None,
         "mean_out_tokens": round(sum(c.completion_tokens for c in ok_calls) / len(ok_calls), 1) if ok_calls else None,
         "errors": len(calls) - len(ok_calls), "truncated": sum(1 for c in calls if c.truncated),
         "grader": batch["backend"], "grade_batch": batch,
@@ -610,6 +613,97 @@ async def _photo_check(run: Run, verdict: dict, ref: dict, ho_ids: list[str], pr
                          f"{compare_sentence(diff, tol)} (Ultra reads the OCR text)")
 
 
+# --------------------------------------------------------------------------------------------- squeeze
+
+BRIEF = {"json": "Output the JSON minified on one line, with no spaces or line breaks.",
+         "label": "Reply with the label only, no other words."}
+
+
+def _minify(shot: dict) -> dict:
+    obj = _as_obj(shot["reference"])
+    if not isinstance(obj, (dict, list)):
+        return shot
+    return dict(shot, reference=json.dumps(obj, separators=(",", ":"), ensure_ascii=False))
+
+
+async def _compress(run: Run, system: str) -> str | None:
+    """Ultra rewrites the winning prompt in about half the words. It sees the prompt only, no rows."""
+    prompt = ("Rewrite this system prompt so a small model gets the same instructions in at most half as many words. "
+              "Keep every rule, label, field name, number and output-format instruction. Drop only repetition, "
+              "filler and explanation.\n\n<prompt>\n" + system + "\n</prompt>\n\nReply with the new prompt only.")
+    res = await run.llm.chat(ULTRA, [{"role": "user", "content": prompt}], max_tokens=1200, purpose="squeeze_prompt")
+    text = re.sub(r"</?prompt>|^```\w*|```$", "", (res.text or "").strip()).strip() if res.ok else ""
+    text = ensure_labels(run.task, text) if text else ""
+    return text if text and len(text) < 0.85 * len(system) else None
+
+
+async def _squeeze(run: Run, verdict: dict, chosen: dict, ref: dict, ho_ids: list[str]):
+    """The model is chosen; now cut tokens. Each cut is tried on validation rows and kept only if the score holds
+    (within 1 point) and the cost per call falls. The squeezed setup is then scored once on the held-out rows and
+    replaces the verdict's setup only if it still matches Ultra."""
+    task, tol, rung = run.task, verdict["tolerance"], rung_by_key(chosen["rung"])
+    yield run.ev("stage", stage="squeeze", tier_key=rung["key"],
+                 message=f"Squeeze: cutting prompt and answer tokens off {rung['label']}, checked on validation rows")
+    base = await run.evaluate(rung, chosen["system"], chosen["fewshots"], task["validation"], "validation", "squeeze:start")
+    cur = {"system": chosen["system"], "fewshots": chosen["fewshots"], "e": base}
+    steps = [{"lever": "start", "label": "the verdict's setup", "kept": True, "val": base["score"],
+              "cost_per_1k_usd": base["cost_per_1k_usd"], "in_tokens": base["mean_in_tokens"],
+              "out_tokens": base["mean_out_tokens"]}]
+
+    def brief(c):
+        add = BRIEF.get(task.get("output_format"), "Answer as briefly as the format allows, with no explanation.")
+        shots = [_minify(s) for s in c["fewshots"]] if task.get("output_format") == "json" else c["fewshots"]
+        return c["system"].rstrip() + "\n" + add, shots
+
+    levers = [("brief", "shorter answers", brief)]
+    n = len(chosen["fewshots"])
+    if n > 2:
+        levers.append(("shots", "2 worked examples, not %d" % n, lambda c: (c["system"], c["fewshots"][:2])))
+    if n:
+        levers.append(("shots0", "no worked examples", lambda c: (c["system"], [])))
+    levers.append(("compress", "the prompt in half the words", None))
+    for key, label, fn in levers:
+        if key == "compress":
+            system = await _compress(run, cur["system"])
+            if not system:
+                steps.append({"lever": key, "label": label, "kept": False, "note": "the prompt is already tight: Ultra's rewrite saved under 15%"})
+                continue
+            system, shots = system, cur["fewshots"]
+        else:
+            system, shots = fn(cur)
+        e = await run.evaluate(rung, system, shots, task["validation"], "validation", f"squeeze:{key}")
+        yield run.ev("eval", **_public_eval(e))
+        c0 = cur["e"]["cost_per_1k_usd"] or 0
+        kept = e["score"] >= cur["e"]["score"] - 0.01 and (e["cost_per_1k_usd"] or c0) < 0.97 * c0
+        steps.append({"lever": key, "label": label, "kept": kept, "val": e["score"],
+                      "cost_per_1k_usd": e["cost_per_1k_usd"], "in_tokens": e["mean_in_tokens"],
+                      "out_tokens": e["mean_out_tokens"]})
+        if kept:
+            cur = {"system": system, "fewshots": shots, "e": e}
+    out = {"steps": steps, "tolerance": tol, "rung": rung["key"], "label": rung["label"],
+           "from_cost_per_1k_usd": verdict["cost_per_1k_usd"], "reference_cost_per_1k_usd": ref["cost_per_1k_usd"]}
+    if cur["e"] is base:
+        yield run.ev("squeeze", **out, applied=False,
+                     message="Squeeze: no cut held up on validation, so the verdict's setup stays as it is")
+        return
+    ho = await run.evaluate(rung, cur["system"], cur["fewshots"], task["holdout"], "holdout", "squeezed")
+    yield run.ev("eval", **_public_eval(ho))
+    rows = [ho["row_scores"][i] for i in ho_ids]
+    diff = paired_diff_ci(rows, ref["rows"])
+    applied = matches(diff, tol)
+    x = (ref["cost_per_1k_usd"] or 0) / ho["cost_per_1k_usd"] if ho["cost_per_1k_usd"] else None
+    out |= {"applied": applied, "holdout_score": ho["score"], "ci": bootstrap_ci(rows), "diff": diff,
+            "cost_per_1k_usd": ho["cost_per_1k_usd"], "x_cheaper": round(x, 1) if x else None,
+            "in_tokens": ho["mean_in_tokens"], "out_tokens": ho["mean_out_tokens"],
+            "system": cur["system"], "fewshot_ids": [str(f["id"]) for f in cur["fewshots"]],
+            "snippet": make_snippet(rung["model"], cur["system"], cur["fewshots"], run.max_tokens(rung), rung["thinking"])}
+    out["message"] = (f"Squeeze: {_pct(ho['score'])} on held-out rows at ${ho['cost_per_1k_usd']:.4f} per 1k calls "
+                      f"({out['x_cheaper']}x cheaper than Ultra), {compare_sentence(diff, tol)}" if applied else
+                      f"Squeeze: the squeezed setup scored {_pct(ho['score'])} on held-out rows and is not shown to "
+                      f"match Ultra, so the verdict's setup stays")
+    yield run.ev("squeeze", **out)
+
+
 # --------------------------------------------------------------------------------------------- pipeline
 
 async def run_downshift(task: dict, options: dict | None = None, llm: LLM | None = None,
@@ -868,6 +962,14 @@ async def run_downshift(task: dict, options: dict | None = None, llm: LLM | None
         # 5. Verdict.
         verdict = _verdict(run, ref_info, ref_key, rungs, chosen_key, tol, budget_stop, started)
         yield run.ev("verdict", verdict=verdict)
+
+        # 5b. Squeeze the winning setup's tokens.
+        if opts["squeeze"] and chosen_key and chosen_key in rungs and rungs[chosen_key].get("prompt_label"):
+            try:
+                async for ev in _squeeze(run, verdict, rungs[chosen_key], ref, ho_ids):
+                    yield ev
+            except BudgetExceeded as e:
+                yield run.ev("skipped", tier_key=chosen_key, message=f"Squeeze stopped at the spend cap: {e}")
 
         # 6. Photo check, for tasks whose text came from photos.
         if photo:

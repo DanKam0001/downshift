@@ -130,7 +130,7 @@
     }
     es = new EventSource(`/api/run/${encodeURIComponent(runId)}/events${speed ? `?speed=${speed}` : ""}`);
     updateRunBtn();
-    const types = ["started", "stage", "references", "checker_attempt", "grader", "notice", "skipped", "eval", "bar", "round", "tier_done", "verdict", "photo", "guess", "aborted", "error", "done"];
+    const types = ["started", "stage", "references", "checker_attempt", "grader", "notice", "skipped", "eval", "bar", "round", "tier_done", "verdict", "photo", "guess", "squeeze", "aborted", "error", "done"];
     types.forEach((t) => es.addEventListener(t, (m) => handle(JSON.parse(m.data))));
     es.addEventListener("end", () => { es.close(); es = null; updateRunBtn(); });
     es.onerror = () => { if (es && es.readyState === EventSource.CLOSED) { es = null; updateRunBtn(); } };
@@ -158,6 +158,7 @@
         if (e.stage === "bar") row(e.tier_key || "ultra").status = "running";
         if (e.stage === "downshift") { S.currentTier = e.tier_key; row(e.tier_key).status = "tuning"; }
         if (e.stage === "photo") row(e.tier_key).status = "running";
+        if (e.stage === "squeeze") row(e.tier_key).status = "running";
         $("#bar-line").textContent = e.message + "…";
         break;
       case "references": log(`Ultra wrote ${e.n} reference outputs`); break;
@@ -178,7 +179,7 @@
         if (e.split === "train" && e.label === "plain") { r.plain = e; if (!e.tier_key.startsWith("ultra")) r.status = "tuning"; }
         if (e.split === "holdout") { r.holdout = e; }
         if (e.tier_key.startsWith("ultra") && e.split === "holdout") r.status = "measured";
-        log(`${tierName(e.tier_key)} · ${{ holdout: "held out", validation: "validation", train: "tuning" }[e.split] || e.split} · ${e.label}: ${pct(e.score)} on ${e.n}, ${usd(e.cost_per_1k_usd)} per 1k calls, p50 ${ms(e.p50_ms)}${e.truncated ? ` · ${e.truncated} ran out of tokens` : ""}${e.grade_batch && e.grade_batch.operation_id ? " · sandbox op " + e.grade_batch.operation_id.slice(0, 8) : ""}`);
+        log(`${tierName(e.tier_key)} · ${{ holdout: "held out", validation: "validation", train: "tuning" }[e.split] || e.split} · ${e.label}: ${pct(e.score)} on ${e.n}, ${usd(e.cost_per_1k_usd)} per 1k calls, p50 ${ms(e.p50_ms)}${e.truncated ? ` · ${e.truncated} ran out of tokens` : ""}${e.grade_batch && e.grade_batch.branched ? ` · graded in a branch of sealed answer key ${e.grade_batch.checkpoint.slice(0, 8)}` : e.grade_batch && e.grade_batch.operation_id ? " · sandbox op " + e.grade_batch.operation_id.slice(0, 8) : ""}`);
         break;
       }
       case "bar": {
@@ -213,6 +214,12 @@
       case "guess":
         S.guess = e; log(e.message);
         if (e.tripped) $("#bar-line").textContent = e.message;
+        break;
+      case "squeeze":
+        if (S.verdict) row(e.tier_key).status = S.verdict.kind === "downshift" ? "passed" : "measured";
+        S.squeeze = e; renderSqueeze();
+        if (S.barText) $("#bar-line").textContent = S.barText;
+        log(e.message);
         break;
       case "photo":
         row(e.tier_key).done = e;
@@ -356,7 +363,7 @@
       stat("p50 latency", ms(v.p50_latency_ms), `Ultra ${ms(v.ultra_p50_latency_ms)}`) +
       stat("Thinking", v.thinking ? "On" : "Off", "set by enable_thinking in the snippet") +
       stat("This run cost", usd(v.run_spend_usd), `${v.run_seconds != null ? Math.round(v.run_seconds) + " s · " : ""}graded by ${v.graded_by.map((g) => (g === "sandbox" ? "Nebius Sandboxes" : "local subprocess")).join(" + ")}`);
-    renderSavings(); renderPhoto(); renderGuess();
+    renderSavings(); renderSqueeze(); renderPhoto(); renderGuess();
     $("#v-prompt").textContent = v.system_prompt + (v.fewshots.length ? `\n\n+ ${v.fewshots.length} example pair(s): ${v.fewshots.map((f) => f.id).join(", ")}` : "");
     $("#v-snippet").textContent = v.snippet;
     $("#share-link").href = `/?run=${S.runId}`;
@@ -384,6 +391,25 @@
         (Ultra minus the guess: ${pts(g.diff.diff)} pts, 95% CI ${pts(g.diff.lo)} to ${pts(g.diff.hi)}).</p>
       <p class="sav-note">${g.tripped ? "If Ultra can't provably beat a fixed answer, the checker can't tell a good answer from a lucky one, and \"a cheaper model matches\" would mean nothing. Fix the checker first." : "Ultra beats every fixed answer, so the checker measures skill and the comparison below means something."}
         Guess: <code>${esc(g.best.answer.slice(0, 120))}</code></p>`;
+  }
+
+  /* ---------- squeeze: the model is chosen, now cut its tokens; every cut checked, the result re-proved ---------- */
+  function renderSqueeze() {
+    const e = S && S.squeeze, box = $("#v-squeeze");
+    box.hidden = !e || !S.verdict;
+    if (box.hidden) return;
+    const tok = (x) => x.in_tokens != null ? `${Math.round(x.in_tokens)} tokens in, ${Math.round(x.out_tokens)} out` : "";
+    const steps = e.steps.map((x) => x.lever === "start"
+      ? `<li><span class="sq-l">${esc(tierName(e.rung))}, the verdict's setup</span><span class="sq-c">${usd(x.cost_per_1k_usd, 4)} / 1k</span><span class="sq-t">${pct(x.val)} on validation · ${tok(x)}</span></li>`
+      : `<li class="${x.kept ? "" : "drop"}"><span class="sq-l">${x.kept ? "Kept" : "Dropped"}: ${esc(x.label)}</span><span class="sq-c">${x.cost_per_1k_usd != null ? usd(x.cost_per_1k_usd, 4) + " / 1k" : "–"}</span><span class="sq-t">${x.val != null ? pct(x.val) + " on validation · " + tok(x) : esc(x.note || "")}${x.kept ? "" : x.val != null ? " · score fell or cost didn't" : ""}</span></li>`).join("");
+    const ref = `<li><span class="sq-l">Ultra (${S.verdict.reference.thinking ? "thinking on" : "thinking off"}), the reference</span><span class="sq-c">${usd(e.reference_cost_per_1k_usd, 3)} / 1k</span></li>`;
+    box.className = "squeeze " + (e.applied ? "pass" : "fail");
+    box.innerHTML = `<h3>Squeeze: the model is picked, now cut its tokens</h3>
+      <p class="sq-call">${e.applied ? `${usd(e.cost_per_1k_usd, 4)} per 1k calls: ${e.x_cheaper}x cheaper than Ultra` : "Nothing to cut: the verdict's setup stays"}</p>
+      <ol>${ref}${steps}</ol>
+      ${e.applied ? `<p>The squeezed setup, scored once on the ${e.ci.n} held-out rows: <strong>${pct(e.holdout_score)}</strong> (95% CI ${ciTxt(e.ci)}), ${pts(e.diff.diff)} pts vs Ultra (CI ${pts(e.diff.lo)} to ${pts(e.diff.hi)}), so it still matches within ${Math.round(e.tolerance * 100)} points.</p>` : e.holdout_score != null ? `<p>The squeezed setup scored ${pct(e.holdout_score)} on held-out rows and was not shown to match Ultra, so it is not used.</p>` : ""}
+      <p class="sav-note">Each cut is tried on validation rows and kept only if the score holds within 1 point and the cost falls. Token Factory also prices cached prompt tokens lower, but we measured no cache hits on Nemotron, so no saving is assumed.</p>`;
+    if (e.applied && e.snippet) $("#v-snippet").textContent = e.snippet;
   }
 
   /* ---------- photo check: a vision model reading the photo instead of the OCR text ---------- */

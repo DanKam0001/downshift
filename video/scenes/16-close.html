@@ -1,0 +1,18 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .n{position:absolute;left:0;right:0;top:220px;text-align:center;font:800 140px Inter;letter-spacing:-3px;display:flex;justify-content:center;align-items:center;gap:34px}
+  .s{position:absolute;left:0;right:0;top:450px;text-align:center;font:700 52px Inter}
+  .s span{color:var(--good)}
+  .chips{position:absolute;left:0;right:0;top:600px;display:flex;justify-content:center;gap:18px}
+  .chips .chip{font-size:24px;padding:10px 22px}
+  .links{position:absolute;left:0;right:0;top:760px;text-align:center;font:600 32px/1.7 'JetBrains Mono';color:var(--acc2)}
+</style></head>
+<body>
+  <div class="n" data-cue="downshift" data-fx="pop" data-dur="0.7"><svg class="logo" viewBox="0 0 32 32"><rect width="32" height="32" rx="8"/><path d="M9 10h6l8 6-8 6H9l8-6z"/></svg>Downshift</div>
+  <div class="s" data-cue="cheapest" data-fx="rise">The cheapest setup that <span>provably</span> does your job.</div>
+  <div class="chips" data-cue="open" data-fx="fade"><span class="chip acc">NVIDIA Nemotron</span><span class="chip ok">Nebius Token Factory</span><span class="chip ok">Nebius Sandboxes</span><span class="chip">MIT licence</span></div>
+  <div class="links" data-cue="running" data-fx="rise">downshift-qcuv.onrender.com<br>github.com/DanKam0001/downshift</div>
+</body></html>

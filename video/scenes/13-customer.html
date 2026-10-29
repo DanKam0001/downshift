@@ -1,0 +1,77 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:120px;top:70px;font:800 56px Inter;letter-spacing:-1px}
+  .t small{display:block;margin-top:10px;font:600 22px 'JetBrains Mono';color:var(--acc2);letter-spacing:2px}
+  .bot{position:absolute;left:120px;top:230px;width:560px;padding:28px 32px;display:grid;gap:14px}
+  .bot .k{font:600 20px 'JetBrains Mono';color:var(--mute);letter-spacing:2px}
+  .bot .who{font:800 36px/1.2 Inter}
+  .bot .why{font:500 23px/1.45 Inter;color:var(--mute)}
+  .bot .why b{color:var(--ink)}
+  .old{position:absolute;left:120px;top:520px;width:560px;padding:24px 32px;border:2px solid var(--blue)}
+  .old .k{font:600 20px 'JetBrains Mono';color:var(--mute);letter-spacing:2px}
+  .old .call{font:800 40px Inter;color:var(--blue);margin-top:8px;position:relative;display:inline-block}
+  .old .strike{position:absolute;left:-6px;right:-6px;top:52%;height:6px;background:var(--bad);border-radius:3px}
+  .chart{position:absolute;left:760px;right:120px;top:230px;padding:28px 36px 30px}
+  .chart .k{font:600 20px 'JetBrains Mono';color:var(--mute);letter-spacing:2px;margin-bottom:18px}
+  .row{display:grid;grid-template-columns:300px 1fr 130px;align-items:center;gap:20px;height:78px}
+  .row .n{font:700 30px Inter}
+  .row .n small{display:block;font:500 18px 'JetBrains Mono';color:var(--mute);margin-top:4px}
+  .row .track{height:34px;border-radius:8px;background:var(--panel2);overflow:hidden}
+  .row .bar{height:100%;border-radius:8px;background:#58616a}
+  .row .v{font:800 34px Inter;text-align:right}
+  .row.guess .bar{background:var(--warn)}.row.guess .v,.row.guess .n{color:var(--warn)}
+  .gc{position:absolute;left:120px;right:120px;top:800px;padding:28px 40px;border:2px solid var(--bad);display:grid;grid-template-columns:auto 1fr auto;gap:36px;align-items:center}
+  .gc .k{font:600 20px 'JetBrains Mono';color:var(--bad);letter-spacing:2px}
+  .gc .big{font:800 42px/1.15 Inter}
+  .gc .small{font:500 21px 'JetBrains Mono';color:var(--mute);margin-top:10px}
+  .gc .cost{text-align:right;font:800 56px Inter;color:var(--good);line-height:1}
+  .gc .cost small{display:block;font:600 20px 'JetBrains Mono';color:var(--mute);margin-top:8px}
+</style></head>
+<body>
+  <div class="t" data-cue="customer" data-fx="rise">I made myself the customer<small>MY OWN HACKATHON JUDGE BOT</small></div>
+
+  <div class="card bot" data-cue="judge" data-fx="rise">
+    <div class="k">THE JOB</div>
+    <div class="who">Predict judges' scores with Claude Sonnet</div>
+    <div class="why" data-cue="judge" data-fx="fade"><b>105 real entries</b>, graded against the scores the real judges gave. 4 criteria, 1 to 5 each.</div>
+  </div>
+
+  <div class="card old" data-cue="said" data-fx="rise">
+    <div class="k">DOWNSHIFT, FIRST VERSION</div>
+    <div class="call">Use Nano, 15x cheaper<div class="strike" data-cue="dumb" data-fx="growx" data-dur="0.5"></div></div>
+  </div>
+
+  <div class="card chart" data-cue="dumb" data-fx="rise">
+    <div class="k">CLOSENESS TO THE REAL JUDGES · 105 HELD-OUT ENTRIES</div>
+    <div class="row guess" data-cue="3" data-fx="fade">
+      <div class="n">"Always 3"<small>no model · $0</small></div>
+      <div class="track"><div class="bar" data-cue="3" data-fx="growx" data-dur="0.9" style="width:75.4%"></div></div>
+      <div class="v">75.4%</div>
+    </div>
+    <div class="row" data-cue="beat" data-fx="fade">
+      <div class="n">Claude Sonnet<small>what the bot uses</small></div>
+      <div class="track"><div class="bar" data-cue="beat" data-fx="growx" data-dur="0.9" style="width:74.1%"></div></div>
+      <div class="v">74.1%</div>
+    </div>
+    <div class="row" data-cue="beat" data-fx="fade">
+      <div class="n">Nemotron 3 Ultra<small>$2.10 / 1k calls</small></div>
+      <div class="track"><div class="bar" data-cue="beat" data-fx="growx" data-dur="0.9" style="width:72.1%"></div></div>
+      <div class="v">72.1%</div>
+    </div>
+    <div class="row" data-cue="beat" data-fx="fade">
+      <div class="n">Nemotron 3 Nano<small>$0.14 / 1k calls</small></div>
+      <div class="track"><div class="bar" data-cue="beat" data-fx="growx" data-dur="0.9" style="width:71.6%"></div></div>
+      <div class="v">71.6%</div>
+    </div>
+  </div>
+
+  <div class="card gc" data-cue="exists" data-fx="rise">
+    <div class="k">THE GUESS<br>CHECK</div>
+    <div><div class="big" data-cue="verdict" data-fx="fade">No verdict: this checker can't tell skill from guessing.</div>
+      <div class="small" data-cue="exists" data-fx="fade">runs before the ladder · passes on receipts, support, contracts by 48–79 points</div></div>
+    <div class="cost" data-cue="money" data-fx="pop">$0<small>0 model calls · 27 s</small></div>
+  </div>
+</body></html>

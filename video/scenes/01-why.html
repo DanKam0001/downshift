@@ -1,0 +1,46 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:120px;top:90px;font:800 76px Inter;letter-spacing:-2px}
+  .t small{display:block;margin-top:14px;font:600 24px 'JetBrains Mono';color:var(--acc2);letter-spacing:2px}
+  .levers{position:absolute;left:120px;right:120px;top:330px;display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+  .lv{padding:36px 38px;display:grid;gap:18px;align-content:start;min-height:390px}
+  .lv .k{font:600 22px 'JetBrains Mono';color:var(--acc2);letter-spacing:3px}
+  .lv .q{font:800 44px/1.1 Inter}
+  .lv .opts{display:flex;flex-wrap:wrap;gap:10px}
+  .lv .note{font:500 23px/1.45 Inter;color:var(--mute)}
+  .lv .note b{color:var(--ink)}
+  .brand{position:absolute;left:120px;right:120px;top:830px;display:flex;align-items:center;justify-content:space-between}
+  .brand .n{font:800 64px Inter;display:flex;align-items:center;gap:20px}
+  .brand .on{font:600 26px 'JetBrains Mono';color:var(--mute);text-align:right;line-height:1.6}
+  .brand .on b{color:var(--ink)}
+</style></head>
+<body>
+  <div class="t" data-cue="every">Every AI call is a bill for 3 choices<small>WHAT WE BUILT, AND WHY</small></div>
+  <div class="levers">
+    <div class="card lv" data-cue="model" data-fx="rise">
+      <div class="k">1 · WHICH MODEL</div>
+      <div class="q">Ultra, or smaller?</div>
+      <div class="opts"><span class="chip ok">Lightning</span><span class="chip ok">Nano</span><span class="chip">Super</span><span class="chip warn">Ultra</span></div>
+      <div class="note">On receipts: Ultra <b>$3.69</b> vs Nano <b>$0.10</b> per 1,000 calls.</div>
+    </div>
+    <div class="card lv" data-cue="thinks" data-fx="rise">
+      <div class="k">2 · HOW HARD IT THINKS</div>
+      <div class="q">Thinking on or off?</div>
+      <div class="opts"><span class="chip warn">thinking on</span><span class="chip ok">thinking off</span></div>
+      <div class="note">Thinking cost Ultra <b>2.4x to 6.6x</b> more per call on our text tasks.</div>
+    </div>
+    <div class="card lv" data-cue="words" data-fx="rise">
+      <div class="k">3 · WORDS IN AND OUT</div>
+      <div class="q">How long is the prompt, the answer, the photo?</div>
+      <div class="opts"><span class="chip">prompt</span><span class="chip">examples</span><span class="chip">answer</span><span class="chip">image size</span></div>
+      <div class="note">You pay for <b>every token</b>, both ways.</div>
+    </div>
+  </div>
+  <div class="brand">
+    <div class="n" data-cue="downshift" data-fx="pop" data-dur="0.7"><svg class="logo" viewBox="0 0 32 32"><rect width="32" height="32" rx="8"/><path d="M9 10h6l8 6-8 6H9l8-6z"/></svg>Downshift</div>
+    <div class="on" data-cue="nvidia" data-fx="fade"><b>NVIDIA Nemotron</b> models<br>on <b>Nebius Token Factory</b></div>
+  </div>
+</body></html>

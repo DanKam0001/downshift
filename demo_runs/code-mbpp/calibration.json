@@ -1,0 +1,156 @@
+{
+ "canonical": {
+  "pass_rate": 1.0,
+  "sandbox": {
+   "backend": "Nebius Sandboxes",
+   "operation_id": "01a184d6-ac96-7326-aac8-2701be73ac91",
+   "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+   "networking": false,
+   "wall_s": 5.062,
+   "guest_elapsed_s": 0.396777,
+   "harness_s": 0.105,
+   "workers": 8,
+   "mode": "fork",
+   "attempts": 1
+  },
+  "fails": []
+ },
+ "def f(*a): return None": {
+  "pass_rate": 0.0,
+  "sandbox": {
+   "backend": "Nebius Sandboxes",
+   "operation_id": "01a184d6-bc70-73f7-a711-97c692877637",
+   "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+   "networking": false,
+   "wall_s": 4.594,
+   "guest_elapsed_s": 0.37411,
+   "harness_s": 0.099,
+   "workers": 8,
+   "mode": "fork",
+   "attempts": 1
+  },
+  "example_detail": "no function named validate",
+  "passing_ids": []
+ },
+ "right name, return None": {
+  "pass_rate": 0.0,
+  "sandbox": {
+   "backend": "Nebius Sandboxes",
+   "operation_id": "01a184d6-cf66-7672-aa07-1f448a97c664",
+   "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+   "networking": false,
+   "wall_s": 4.172,
+   "guest_elapsed_s": 0.38320299999999996,
+   "harness_s": 0.099,
+   "workers": 8,
+   "mode": "fork",
+   "attempts": 1
+  },
+  "example_detail": "0/3 tests pass; AssertionError on: assert validate(1234) == True",
+  "passing_ids": []
+ },
+ "right name, return True": {
+  "pass_rate": 0.0,
+  "sandbox": {
+   "backend": "Nebius Sandboxes",
+   "operation_id": "01a184d6-def7-72c0-ac9f-dbdcf4aaa9a3",
+   "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+   "networking": false,
+   "wall_s": 3.859,
+   "guest_elapsed_s": 0.375068,
+   "harness_s": 0.095,
+   "workers": 8,
+   "mode": "fork",
+   "attempts": 1
+  },
+  "example_detail": "2/3 tests pass; AssertionError on: assert validate(51241) == False",
+  "passing_ids": []
+ },
+ "right name, return False": {
+  "pass_rate": 0.0,
+  "sandbox": {
+   "backend": "Nebius Sandboxes",
+   "operation_id": "01a184d6-ede7-7155-86c3-10705a1bfcff",
+   "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+   "networking": false,
+   "wall_s": 3.75,
+   "guest_elapsed_s": 0.376666,
+   "harness_s": 0.094,
+   "workers": 8,
+   "mode": "fork",
+   "attempts": 1
+  },
+  "example_detail": "1/3 tests pass; AssertionError on: assert validate(1234) == True",
+  "passing_ids": []
+ },
+ "right name, return 0": {
+  "pass_rate": 0.0,
+  "sandbox": {
+   "backend": "Nebius Sandboxes",
+   "operation_id": "01a184d6-fc95-73aa-bac0-345a92775026",
+   "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+   "networking": false,
+   "wall_s": 3.782,
+   "guest_elapsed_s": 0.386609,
+   "harness_s": 0.101,
+   "workers": 8,
+   "mode": "fork",
+   "attempts": 1
+  },
+  "example_detail": "1/3 tests pass; AssertionError on: assert validate(1234) == True",
+  "passing_ids": []
+ },
+ "right name, echo first arg": {
+  "pass_rate": 0.006666666666666667,
+  "sandbox": {
+   "backend": "Nebius Sandboxes",
+   "operation_id": "01a184d7-0b74-74e6-8c38-0a118b6cf278",
+   "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+   "networking": false,
+   "wall_s": 3.828,
+   "guest_elapsed_s": 0.361401,
+   "harness_s": 0.089,
+   "workers": 8,
+   "mode": "fork",
+   "attempts": 1
+  },
+  "example_detail": "0/3 tests pass; AssertionError on: assert validate(1234) == True",
+  "passing_ids": [
+   "mbpp-404"
+  ]
+ },
+ "infinite loop": {
+  "pass_rate": 0.0,
+  "sandbox": {
+   "backend": "Nebius Sandboxes",
+   "operation_id": "01a184d7-1a35-7231-8e27-637f41952be3",
+   "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+   "networking": false,
+   "wall_s": 54.203,
+   "guest_elapsed_s": 202.241298,
+   "harness_s": 50.584,
+   "workers": 8,
+   "mode": "fork",
+   "attempts": 1
+  },
+  "example_detail": "0/3 tests pass; _Timeout on: assert validate(1234) == True",
+  "passing_ids": []
+ },
+ "empty reply": {
+  "pass_rate": 0.0,
+  "sandbox": {
+   "backend": "Nebius Sandboxes",
+   "operation_id": "01a184d7-ee2a-72ef-9636-5325eb12a8c7",
+   "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+   "networking": false,
+   "wall_s": 3.782,
+   "guest_elapsed_s": 0.339712,
+   "harness_s": 0.087,
+   "workers": 8,
+   "mode": "fork",
+   "attempts": 1
+  },
+  "example_detail": "no code in reply",
+  "passing_ids": []
+ }
+}

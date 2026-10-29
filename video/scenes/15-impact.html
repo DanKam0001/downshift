@@ -1,0 +1,26 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .k2{position:absolute;left:0;right:0;top:110px;text-align:center;font:600 28px 'JetBrains Mono';color:var(--mute);letter-spacing:2px}
+  .who{position:absolute;left:0;right:0;top:170px;text-align:center;font:800 64px Inter;letter-spacing:-1px}
+  .row{position:absolute;left:220px;right:220px;top:360px;display:grid;grid-template-columns:1fr 120px 1fr;align-items:center}
+  .m{padding:38px 40px;text-align:center}
+  .m .k{font:600 22px 'JetBrains Mono';color:var(--mute);letter-spacing:2px}
+  .m .v{font:800 110px Inter;letter-spacing:-3px;line-height:1.1;margin-top:10px}
+  .m .s{font:500 22px 'JetBrains Mono';color:var(--mute)}
+  .m.lo{border:2px solid var(--good)}.m.lo .v{color:var(--good)}
+  .ar{text-align:center;font:800 70px Inter;color:var(--mute)}
+  .note{position:absolute;left:220px;right:220px;top:790px;text-align:center;font:500 24px/1.5 'JetBrains Mono';color:var(--mute)}
+</style></head>
+<body>
+  <div class="k2" data-cue="expense" data-fx="fade">WHO IT'S FOR</div>
+  <div class="who" data-cue="expense" data-fx="rise">An expense app reading 1M receipts a month</div>
+  <div class="row" data-cue="$44000" data-fx="rise">
+    <div class="card m"><div class="k">NEMOTRON 3 ULTRA, THINKING ON</div><div class="v">$44,300</div><div class="s">a year · $3.69 per 1k calls</div></div>
+    <div class="ar">→</div>
+    <div class="card m lo"><div class="k">NANO, TUNED + SQUEEZED</div><div class="v" data-cue="$1000" data-fx="pop">$1,050</div><div class="s">a year · $0.087 per 1k calls</div></div>
+  </div>
+  <div class="note" data-cue="$1000" data-fx="fade">same accuracy on the locked-away receipts · from the measured cost per call · any team running one task at volume gets the same math</div>
+</body></html>

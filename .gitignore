@@ -7,3 +7,7 @@ video/work/
 video/demo.mp4
 SUBMIT/
 presets/hackathon-judge/
+data_media/
+
+# KTH frames: non-commercial research licence, not redistributed (video/scenes/10-vision and 06-tested need it locally)
+video/scenes/kth.png

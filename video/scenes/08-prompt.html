@@ -1,0 +1,51 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:120px;top:60px;font:800 56px Inter;letter-spacing:-1px}
+  .t small{display:block;margin-top:10px;font:600 22px 'JetBrains Mono';color:var(--acc2);letter-spacing:2px}
+  .cols{position:absolute;left:120px;right:120px;top:210px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  .p{padding:26px 30px;height:700px;display:flex;flex-direction:column}
+  .p .hd{display:flex;justify-content:space-between;align-items:baseline}
+  .p .k{font:600 22px 'JetBrains Mono';letter-spacing:2px;color:var(--mute)}
+  .p .sc{font:800 64px Inter;line-height:1}
+  .p .sc small{display:block;text-align:right;font:600 18px 'JetBrains Mono';color:var(--mute);margin-top:6px}
+  .p pre{margin:18px 0 0;font:500 17.5px/1.5 'JetBrains Mono';color:var(--ink);white-space:pre-wrap;flex:1;overflow:hidden}
+  .p.after{border:2px solid var(--good)}
+  .p.after .sc{color:var(--good)}
+  .p.after .k{color:var(--good)}
+  .p .shots{font:600 20px 'JetBrains Mono';color:var(--acc2);border-top:1px solid var(--line);padding-top:14px}
+  .foot2{position:absolute;left:120px;right:120px;top:945px;font:500 21px 'JetBrains Mono';color:var(--mute)}
+</style></head>
+<body>
+  <div class="t" data-cue="prompt">The prompt, before and after<small>NEMOTRON 3 NANO · THINKING OFF · REWRITTEN BY ULTRA</small></div>
+  <div class="cols">
+    <div class="card p" data-cue="before" data-fx="rise">
+      <div class="hd"><div class="k">BEFORE · PLAIN</div><div class="sc" data-cue="86" data-fx="pop">86.1%<small>validation</small></div></div>
+<pre>The text below is the OCR output of a shop or restaurant receipt from Indonesia (amounts in rupiah). Extract the following as a JSON object and reply with the JSON only:
+- "items": the purchased line items, each {"name": string as printed, "quantity": integer or null, "price": the line total as printed, integer}. Do not list sub-items or modifiers printed under an item.
+- "subtotal", "discount", "service_charge", "tax", "total", "cash_paid", "change": integers, or null if the receipt does not print that amount.
+Write every amount as a plain integer with no currency or separators ("Rp 25.000" -> 25000). Discounts are positive numbers.</pre>
+      <div class="shots m">no worked examples</div>
+    </div>
+    <div class="card p after" data-cue="after" data-fx="rise">
+      <div class="hd"><div class="k">AFTER · TUNED</div><div class="sc" data-cue="90" data-fx="pop">90.3%<small>validation</small></div></div>
+<pre>Extract receipt data as JSON only. Rules:
+1. ITEMS: Lines with a printed line total. Name = text before that number. Quantity = leading integer if present, else null. Ignore sub-items/modifiers (no line total, indented, or price 0).
+2. TOTALS: Match labels case-insensitively.
+   - Subtotal: SUBTOTAL/SUB TOTAL/NET SALES
+   - Discount: DISC/PROMO/LESS/OFF
+   - Service Charge: SVC/SERVICE/CHG
+   - Tax: TAX/PAJAK/PB1/PPN
+   - Total: TOTAL/GRAND TOTAL (not Subtotal)
+   - Cash Paid: CASH/BAYAR/PAY
+   - Change: CHANGE/KEMBALI
+3. Values: integers only. Null if missing.
+…
+5. Do not infer missing fields from math.</pre>
+      <div class="shots" data-cue="examples" data-fx="fade">+ 4 worked examples (receipt in, right JSON out)</div>
+    </div>
+  </div>
+  <div class="foot2" data-cue="validation" data-fx="fade">40 validation receipts · the 86 locked-away receipts are scored only after this choice · abridged</div>
+</body></html>

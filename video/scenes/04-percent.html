@@ -1,0 +1,31 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:120px;top:80px;font:800 60px Inter;letter-spacing:-1px}
+  .t small{display:block;margin-top:12px;font:600 22px 'JetBrains Mono';color:var(--acc2);letter-spacing:2px}
+  .def{position:absolute;left:120px;right:120px;top:250px;padding:34px 44px;font:700 44px/1.35 Inter}
+  .def b{color:var(--good)}
+  .rows{position:absolute;left:120px;right:120px;top:520px;display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .r{padding:24px 30px;display:grid;gap:8px}
+  .r .k{font:600 20px 'JetBrains Mono';color:var(--mute);letter-spacing:1.5px}
+  .r .v{font:600 26px/1.35 Inter}
+  .q{position:absolute;left:120px;right:120px;top:800px;display:grid;grid-template-columns:1fr 1fr;gap:26px}
+  .q div{padding:26px 34px;font:800 40px Inter;border-radius:18px}
+  .q .no{background:var(--panel);border:1px solid var(--line);color:var(--mute);text-decoration:line-through}
+  .q .yes{background:var(--panel);border:2px solid var(--good);color:var(--good)}
+</style></head>
+<body>
+  <div class="t" data-cue="percentage">What the percentages mean<small>EVERY NUMBER IN THIS VIDEO</small></div>
+  <div class="card def" data-cue="examples" data-fx="rise">On examples the model <b>never saw while tuning</b>,<br>how much it got right, <b>by the check</b>.</div>
+  <div class="rows" data-cue="check" data-fx="rise">
+    <div class="card r"><div class="k">RECEIPTS</div><div class="v">share of the 8 fields right (items, totals, tax …)</div></div>
+    <div class="card r"><div class="k">SUPPORT · CONTRACTS · PETS · VIDEO</div><div class="v">share given the right label</div></div>
+    <div class="card r"><div class="k">CODE</div><div class="v">share of problems whose code passes its tests</div></div>
+  </div>
+  <div class="q">
+    <div class="no" data-cue="never" data-fx="rise">Is it 100%?</div>
+    <div class="yes" data-cue="good" data-fx="rise">Is it as good as Ultra, on the same examples?</div>
+  </div>
+</body></html>

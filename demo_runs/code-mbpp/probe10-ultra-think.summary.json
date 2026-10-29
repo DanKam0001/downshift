@@ -1,0 +1,29 @@
+{
+ "config": "probe10-ultra-think",
+ "model": "nvidia/Nemotron-3-Ultra-550b-a55b",
+ "thinking": true,
+ "prompt": "default",
+ "system": "Write a Python function that solves the task below. The example test shows the function's name and how it is called: use exactly that name and argument order. Standard library only. Put the code in one ```python block.",
+ "max_tokens": 5120,
+ "n": 10,
+ "pass_rate": 0.7,
+ "call_errors": 0,
+ "truncated": 1,
+ "mean_in": 107.5,
+ "mean_out": 2116.5,
+ "usd_total": 0.06457,
+ "usd_per_1k": 6.457,
+ "wall_s": 18.5,
+ "sandbox": {
+  "backend": "Nebius Sandboxes",
+  "operation_id": "01a184d5-7c20-74a4-90f8-68c6b3933465",
+  "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+  "networking": false,
+  "wall_s": 3.406,
+  "guest_elapsed_s": 0.09989,
+  "harness_s": 0.015,
+  "workers": 8,
+  "mode": "fork",
+  "attempts": 1
+ }
+}

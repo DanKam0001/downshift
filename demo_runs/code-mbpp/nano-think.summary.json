@@ -1,0 +1,29 @@
+{
+ "config": "nano-think",
+ "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+ "thinking": true,
+ "prompt": "default",
+ "system": "Write a Python function that solves the task below. The example test shows the function's name and how it is called: use exactly that name and argument order. Standard library only. Put the code in one ```python block.",
+ "max_tokens": 5120,
+ "n": 150,
+ "pass_rate": 0.8933333333333333,
+ "call_errors": 0,
+ "truncated": 3,
+ "mean_in": 112.75333333333333,
+ "mean_out": 589.92,
+ "usd_total": 0.02225189999999999,
+ "usd_per_1k": 0.14834599999999995,
+ "wall_s": 158.3,
+ "sandbox": {
+  "backend": "Nebius Sandboxes",
+  "operation_id": "01a184e1-885f-721e-b4bf-1f97eab2dcbc",
+  "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+  "networking": false,
+  "wall_s": 5.438,
+  "guest_elapsed_s": 0.41354899999999994,
+  "harness_s": 0.109,
+  "workers": 8,
+  "mode": "fork",
+  "attempts": 1
+ }
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Python function from a one-line spec (graded by unit tests)",
+  "business_story": "Coding assistants, ticket-to-patch bots and spreadsheet-formula helpers turn a short request into a small function, at high volume. There is no single right answer to compare against, but there is a way to check one: run the code against tests. Downshift grades every reply by executing it in a Nebius Sandbox with networking off.",
+  "instruction": "Write a Python function that solves the task below. The example test shows the function's name and how it is called: use exactly that name and argument order. Standard library only. Put the code in one ```python block.",
+  "output_format": "One ```python code block that defines the function named in the example test.",
+  "max_answer_tokens": 1024,
+  "grading": "unit tests run in Nebius Sandboxes (networking off); score 1 only if every assert passes",
+  "source_url": "https://github.com/google-research/google-research/tree/master/mbpp (also huggingface.co/datasets/google-research-datasets/mbpp, config 'sanitized')",
+  "license": "CC-BY-4.0",
+  "attribution": "Austin et al., 'Program Synthesis with Large Language Models', 2021. Google Research. MBPP sanitized subset (hand-verified by the authors).",
+  "split_note": "Splits follow the MBPP task-id ranges: holdout from test (11-510), validation from validation (511-600), tuning from train (601-974). The model sees the problem and the first assert; it is graded on all asserts (usually 3). reference holds tests, not an answer, so it must not be used as a few-shot assistant turn. Each row also carries the dataset's canonical_solution, used only to prove the tests pass for correct code.",
+  "slug": "code-mbpp",
+  "n_train": 30,
+  "n_validation": 30,
+  "n_holdout": 150
+}

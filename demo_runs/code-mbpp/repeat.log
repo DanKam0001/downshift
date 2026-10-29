@@ -1,0 +1,4 @@
+nano-think@r2: pass 90.0%  in 113 out 633  $0.1587/1k  errors 0 trunc 3  op 01a184f6-e2f0-75bd-9ec4-7c15e6a9984e  total spend $1.0442
+nano-think+answer-only@r2: pass 89.3%  in 130 out 467  $0.1199/1k  errors 0 trunc 2  op 01a184f8-47fa-7355-a4c5-74de3609504b  total spend $1.0622
+lightning-think@r2: pass 86.0%  in 113 out 1316  $0.3227/1k  errors 0 trunc 12  op 01a184fc-0078-75f5-baba-646fb728785b  total spend $1.1106
+ultra-think@r2: pass 85.3%  in 113 out 1260  $3.8917/1k  errors 0 trunc 14  op 01a184fe-b02d-7258-9034-5e119e6b942b  total spend $1.6944

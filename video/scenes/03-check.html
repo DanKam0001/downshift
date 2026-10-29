@@ -1,0 +1,40 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:120px;top:80px;font:800 64px Inter;letter-spacing:-1.5px}
+  .t small{display:block;margin-top:12px;font:600 22px 'JetBrains Mono';color:var(--warn);letter-spacing:2px}
+  .sud{position:absolute;left:120px;top:270px;width:520px;padding:30px;display:grid;gap:18px}
+  .grid{display:grid;grid-template-columns:repeat(9,1fr);border:3px solid var(--ink);width:460px;height:460px}
+  .grid span{display:flex;align-items:center;justify-content:center;font:700 28px 'JetBrains Mono';border:1px solid var(--line);color:var(--mute)}
+  .grid span.g{color:var(--good)}
+  .grid span:nth-child(3n){border-right:3px solid var(--ink)}
+  .grid span:nth-child(n+19):nth-child(-n+27),.grid span:nth-child(n+46):nth-child(-n+54){border-bottom:3px solid var(--ink)}
+  .sud .cap{display:flex;justify-content:space-between;font:700 26px Inter}
+  .sud .cap .w{color:var(--warn)}.sud .cap .g{color:var(--good)}
+  .kinds{position:absolute;left:720px;right:120px;top:270px;display:grid;gap:24px}
+  .kd{padding:26px 32px;display:grid;grid-template-columns:230px 1fr;gap:6px 24px;align-items:center}
+  .kd .k{font:800 34px Inter}
+  .kd .d{font:500 24px/1.4 Inter;color:var(--mute)}
+  .kd .d b{color:var(--ink)}
+  .kd .ex{grid-column:2;font:600 20px 'JetBrains Mono';color:var(--acc2)}
+  .kd.u{border:2px solid var(--blue)}.kd.u .k{color:var(--blue)}
+</style></head>
+<body>
+  <div class="t" data-cue="way">Checking an answer is easier than writing one<small>HOW WE GET ROUND THE ANSWER-KEY PROBLEM</small></div>
+  <div class="card sud" data-cue="sudoku" data-fx="rise">
+    <div class="grid" id="g"></div>
+    <div class="cap"><span class="w" data-cue="hard" data-fx="fade">hard to solve</span><span class="g" data-cue="easy" data-fx="fade">easy to check ✓</span></div>
+  </div>
+  <div class="kinds">
+    <div class="card kd" data-cue="label" data-fx="rise"><div class="k">A label</div><div class="d">the <b>known answer</b> for some examples</div><div class="ex">receipt → its real total: 63000</div></div>
+    <div class="card kd" data-cue="test" data-fx="rise"><div class="k">A test</div><div class="d">the answer must <b>pass</b>, no answer key needed</div><div class="ex">code → run its unit tests</div></div>
+    <div class="card kd u" data-cue="neither" data-fx="rise"><div class="k">Ultra's answer</div><div class="d">when you have neither, the <b>biggest model</b> stands in</div><div class="ex" data-cue="98" data-fx="fade">spam test: matched human labels on 98 of 100</div></div>
+  </div>
+<script>
+  const s="534678912672195348198342567859761423426853791713924856961537284287419635345286179";
+  const shown=new Set([0,1,4,9,12,13,14,19,20,25,27,31,35,36,39,41,44,45,49,53,55,60,61,66,67,68,71,76,79,80]);
+  document.getElementById('g').innerHTML=[...s].map((c,i)=>`<span class="${shown.has(i)?'':'g'}">${c}</span>`).join('');
+</script>
+</body></html>

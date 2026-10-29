@@ -1,0 +1,29 @@
+{
+ "config": "lightning-off+short",
+ "model": "nvidia/Nemotron-3_5-Lightning",
+ "thinking": false,
+ "prompt": "short",
+ "system": "Write this Python function. Reply with a ```python block.",
+ "max_tokens": 1024,
+ "n": 150,
+ "pass_rate": 0.8266666666666667,
+ "call_errors": 0,
+ "truncated": 0,
+ "mean_in": 79.75333333333333,
+ "mean_out": 124.84666666666666,
+ "usd_total": 0.005212260000000001,
+ "usd_per_1k": 0.034748400000000006,
+ "wall_s": 29.1,
+ "sandbox": {
+  "backend": "Nebius Sandboxes",
+  "operation_id": "01a184ed-faf7-7596-b32f-6e8fa5d66584",
+  "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+  "networking": false,
+  "wall_s": 4.578,
+  "guest_elapsed_s": 0.39968899999999996,
+  "harness_s": 0.105,
+  "workers": 8,
+  "mode": "fork",
+  "attempts": 1
+ }
+}

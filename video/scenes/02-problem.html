@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .kick2{position:absolute;left:120px;top:100px;font:600 24px 'JetBrains Mono';color:var(--mute);letter-spacing:3px}
+  .name{position:absolute;left:120px;top:150px;font:800 92px Inter;letter-spacing:-2px;color:var(--warn)}
+  .q{position:absolute;left:120px;right:120px;top:330px;font:700 48px/1.3 Inter}
+  .q span{color:var(--warn)}
+  .pair{position:absolute;left:120px;right:120px;top:540px;display:grid;grid-template-columns:1fr 160px 1fr;align-items:center}
+  .box{padding:30px 34px;min-height:200px}
+  .box .k{font:600 20px 'JetBrains Mono';color:var(--mute);letter-spacing:2px}
+  .box .v{font:500 24px/1.5 'JetBrains Mono';margin-top:14px;color:var(--acc2)}
+  .box.unk{border:2px dashed var(--warn)}
+  .box.unk .v{color:var(--warn);font:800 72px Inter}
+  .eq{text-align:center;font:800 80px Inter;color:var(--mute)}
+  .most{position:absolute;left:120px;right:120px;top:860px;font:600 34px Inter;color:var(--mute)}
+  .most b{color:var(--ink)}
+</style></head>
+<body>
+  <div class="kick2" data-cue="catch" data-fx="fade">THE CATCH</div>
+  <div class="name" data-cue="answer" data-fx="pop" data-dur="0.7">The answer-key problem</div>
+  <div class="q" data-cue="prove" data-fx="rise">How do you prove a cheaper setup is <span>good enough</span>,<br>without already knowing the right answers?</div>
+  <div class="pair">
+    <div class="card box" data-cue="cheaper" data-fx="rise"><div class="k">NANO'S ANSWER</div><div class="v">{"total": 63000,<br> "items": [ … ]}</div></div>
+    <div class="eq" data-cue="sounds" data-fx="fade">=?</div>
+    <div class="card box unk" data-cue="right" data-fx="rise"><div class="k">THE RIGHT ANSWER</div><div class="v">???</div></div>
+  </div>
+  <div class="most" data-cue="why" data-fx="rise">So most teams <b>skip the test and pay for the biggest model</b>.</div>
+</body></html>

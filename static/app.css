@@ -223,4 +223,17 @@ details > summary { list-style-position: inside; }
 .guess-check h3 { margin: 0 0 4px; font-size: 15px; }
 .guess-check.fail h3 { color: var(--bad); }
 .guess-check p { margin: 4px 0; }
-.savings[hidden], .photo-check[hidden], .guess-check[hidden], .snippet[hidden], .prompt-box[hidden] { display: none; }
+.savings[hidden], .squeeze[hidden], .photo-check[hidden], .guess-check[hidden], .snippet[hidden], .prompt-box[hidden] { display: none; }
+
+.squeeze { background: var(--panel-2); border: 1px solid var(--line); border-left: 4px solid var(--good); border-radius: 10px; padding: 12px 14px; margin: 0 0 16px; }
+.squeeze.fail { border-left-color: var(--warn); }
+.squeeze h3 { margin: 0 0 4px; font-size: 15px; }
+.squeeze p { margin: 4px 0; }
+.squeeze .sq-call { font-weight: 700; font-size: 17px; }
+.squeeze.pass .sq-call { color: var(--good); }
+.squeeze ol { list-style: none; margin: 8px 0; padding: 0; display: grid; gap: 4px; }
+.squeeze li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: baseline; padding: 6px 8px; border-radius: 6px; background: var(--panel); }
+.squeeze li.drop { opacity: .55; }
+.squeeze li .sq-l { font-weight: 600; }
+.squeeze li .sq-c { font-variant-numeric: tabular-nums; text-align: right; }
+.squeeze li .sq-t { grid-column: 1 / -1; font-size: 12px; color: var(--muted); }

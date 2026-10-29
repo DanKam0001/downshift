@@ -1,0 +1,33 @@
+{
+ "total_usd": 1.694355,
+ "by_config": {
+  "probe10-ultra-think": 0.06457,
+  "probe10-ultra-off": 0.003943,
+  "probe10-lightning-think": 0.003911,
+  "ultra-think": 0.5558,
+  "ultra-off": 0.058808,
+  "super-off": 0.053038,
+  "nano-off": 0.00359,
+  "nano-think": 0.022252,
+  "lightning-off": 0.005313,
+  "lightning-think": 0.048201,
+  "nano-think+answer-only": 0.018338,
+  "nano-think+short": 0.022663,
+  "nano-think+long": 0.02916,
+  "nano-think+total1024": 0.017161,
+  "nano-think+total2048": 0.019192,
+  "nano-think+answer-only+total2048": 0.016224,
+  "lightning-off+answer-only": 0.003287,
+  "lightning-off+short": 0.005212,
+  "lightning-off+long": 0.005784,
+  "lightning-off+cap256": 0.0048,
+  "nano-off+answer-only": 0.003121,
+  "nano-off+long": 0.00404,
+  "super-off+answer-only": 0.01394,
+  "lightning-think+total2048": 0.038051,
+  "nano-think@r2": 0.023801,
+  "nano-think+answer-only@r2": 0.017991,
+  "lightning-think@r2": 0.048404,
+  "ultra-think@r2": 0.58376
+ }
+}

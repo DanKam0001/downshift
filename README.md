@@ -13,7 +13,9 @@ held-out score with a 95% confidence interval next to Ultra's, the cost per 1,00
 - **Live app:** https://downshift-qcuv.onrender.com (pick a preset and press "Downshift it": about 2 to 3 minutes
   and US$0.06 to US$0.21 of real calls, or open a recorded run below).
 - **Recorded runs, replayed at 4x with no model calls:**
-  [receipts → use Nano](https://downshift-qcuv.onrender.com/?run=45015b6df59e&speed=4) ·
+  [receipts → use Nano, then squeeze: 42x cheaper](https://downshift-qcuv.onrender.com/?run=150a5ad36713&speed=4) ·
+  [your own task: 100 SMS with no answers → Nano, 17x](https://downshift-qcuv.onrender.com/?run=091a657f0889&speed=4) ·
+  [receipts → use Nano (the headline run)](https://downshift-qcuv.onrender.com/?run=45015b6df59e&speed=4) ·
   [receipt photos → Super VL beats Ultra with no OCR](https://downshift-qcuv.onrender.com/?run=2e794b56ae40&speed=4) ·
   [support triage → turn thinking off](https://downshift-qcuv.onrender.com/?run=de04430645fb&speed=4) ·
   [contract clauses → keep Ultra](https://downshift-qcuv.onrender.com/?run=7ee9b72d56be&speed=4)
@@ -50,6 +52,36 @@ Super VL on the ladder as a "reads the photo" rung. In the recorded run above it
 (95% CI +0.3 to +6.4), in one pass with that run's own tuned prompt.
 
 A whole ladder run costs cents: the receipts run was 606 model calls, US$0.06 and 139 seconds.
+
+**After the verdict, it squeezes.** The model is picked; now Downshift cuts tokens off it, one lever at a time:
+shorter answers (minified JSON or label only), fewer worked examples (2, then none) and an Ultra-compressed prompt.
+Each cut is tried on validation rows and kept only if the score holds within 1 point and the cost falls; the final
+setup is then scored once on the held-out rows and must still match Ultra. On receipts, 2 worked examples instead of
+4 held (93.5% on validation, 920 prompt tokens instead of 1,261); no examples and one-line answers both fell and were
+dropped. Result: **94.3% on the 86 held-out receipts at US$0.087 per 1k calls, 42x cheaper than Ultra** (paired
+diff +2.4, 95% CI −0.5 to +5.5), run `150a5ad36713`.
+
+**Beyond text.** The same "measure the lever" approach on photos, video and code
+([vision](docs/levers-vision.md), [code](docs/levers-code.md)):
+
+| Task (held-out) | Cheapest setup that still matches the top one | Saving |
+|---|---|---|
+| Pet breed from a photo, 37 breeds (111, Oxford-IIIT Pet) | Super VL with thinking **off**: 83.8% vs 83.8% | 6.5x |
+| Action from a video clip, 6 actions (162, KTH) | none: thinking off lost 13 to 16 points, 4 frames instead of 8 lost 7 | 1x, keep it |
+| Python from a one-line spec, graded only by unit tests (150, MBPP) | Nano with thinking **on**: 89.3% vs Ultra 85.3% | 25x |
+
+Same lever, opposite answers: thinking off is free accuracy-wise on photos and fatal on video, and on code the small
+model *needs* thinking while Ultra's thinking added nothing. That is why Downshift measures per task.
+
+**Your own task, with no answers.** 100 real UCI SMS messages, no labels: Ultra wrote the answers and a checker,
+the checker passed its own test, the guess check passed ("ham" every time scores 55%, Ultra 100%), and Nano matched
+Ultra at 16x cheaper, 17x after the squeeze, for US$0.03 in total (run `091a657f0889`). Ultra's answers agreed with
+the human UCI labels on 98 of 100.
+
+**Cost levers we checked and do not claim.** Token Factory lists cached prompt tokens 5 to 8x cheaper, but across
+15,000+ logged Nemotron calls, with and without `prompt_cache_key`, we measured **zero cache hits**, so no caching
+saving is assumed. The Batch API (`/v1/batches`) exists, but we found no published discount to verify, so none is
+claimed. There are no time-of-day prices in the pricing API.
 
 ## Why not a model router?
 
@@ -130,7 +162,11 @@ only 16). A 20-row smoke test on this file cost US$0.009.
    not even Ultra against itself with thinking toggled (lower bounds −4.7, −4.9 and −5.6 on the three tasks).
    5 points is about the smallest tolerance a model that agrees with Ultra can pass at this sample size; it is still
    strict (a small model averaging the same as Ultra but disagreeing on many rows fails). See RESULTS.md.
-7. **Fine-tune fallback.** When no rung matches, Downshift can build a chat dataset from the tuning rows' reference
+7. **Squeeze.** After a cheaper verdict, the chosen setup's tokens are cut one lever at a time (brief answers,
+   2 then 0 few-shot examples, an Ultra-compressed prompt). A cut is kept only if validation stays within 1 point
+   of the current score and the cost per call falls below 0.97x; the result is scored once on held-out rows and is
+   used only if it still matches Ultra. Turn it off with the `squeeze` option.
+8. **Fine-tune fallback.** When no rung matches, Downshift can build a chat dataset from the tuning rows' reference
    answers and launch a Token Factory fine-tune job (Qwen3-4B by default; Token Factory does not fine-tune
    Nemotron). It is off unless `DOWNSHIFT_ALLOW_FINETUNE=1`, and serving the result needs Token Factory's
    custom-weights access.
@@ -146,7 +182,7 @@ the cached reference a preset run cost US$0.06 to US$0.21 and took 139 to 182 se
 |---|---|
 | NVIDIA Nemotron 3.5 Lightning, Nemotron 3 Nano 30B, Super 120B, Ultra 550B | The ladder. Ultra also writes references, checkers and prompt rewrites. |
 | Nebius Token Factory (OpenAI-compatible API, `https://api.tokenfactory.nebius.com/v1`) | Every model call. Live prices come from `GET /v1/models?verbose=true`. Thinking is toggled with `extra_body={"chat_template_kwargs": {"enable_thinking": ...}}`. |
-| Nebius Sandboxes | Runs checker code on each batch of outputs (one sandbox operation per batch, networking disabled). The UI shows which backend graded each run and says "graded locally" if Sandboxes were unavailable. |
+| Nebius Sandboxes | Runs checker code on each batch of outputs, networking disabled. The checker and hidden answers are **sealed once** into a checkpoint image (a non-disposable operation); every batch is graded in a **disposable branch** of that checkpoint, so every model is marked against byte-identical answers (same image id, same SHA-256). A branch starts in 1.4 to 2.1 s vs 2.4 s for a fresh instance. The run log names the checkpoint each batch was graded in, and the UI says "graded locally" if Sandboxes were unavailable. |
 | Token Factory fine-tuning | The fallback when prompting tops out. |
 
 ## Presets
@@ -156,9 +192,11 @@ the cached reference a preset run cost US$0.06 to US$0.21 and took 139 to 182 se
 | `support-triage` | Route bank support messages to one of 77 intents | Banking77 (PolyAI), CC-BY-4.0 |
 | `receipt-extract` | Turn OCR'd receipt text into JSON line items and totals | CORD v2 (NAVER Clova), CC-BY-4.0 |
 | `contract-clauses` | Tag contract clauses with one of 32 types | CUAD (The Atticus Project), CC-BY-4.0 |
+| `code-mbpp` | Write a Python function from a one-line spec, graded only by running its unit tests in a sandbox | MBPP sanitized (Google Research), CC-BY-4.0 |
 
 Each has 60 tuning, 40 validation and 150 held-out rows (receipt-extract: 49 / 40 / 86, the size of CORD's usable
-test split), plus a cached Ultra reference. See `presets/README.md` for how they were built.
+test split; code-mbpp: 30 / 30 / 150), plus a cached Ultra reference (code-mbpp has none yet, so a run measures
+Ultra live; its tests are the answer key, so it uses no few-shot references). See `presets/README.md` for how they were built.
 
 ## Results
 

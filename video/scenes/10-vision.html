@@ -1,0 +1,52 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="p.css">
+<script src="anim.js"></script>
+<style>
+  .t{position:absolute;left:120px;top:70px;font:800 58px Inter;letter-spacing:-1px}
+  .t small{display:block;margin-top:10px;font:600 22px 'JetBrains Mono';color:var(--acc2);letter-spacing:2px}
+  .two{position:absolute;left:120px;right:120px;top:220px;display:grid;grid-template-columns:1fr 1fr;gap:34px}
+  .c{padding:28px 32px;display:grid;gap:14px;align-content:start;min-height:640px}
+  .c .k{font:600 20px 'JetBrains Mono';color:var(--mute);letter-spacing:1.5px}
+  .c .call{font:800 44px/1.1 Inter}
+  .c.ok{border:2px solid var(--good)}.c.ok .call{color:var(--good)}
+  .c.keep{border:2px solid var(--warn)}.c.keep .call{color:var(--warn)}
+  .c img{width:100%;height:220px;object-fit:cover;border-radius:12px;background:#000}
+  .c img.kth{object-fit:contain}
+  table{border-collapse:collapse;font:500 22px 'JetBrains Mono';width:100%}
+  td{padding:8px 6px;border-bottom:1px solid var(--line)}
+  td.n{text-align:right}
+  tr.win td{color:var(--good);font-weight:700}
+  tr.lose td{color:var(--bad)}
+  .why{font:500 22px/1.45 Inter;color:var(--mute)}
+  .why b{color:var(--ink)}
+  .tag{position:absolute;left:0;right:0;top:920px;text-align:center;font:800 52px Inter;color:var(--acc2)}
+</style></head>
+<body>
+  <div class="t" data-cue="pictures">Photos and video<small>NEMOTRON 3.5 SUPER VL · THE ONLY NVIDIA VISION MODEL ON TOKEN FACTORY</small></div>
+  <div class="two">
+    <div class="card c ok" data-cue="pet" data-fx="rise">
+      <div class="k">PET BREED FROM A PHOTO · 111 HELD OUT · 37 BREEDS</div>
+      <img src="pet2.jpg" alt="">
+      <div class="call" data-cue="switched" data-fx="fade">Thinking off: 6.5x cheaper</div>
+      <table>
+        <tr><td>thinking on (the top setup)</td><td class="n">83.8%</td><td class="n">$0.94 / 1k</td></tr>
+        <tr class="win" data-cue="same" data-fx="fade"><td>thinking off</td><td class="n">83.8%</td><td class="n">$0.15 / 1k</td></tr>
+        <tr data-cue="smaller" data-fx="fade"><td>thinking off, photo at 256 px</td><td class="n">86.5%</td><td class="n">$0.15 / 1k</td></tr>
+      </table>
+      <div class="why">Thinking wrote ~890 tokens per photo and changed 6 answers out of 111.</div>
+    </div>
+    <div class="card c keep" data-cue="video" data-fx="rise">
+      <div class="k">ACTION FROM A VIDEO CLIP · 8 FRAMES · 162 FRESH CLIPS</div>
+      <img class="kth" src="kth.png" alt="">
+      <div class="call" data-cue="lost" data-fx="fade">Keep thinking on</div>
+      <table>
+        <tr><td>8 frames, thinking on (top)</td><td class="n">80.2%</td><td class="n">$1.70 / 1k</td></tr>
+        <tr class="lose" data-cue="lost" data-fx="fade"><td>thinking off</td><td class="n">−13 to −16 pts</td><td class="n">cheaper</td></tr>
+        <tr class="lose"><td>4 frames, thinking on</td><td class="n">−7.4 pts</td><td class="n">cheaper</td></tr>
+      </table>
+      <div class="why">Jogging vs running, clapping vs waving: you have to <b>compare frames</b>, and that takes thinking.</div>
+    </div>
+  </div>
+  <div class="tag" data-cue="measure" data-fx="pop">Same lever, opposite answers. Measure it.</div>
+</body></html>

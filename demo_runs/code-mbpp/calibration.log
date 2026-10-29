@@ -1,0 +1,9 @@
+canonical solutions: 100.0%  op 01a184d6-ac96-7326-aac8-2701be73ac91
+guess 'def f(*a): return None': 0.0%  op 01a184d6-bc70-73f7-a711-97c692877637  e.g. no function named validate
+guess 'right name, return None': 0.0%  op 01a184d6-cf66-7672-aa07-1f448a97c664  e.g. 0/3 tests pass; AssertionError on: assert validate(1234) == True
+guess 'right name, return True': 0.0%  op 01a184d6-def7-72c0-ac9f-dbdcf4aaa9a3  e.g. 2/3 tests pass; AssertionError on: assert validate(51241) == False
+guess 'right name, return False': 0.0%  op 01a184d6-ede7-7155-86c3-10705a1bfcff  e.g. 1/3 tests pass; AssertionError on: assert validate(1234) == True
+guess 'right name, return 0': 0.0%  op 01a184d6-fc95-73aa-bac0-345a92775026  e.g. 1/3 tests pass; AssertionError on: assert validate(1234) == True
+guess 'right name, echo first arg': 0.7%  op 01a184d7-0b74-74e6-8c38-0a118b6cf278  e.g. 0/3 tests pass; AssertionError on: assert validate(1234) == True
+guess 'infinite loop': 0.0%  op 01a184d7-1a35-7231-8e27-637f41952be3  e.g. 0/3 tests pass; _Timeout on: assert validate(1234) == True
+guess 'empty reply': 0.0%  op 01a184d7-ee2a-72ef-9636-5325eb12a8c7  e.g. no code in reply

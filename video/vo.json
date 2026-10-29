@@ -1,34 +1,66 @@
 [
 [
-"01-hook",
-"This receipt pipeline runs on Nemotron Ultra, at three dollars sixty-nine per thousand calls. Nemotron Nano does the same job for ten cents, with the same accuracy on receipts it never saw. Downshift finds that swap for you, and proves it."
+"01-why",
+"Every AI call is a bill for three choices: which model, how hard it thinks, and how many words go in and out. Downshift makes all three as cheap as they can be, without losing quality, using NVIDIA Nemmo-tron models on Nebius Token Factory."
 ],
 [
-"02-bill",
-"At a million receipts a month, that's a bill of about thirty-seven hundred dollars, down to about a hundred. Most teams never check, because checking properly takes days of evaluation work."
+"02-problem",
+"The catch is what we call the answer-key problem. To prove a cheaper setup is good enough, it sounds like you need the right answers already. And if you had them, why would you need the model?"
 ],
 [
-"03-demo",
-"Here's the live app on Nebius Token Factory. Pick a task, and Downshift climbs down a ladder of Nemotron models, cheapest first. At each rung, Ultra rewrites the prompt using only the tuning examples. The best rewrite is picked on a separate validation set, and only that one is scored, once, on held-out data. This is a real run, replayed faster. Lightning overfits: eighty-eight percent on validation, eighty-two held out. Rejected. Nano holds up: ninety-three point six, against Ultra's ninety-two."
+"03-check",
+"The way out: checking an answer is much easier than writing one. Think of a sudoku: hard to solve, easy to check. So Downshift only needs a check. A labelled answer, like a receipt's real total. A test, like code that must pass. Or, with neither, Ultra's own answer, which matched human labels on ninety-eight messages out of a hundred."
 ],
 [
-"04-sandbox",
-"Every one of those scores was graded by checker code inside Nebius Sandboxes: a disposable container, with networking switched off. The whole run was six hundred model calls, and cost six cents."
+"04-percent",
+"So every percentage here means one thing: on examples the model never saw while tuning, how much it got right by that check. The question is never, is it a hundred? It's: is it as good as Ultra, on the same examples?"
 ],
 [
-"05-verdict",
-"The verdict comes with its evidence: eighty-six held-out receipts, and a paired confidence interval. The rule is simple. It only downshifts if the cheaper model is provably no more than five points worse than Ultra. Then it hands you the code to paste in."
+"05-guards",
+"Three guard rails keep that fair. The test examples are sealed in a Neb-ee-us Sandboxes checkpoint, and every model is marked in its own branch, against the identical key. Ultra runs three times, so we know its own wobble. And a guess check proves that a fixed answer can't pass."
 ],
 [
-"06-honest",
-"And it doesn't always say downgrade. On support triage, the small models were close, but not provably close, so the answer is: keep Ultra, turn thinking off, two point four times cheaper. On contract clauses, everything smaller fell six to ten points short, so it says keep Ultra. Across all three tasks, Ultra's thinking mode cost up to six and a half times more, with no measurable accuracy gain. Measure, don't assume."
+"06-tested",
+"We tested it on seven jobs: receipts, bank support, contracts, code, pet photos, video, and a spam filter I uploaded with no answers at all. Plus my own judge bot."
 ],
 [
-"06b-photo",
-"One more finding: you may not need OCR at all. Nemotron Super VL, reading the receipt photo directly, scored ninety-six percent, against Ultra's ninety-two on perfect OCR text, at about a fifth of the cost. It's now a photo check, right in the app."
+"07-demo",
+"Here's the app. Pick receipts, and Downshift climbs down a ladder of Nemotron models, cheapest first. On each rung, Ultra rewrites the prompt from the tuning examples, the best rewrite is picked on separate validation examples, and only that one is scored on the locked-away receipts. Lightning gets rejected. Nano holds up."
 ],
 [
-"07-close",
-"Downshift. Nemotron on Token Factory, graded in Nebius Sandboxes, live and open source. Stop paying Ultra prices for Nano work."
+"08-prompt",
+"Here's the prompt it handed Nano. Before: a plain description of the job. After: Ultra rewrote it into step-by-step rules, with four worked examples. On the validation receipts, that alone took Nano from eighty-six to ninety percent."
+],
+[
+"09-squeeze",
+"Then it squeezes. The model is picked, so now it cuts words. Two worked examples instead of four: kept, the score held. No examples, or shorter answers: dropped, the score fell. The result is forty-two times cheaper than Ultra, re-checked on the locked-away receipts."
+],
+[
+"10-vision",
+"Pictures too. On pet photos, thinking was pure waste: switched off, the same accuracy, six and a half times cheaper, even with smaller photos. On video it's the opposite: thinking off lost thirteen points, so the answer is, keep it on. Same lever, opposite answers. That's why you measure."
+],
+[
+"11-code",
+"Code was different again. Graded only by unit tests, Nano with thinking on passed eighty-nine percent of a hundred and fifty problems, against Ultra's eighty-five, at twenty-five times cheaper. Ultra's own thinking added nothing."
+],
+[
+"12-honest",
+"And it says keep Ultra when it should. On contracts, every smaller model fell six to ten points short. On support tickets, keep Ultra, but turn its thinking off, for two point four times cheaper."
+],
+[
+"13-customer",
+"Then I made myself the customer. On my judge bot, the first version said: use Nano, fifteen times cheaper. But a dumb guess, a three on every score, beat every model. That's why the guess check exists: if Ultra can't beat a guess, there's no verdict, and no money spent."
+],
+[
+"14-own",
+"Bring your own task. I pasted a hundred text messages, with no answers. Ultra wrote the answers and a checker, the checker passed its own test, and Nano does the job seventeen times cheaper. The whole run cost three cents."
+],
+[
+"15-impact",
+"For an expense app reading a million receipts a month, that's about forty-four thousand dollars a year, down to about a thousand."
+],
+[
+"16-close",
+"Downshift. The cheapest setup that provably does your job. Open source, and running now on Neb-ee-us Token Factory and Sandboxes."
 ]
 ]

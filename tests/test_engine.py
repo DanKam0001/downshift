@@ -44,7 +44,7 @@ def test_downshift_to_lightning(task, grader):
     compile(v["snippet"], "snippet", "exec")
     # Every verdict number comes from a measured holdout eval in the same run.
     ho = [e for e in _by_type(events, "eval") if e["split"] == "holdout"]
-    lightning_ho = [e for e in ho if e["tier_key"] == "lightning"][-1]
+    lightning_ho = [e for e in ho if e["tier_key"] == "lightning" and e["label"] != "squeezed"][-1]
     ultra_ho = [e for e in ho if e["tier_key"] == v["reference"]["rung"]][-1]
     assert v["reference"]["rung"] == "ultra-think"  # thinking on is the reference unless off scores higher
     assert "THINKING = False" in v["snippet"] and v["thinking"] is False

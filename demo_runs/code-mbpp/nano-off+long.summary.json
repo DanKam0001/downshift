@@ -1,0 +1,29 @@
+{
+ "config": "nano-off+long",
+ "model": "nvidia/NVIDIA-Nemotron-3-Nano-30B-A3B",
+ "thinking": false,
+ "prompt": "long",
+ "system": "Write a Python function that solves the task below. The example test shows the function's name and how it is called: use exactly that name and argument order. Standard library only. Put the code in one ```python block.\n\nGuidelines:\n- Read the task and the example test carefully; the hidden tests call the function the same way with other inputs.\n- Match the return type the example expects exactly (tuple vs list, int vs float, bool, string formatting).\n- Handle edge cases: empty inputs, zero, negatives, single elements, duplicates.\n- Return the result; do not print it, read input, or call exit().\n- Put every import the code needs inside the block.\n- Do not rename the function or reorder its arguments, even if the task wording suggests other names.\n- Keep it simple and correct; performance only matters if the inputs are large.",
+ "max_tokens": 1024,
+ "n": 150,
+ "pass_rate": 0.7466666666666667,
+ "call_errors": 0,
+ "truncated": 0,
+ "mean_in": 243.75333333333333,
+ "mean_out": 51.27333333333333,
+ "usd_total": 0.00403962,
+ "usd_per_1k": 0.0269308,
+ "wall_s": 33.6,
+ "sandbox": {
+  "backend": "Nebius Sandboxes",
+  "operation_id": "01a184ef-fe49-713d-8efd-93ba7032b191",
+  "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+  "networking": false,
+  "wall_s": 5.188,
+  "guest_elapsed_s": 0.392268,
+  "harness_s": 0.101,
+  "workers": 8,
+  "mode": "fork",
+  "attempts": 1
+ }
+}

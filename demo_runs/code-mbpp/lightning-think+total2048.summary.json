@@ -1,0 +1,29 @@
+{
+ "config": "lightning-think+total2048",
+ "model": "nvidia/Nemotron-3_5-Lightning",
+ "thinking": true,
+ "prompt": "default",
+ "system": "Write a Python function that solves the task below. The example test shows the function's name and how it is called: use exactly that name and argument order. Standard library only. Put the code in one ```python block.",
+ "max_tokens": 2048,
+ "n": 150,
+ "pass_rate": 0.8,
+ "call_errors": 0,
+ "truncated": 22,
+ "mean_in": 112.75333333333333,
+ "mean_out": 1028.7866666666666,
+ "usd_total": 0.03805109999999998,
+ "usd_per_1k": 0.25367399999999984,
+ "wall_s": 170.2,
+ "sandbox": {
+  "backend": "Nebius Sandboxes",
+  "operation_id": "01a184f3-1247-73c8-a1ca-1c6f3891ef1b",
+  "image": "python:3.12-slim (4fa16c8f-62a9-35a4-a4ea-07b7e8cd44ae)",
+  "networking": false,
+  "wall_s": 4.671,
+  "guest_elapsed_s": 0.37668999999999997,
+  "harness_s": 0.097,
+  "workers": 8,
+  "mode": "fork",
+  "attempts": 1
+ }
+}
